@@ -12,7 +12,7 @@ const book = () => {
                 <br></br>
                 <label>
                     City:
-                    <input type="text" name="City" />
+                    <input type="text" name="city" />
                 </label>
                 <br></br>
                 <label>
