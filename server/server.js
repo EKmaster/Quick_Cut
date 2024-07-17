@@ -8,7 +8,9 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
-var bookings = []
+var bookings = [
+]
+
 app.get("/", (req, res) => {
     res.json({"message": bookings})
 });
@@ -28,10 +30,12 @@ app.post("/book", (req, res) => {
     }
     bookings.push(data)
     res.send(`Booking completed for ${name}`)
-    
-    
-  
 });
+
+app.get("/bookings", (req, res) => {
+    res.json(bookings)
+})
+
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
 });
