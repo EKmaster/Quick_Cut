@@ -1,5 +1,6 @@
+'use client'
 import { FormEvent } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
  
 export default function LoginPage() {
   const router = useRouter()
@@ -11,7 +12,7 @@ export default function LoginPage() {
     const email = formData.get('email')
     const password = formData.get('password')
  
-    const response = await fetch('http://localhost:8080/signup/customer', {
+    const response = await fetch('http://localhost:8080/login/customer', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -28,7 +29,7 @@ export default function LoginPage() {
     <form onSubmit={handleSubmit}>
       <input type="email" name="email" placeholder="Email" required />
       <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Sign up</button>
+      <button type="submit">Login</button>
     </form>
   )
 }
