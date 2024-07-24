@@ -1,12 +1,12 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const cors = require("cors")
-var bodyParser = require('body-parser');
+import cors from "cors";
+import bodyParser from 'body-parser';
 const PORT = 8080;
 
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 var bookings = [
 ]
@@ -40,7 +40,7 @@ app.post("/api/login/customer", (req, res) => {
         "email" : email,
         "password" : password
     }
-    for (item in customers) {
+    for (let item in customers) {
             if ((customers[item].email === email) && (customers[item].password === password)) {
                 console.log("Logged In!")
             res.status(200).json({ success: true })
@@ -60,7 +60,7 @@ app.post("/api/signup/customer", (req, res) => {
         "email" : email,
         "password" : password
     }
-    for (item in customers) {
+    for (let item in customers) {
         if (customers[item].email == email) {
             console.log("Person already exists")
             res.status(404).json({ success: false, message: 'Exists' });
