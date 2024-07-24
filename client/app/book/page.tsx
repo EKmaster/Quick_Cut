@@ -4,7 +4,7 @@ const book = () => {
     return (
         <main>
             <div>Booking Page</div>
-            <form id="book" method="POST" action="http://localhost:8080/book">
+            <form id="book" method="POST" action="http://localhost:8080/api/book">
                 <label>
                     Name:
                     <input type="text" name="name" />

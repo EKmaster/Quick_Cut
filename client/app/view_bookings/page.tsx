@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 const view_bookings = () => {
     const [bookings, setBookings] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:8080/bookings").then(
+        fetch("http://localhost:8080/api/bookings").then(
             response => response.json()
         ).then(
             data => {

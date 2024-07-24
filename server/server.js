@@ -13,11 +13,11 @@ var bookings = [
 var customers =[
 
 ]
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.json({"message": bookings})
 });
 
-app.post("/book", (req, res) => {
+app.post("/api/book", (req, res) => {
     const name = req.body.name
     const city = req.body.city
     const haircut = req.body.haircut
@@ -33,7 +33,7 @@ app.post("/book", (req, res) => {
 });
 
 
-app.post("/login/customer", (req, res) => {
+app.post("/api/login/customer", (req, res) => {
     const email = req.body.email
     const password = req.body.password
     const data = {
@@ -53,7 +53,7 @@ app.post("/login/customer", (req, res) => {
     res.status(404).json({ success: false, message: 'Incorrect email or password' });
     
 });
-app.post("/signup/customer", (req, res) => {
+app.post("/api/signup/customer", (req, res) => {
     const email = req.body.email
     const password = req.body.password
     const data = {
@@ -71,7 +71,7 @@ app.post("/signup/customer", (req, res) => {
     console.log("Signed up!")
     res.status(200).json({ success: true })
 });
-app.get("/bookings", (req, res) => {
+app.get("/api/bookings", (req, res) => {
     res.json(bookings)
 })
 
