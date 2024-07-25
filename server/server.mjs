@@ -6,7 +6,8 @@ import session from "express-session";
 import passport from "passport";
 import {customers} from "./mockUsers.mjs"
 import "./strategies/local-strategy.mjs";
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
 const PORT = 8080;
 const app = express();
 mongoose.connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.mongodb.net").then(()=> console.log("Connected to Database")).catch((err) => console.log(`Error: ${err}`));
@@ -21,8 +22,13 @@ app.use(session({
     resave: false,
     cookie : {
         maxAge: 60000 * 60,
-    }
+    },
+    // For session mangement once db is set up
+    // store: MongoStore.create({
+    //     client: mongoose.connection.getClient()
+    // })
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 var bookings = [
