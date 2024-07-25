@@ -12,14 +12,14 @@ export default function LoginPage() {
     const email = formData.get('email')
     const password = formData.get('password')
  
-    const response = await fetch('http://localhost:8080/api/login/customer', {
+    const response = await fetch('http://localhost:8080/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     })
  
     if (response.ok) {
-      router.push('/book')
+      router.push('/')
     } else {
       // Show them response based off message
     }
