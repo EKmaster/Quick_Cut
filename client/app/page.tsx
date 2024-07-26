@@ -8,7 +8,13 @@ function index() {
 
   async function handleBookClick() {
     const response = await fetch('http://localhost:8080/api/auth/status', {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cache': 'no-cache'
+      },
+      credentials: 'include' 
     })
 
     if (response.ok) {
