@@ -4,19 +4,21 @@ import cors from "cors";
 import bodyParser from 'body-parser';
 import session from "express-session";
 import passport from "passport";
-import { customers } from "./mockUsers.mjs"
 import "./strategies/local-strategy.mjs";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import { User } from "./mongoose/schemas/user.mjs";
+import { Booking } from "./mongoose/schemas/booking.mjs";
 import bcrypt from "bcrypt"
 
 const PORT = 8080;
 const app = express();
 mongoose.connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.mongodb.net").then(() => console.log("Connected to Database")).catch((err) => console.log(`Error: ${err}`));
-//3Nz0bihPwrbkcgps
+
+
+
 app.use(cors({
-    origin: 'http://localhost:3000', // Update this to your frontend's URL
+    origin: 'http://localhost:3000',
     credentials: true,
 }));
 
@@ -37,28 +39,30 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-var bookings = [
-]
 
-app.get("/", (req, res) => {
-    console.log(req.session)
-    console.log(req.session.id)
-    req.session.visited = true
+// middleware to verify authentication status
+const verifyAuth = (req, res, next) => {
+    console.log("test ")
+    if (req.isAuthenticated()){
+        console.log("is authenticated")
+        return next()
+    }else{
+        console.log("is not authenticated")
+        return res.sendStatus(401)
+    }
+}
 
-    res.status(201).send({ "message": bookings })
-});
+
 app.post("/api/auth/login", passport.authenticate("local"), (req, res) => {
     res.sendStatus(200);
 })
 
 app.get("/api/auth/status", (req, res) => {
-    req.session.visited = true
     console.log("Session ID:", req.session.id); // Check if session ID is present
     console.log("User:", req.user); // Check if user is defined
     console.log("Session:", req.session); // Check session data
 
     if (req.user) return res.sendStatus(200);
-    console.log("yesss")
     return res.sendStatus(401);
 })
 
@@ -96,19 +100,22 @@ app.post("/api/auth/signup", async (req, res) => {
 
 })
 
-app.post("/api/book", (req, res) => {
-    const name = req.body.name
-    const city = req.body.city
-    const haircut = req.body.haircut
-    const timing = req.body.timing
+app.post("/api/book", verifyAuth, async (req, res) => {
     const data = {
-        "name": name,
-        "city": city,
-        "timing": timing,
-        "haircut": haircut
+        "bookerID": req.user.id,
+        "city": req.body.city,
+        "timing": req.body.timing,
+        "haircutDetails": req.body.haircutDetails
     }
-    bookings.push(data)
-    res.send(`Booking completed for ${name}`)
+    console.log(data)
+    const newBooking = new Booking(data)
+    try {
+        await newBooking.save()
+        return res.sendStatus(200)
+    } catch (err) {
+        return res.sendStatus(400)
+    }
+
 });
 
 

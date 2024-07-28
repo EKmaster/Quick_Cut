@@ -5,7 +5,7 @@ import { User } from "../mongoose/schemas/user.mjs";
 import bcrypt from "bcrypt"
 
 password.serializeUser((user, done) => {
-    console.log("Insde Serializer")
+    console.log("Inside Serializer")
     console.log(user)
     done(null, user.id);
 
@@ -13,17 +13,13 @@ password.serializeUser((user, done) => {
 
 password.deserializeUser(async (id, done) => {
     console.log(`Inside Deserializer with ID: ${id}`);
-
     try {
         const findUser = await User.findById(id);
-
         if (!findUser) throw new Error("User not found")
-
         done(null, findUser)
     }
     catch (err) {
         done(err, null)
-
     }
 })
 
@@ -44,6 +40,5 @@ export default password.use(
             done(err, null)
 
         }
-
     })
 )
