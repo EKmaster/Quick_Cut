@@ -10,11 +10,11 @@ import { Booking } from "./mongoose/schemas/booking.mjs";
 import mongoose from "mongoose"
 import authRouter from "./routes/auth.mjs"
 import bookingsRouter from "./routes/bookings.mjs"
-import verifyAuth from "./utils/middlewares.mjs";
 
 const PORT = 8080;
 const app = express();
 
+// connecting to mongo db databse
 mongoose.connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.mongodb.net").then(() => console.log("Connected to Database")).catch((err) => console.log(`Error: ${err}`));
 
 // adding middlewares
@@ -43,6 +43,8 @@ app.use(passport.session());
 app.use(authRouter)
 app.use(bookingsRouter)
 
+
+// listening on port
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
 });

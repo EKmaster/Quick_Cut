@@ -4,6 +4,7 @@ import verifyAuth from "../utils/middlewares.mjs";
 
 const router = Router()
 
+// booking an appointment
 router.post("/api/book", verifyAuth, async (req, res) => {
     const data = {
         "bookerID": req.user.id,

@@ -5,7 +5,7 @@ import passport from "passport";
 
 const router = Router()
 
-// router.post api/auth/signup
+// signing up
 router.post("/api/auth/signup", async (req, res) => {
     const { body } = req;
     const password = body.password
@@ -31,18 +31,18 @@ router.post("/api/auth/signup", async (req, res) => {
     }
 })
 
-// router.post api/auth/login
+// logging in 
 router.post("/api/auth/login", passport.authenticate("local"), (req, res) => {
     res.sendStatus(200);
 })
 
-// router.get api/auth/status
+// getting authentication status (either logged in or not)
 router.get("/api/auth/status", (req, res) => {
     if (req.user) return res.sendStatus(200);
     return res.sendStatus(401);
 })
 
-// router.post api/auth/logout
+// logging out
 router.post("/api/auth/logout", (req, res) => {
     if (!req.user) return res.sendStatus(401);
     req.logout((err) => {
