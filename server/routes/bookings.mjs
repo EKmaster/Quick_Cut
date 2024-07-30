@@ -18,6 +18,7 @@ router.post("/api/book", verifyAuth, async (req, res) => {
         await newBooking.save()
         return res.sendStatus(200)
     } catch (err) {
+        console.log(err)
         return res.sendStatus(400)
     }
 

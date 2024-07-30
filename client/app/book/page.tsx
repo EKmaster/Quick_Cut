@@ -22,7 +22,7 @@ const book = () => {
                 <br></br>
                 <label>
                     Haircut:
-                    <input type="text" name="haircut" />
+                    <input type="text" name="haircutDetails" />
                 </label>
                 <br></br>
                 <button type="submit"> Submit</button>
