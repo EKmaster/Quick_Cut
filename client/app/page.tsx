@@ -7,12 +7,14 @@ function index() {
     const router = useRouter()
 
   async function handleBookClick() {
+    const token = localStorage.getItem('token');
     const response = await fetch('http://localhost:8080/api/auth/status', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Cache': 'no-cache'
+        'Cache': 'no-cache',
+        'Authorization': `Bearer ${token}`, // Include the JWT token in the headers
       },
       credentials: 'include' 
     })

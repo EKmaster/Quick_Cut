@@ -31,7 +31,9 @@ export default password.use(
             const findUser = await User.findOne({ email });
 
             if (!findUser) throw new Error("User not found")
-            if (!bcrypt.compareSync(password, findUser.password)) throw new Error("Bad Credentials")
+            if (!bcrypt.compareSync(password, findUser.password)){
+                console.log(bcrypt(findUser.password))
+                throw new Error("Bad Credentials") } 
 
             done(null, findUser)
         }

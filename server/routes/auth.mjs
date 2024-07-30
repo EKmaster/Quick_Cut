@@ -2,9 +2,10 @@ import {Router} from "express"
 import bcrypt from "bcrypt"
 import { User } from "../mongoose/schemas/user.mjs";
 import passport from "passport";
+import jwt from "jsonwebtoken"
 
 const router = Router()
-
+const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
 // signing up
 router.post("/api/auth/signup", async (req, res) => {
     const { body } = req;
@@ -31,13 +32,17 @@ router.post("/api/auth/signup", async (req, res) => {
     }
 })
 
+
 // logging in 
-router.post("/api/auth/login", passport.authenticate("local"), (req, res) => {
-    res.sendStatus(200);
+router.post("/api/auth/login", passport.authenticate('local', { session: false }), (req, res) => {
+    const payload = { id: req.user.id, email: req.user.email };
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Adjust the expiration time as needed
+  res.json({ token });
+
 })
 
 // getting authentication status (either logged in or not)
-router.get("/api/auth/status", (req, res) => {
+router.get("/api/auth/status",passport.authenticate('jwt', { session: false }), (req, res) => {
     if (req.user) return res.sendStatus(200);
     return res.sendStatus(401);
 })

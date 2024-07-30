@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import session from "express-session";
 import passport from "passport";
 import "./strategies/local-strategy.mjs";
+import "./strategies/jwt-strategy.mjs";
 import MongoStore from "connect-mongo";
 import { Booking } from "./mongoose/schemas/booking.mjs";
 import mongoose from "mongoose"
@@ -32,12 +33,12 @@ app.use(session({
     cookie: {
         maxAge: 60000 * 60,
     },
-    store: MongoStore.create({
-        client: mongoose.connection.getClient()
-    })
+    // store: MongoStore.create({
+    //     client: mongoose.connection.getClient()
+    // })
 }));
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 // registering routes
 app.use(authRouter)
