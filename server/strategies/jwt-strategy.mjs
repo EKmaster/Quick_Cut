@@ -8,6 +8,7 @@ const opts = {
     secretOrKey: JWT_SECRET,
   };
 export default passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
+    console.log("hellllllo")
     try {
       const user = await User.findById(jwt_payload.id);
       if (user) {

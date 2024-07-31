@@ -1,34 +1,68 @@
+'use client'
 import React from 'react'
+import { useRouter } from 'next/navigation'
 
-const book = () => {
+function Book() {
+    const router = useRouter()
+
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const token = localStorage.getItem('token');
+        const form = event.currentTarget as HTMLFormElement;
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('name'),
+            city: formData.get('city'),
+            timing: formData.get('timing'),
+            haircutDetails: formData.get('haircutDetails'),
+        };
+
+        const response = await fetch('http://localhost:8080/api/book', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+           
+            router.push('/');
+        } else {
+            alert('Error booking appointment');
+        }
+    }
+
     return (
         <main>
             <div>Booking Page</div>
-            <form id="book" method="POST" action="http://localhost:8080/api/book">
+            <form id="book" onSubmit={handleSubmit}>
                 <label>
                     Name:
-                    <input type="text" name="name" />
+                    <input type="text" name="name" required />
                 </label>
-                <br></br>
+                <br />
                 <label>
                     City:
-                    <input type="text" name="city" />
+                    <input type="text" name="city" required />
                 </label>
-                <br></br>
+                <br />
                 <label>
                     Timing:
-                    <input type="text" name="timing" />
+                    <input type="datetime-local" name="timing" required />
                 </label>
-                <br></br>
+                <br />
                 <label>
                     Haircut:
-                    <input type="text" name="haircutDetails" />
+                    <input type="text" name="haircutDetails" required />
                 </label>
-                <br></br>
-                <button type="submit"> Submit</button>
+                <br />
+                <button type="submit">Submit</button>
             </form>
         </main>
     )
 }
 
-export default book
+export default Book

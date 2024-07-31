@@ -1,15 +1,16 @@
 import {Router} from "express"
 import { Booking } from "../mongoose/schemas/booking.mjs";
 import verifyAuth from "../utils/middlewares.mjs";
-
+import passport from "passport"
 const router = Router()
 
 // booking an appointment
-router.post("/api/book", verifyAuth, async (req, res) => {
+router.post("/api/book", passport.authenticate('jwt', { session: false }), async (req, res) => {
+    console.log("IN")
     const data = {
         "bookerID": req.user.id,
         "city": req.body.city,
-        "timing": req.body.timing,
+        "timing": new Date(req.body.timing),
         "haircutDetails": req.body.haircutDetails
     }
     console.log(data)

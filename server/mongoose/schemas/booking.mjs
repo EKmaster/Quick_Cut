@@ -12,7 +12,7 @@ const BookingSchema = new mongoose.Schema({
 		required: true,
 	},
     timing: {
-		type: mongoose.Schema.Types.Number,
+		type: mongoose.Schema.Types.Date,
 		required: true,
 	},
     haircutDetails: {

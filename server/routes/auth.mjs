@@ -42,8 +42,9 @@ router.post("/api/auth/login", passport.authenticate('local', { session: false }
 })
 
 // getting authentication status (either logged in or not)
-router.get("/api/auth/status",passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get("/api/auth/status", passport.authenticate('jwt', { session: false }), (req, res) => {
     if (req.user) return res.sendStatus(200);
+    
     return res.sendStatus(401);
 })
 
