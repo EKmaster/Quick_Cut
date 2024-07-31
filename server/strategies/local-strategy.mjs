@@ -25,8 +25,6 @@ password.deserializeUser(async (id, done) => {
 
 export default password.use(
     new Strategy({ usernameField: "email" }, async (email, password, done) => {
-        console.log(email)
-        console.log(password)
         try {
             const findUser = await User.findOne({ email });
 
