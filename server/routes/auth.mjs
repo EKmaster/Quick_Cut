@@ -10,16 +10,26 @@ const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
 
 // signing up
 router.post("/api/auth/signup", async (req, res) => {
+    
+    
+    const email = req.body.email;
+
+    try {
+        const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        console.log("HEEE")
+      return res.status(400).json({ message: 'User already exists' })
+    }
     const { body } = req;
     const password = body.password
     const salt = bcrypt.genSaltSync(10)
     body.password = bcrypt.hashSync(password, salt)
 
     const newUser = new User(body)
-    console.log(newUser)
-    try {
-        const savedUser = await newUser.save()
+        console.log(newUser)
         console.log("test")
+        const savedUser = await newUser.save()
+        
         const payload = { id: savedUser.id }
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' })
         return res.status(200).json({ "token": token })
