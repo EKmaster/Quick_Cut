@@ -11,26 +11,22 @@ const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
 
 // signing up
 router.post("/api/auth/signup", async (req, res) => {
-    
-    
     const email = req.body.email;
 
     try {
         const existingUser = await User.findOne({ email });
-    if (existingUser) {
-        console.log("HEEE")
-      return res.status(400).json({ message: 'User already exists' })
-    }
-    const { body } = req;
-    const password = body.password
-    const salt = bcrypt.genSaltSync(10)
-    body.password = bcrypt.hashSync(password, salt)
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' })
+        }
+        const { body } = req;
+        const password = body.password
+        const salt = bcrypt.genSaltSync(10)
+        body.password = bcrypt.hashSync(password, salt)
 
-    const newUser = new User(body)
+        const newUser = new User(body)
         console.log(newUser)
-        console.log("test")
         const savedUser = await newUser.save()
-        
+
         const payload = { id: savedUser.id }
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' })
         return res.status(200).json({ "token": token })
@@ -44,10 +40,9 @@ router.post("/api/auth/signup", async (req, res) => {
 router.post("/api/auth/login", async (req, res) => {
     // implement frontend logic to ensure neither email nor password field is empty before this route is used
     try {
-        console.log(req.body)
         const email = req.body.email
         const password = req.body.password
-        const findUser = await User.findOne({email})
+        const findUser = await User.findOne({ email })
         if (!findUser) throw new Error("User not found")
         if (!bcrypt.compareSync(password, findUser.password)) {
             console.log(bcrypt(findUser.password))
@@ -72,8 +67,8 @@ router.get('/api/auth/google/redirect', passport.authenticate('google', { sessio
     // Redirect or respond with the JWT token
     res.redirect(`http://localhost:3000/?token=${req.user.token}`);
 
-  });
-  
+});
+
 router.get('/api/auth/google', passport.authenticate('google'));
 
 export default router;

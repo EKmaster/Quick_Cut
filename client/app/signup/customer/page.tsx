@@ -24,7 +24,7 @@ export default function LoginPage() {
  
     if (response.ok) {
       const data = await response.json();
-      localStorage.setItem('token', data.token); // Store the JWT token
+      localStorage.setItem('barber_proj_token', data.token); // Store the JWT token
       router.push('/')
     } else {
       // Show them response based off message

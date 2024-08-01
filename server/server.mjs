@@ -4,10 +4,7 @@ import cors from "cors";
 import bodyParser from 'body-parser';
 import session from "express-session";
 import passport from "passport";
-import "./strategies/local-strategy.mjs";
 import "./strategies/jwt-strategy.mjs";
-import MongoStore from "connect-mongo";
-import { Booking } from "./mongoose/schemas/booking.mjs";
 import mongoose from "mongoose"
 import authRouter from "./routes/auth.mjs"
 import bookingsRouter from "./routes/bookings.mjs"
