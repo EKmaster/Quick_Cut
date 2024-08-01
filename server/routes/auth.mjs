@@ -3,7 +3,6 @@ import bcrypt from "bcrypt"
 import { User } from "../mongoose/schemas/user.mjs";
 import passport from "passport"
 import "../strategies/jwt-strategy.mjs"
-import "../strategies/google-strategy.mjs"
 import jwt from "jsonwebtoken"
 
 const router = Router()
