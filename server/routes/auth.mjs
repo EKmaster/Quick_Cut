@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import { User } from "../mongoose/schemas/user.mjs";
 import passport from "passport"
 import "../strategies/jwt-strategy.mjs"
+import "../strategies/google-strategy.mjs"
 import jwt from "jsonwebtoken"
 
 const router = Router()
@@ -67,5 +68,12 @@ router.get("/api/auth/status", passport.authenticate('jwt', { session: false }),
     if (req.user) return res.sendStatus(200);
     return res.sendStatus(401);
 })
+router.get('/api/auth/google/redirect', passport.authenticate('google', { session: false }), (req, res) => {
+    // Redirect or respond with the JWT token
+    res.redirect(`http://localhost:3000/?token=${req.user.token}`);
+
+  });
+  
+router.get('/api/auth/google', passport.authenticate('google'));
 
 export default router;
