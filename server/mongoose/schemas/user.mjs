@@ -8,7 +8,6 @@ const UserSchema = new mongoose.Schema({
 	},
 	password: {
 		type: mongoose.Schema.Types.String,
-		required: true,
 	},
     firstName: {
 		type: mongoose.Schema.Types.String,
@@ -18,6 +17,8 @@ const UserSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.String,
 		required: true,
 	},
+    authMethod: { type: mongoose.Schema.Types.String, enum: ['local', 'google'], required: true },
+
 });
 
 export const User = mongoose.model("User", UserSchema);

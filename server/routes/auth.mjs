@@ -18,11 +18,15 @@ router.post("/api/auth/signup", async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' })
         }
+        
         const { body } = req;
         const password = body.password
+        if (!password) {
+            return res.status(400).json({ message: 'No password given' })
+        }
         const salt = bcrypt.genSaltSync(10)
         body.password = bcrypt.hashSync(password, salt)
-
+        body.authMethod = "local"
         const newUser = new User(body)
         console.log(newUser)
         const savedUser = await newUser.save()

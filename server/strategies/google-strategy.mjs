@@ -16,19 +16,17 @@ export default passport.use(new Strategy({
     let savedUser = await User.findOne({ email: profile.emails[0].value });
     
     // If the user does not exist in the regular user database, check the Google users database
-    if (!savedUser) {
-      savedUser = await GoogleUser.findOne({ email: profile.emails[0].value });
-      
       // If the user does not exist in either database, create a new user in the Google users database
       if (!savedUser) {
-        const newUser = new GoogleUser({
+        const newUser = new User({
           email: profile.emails[0].value,
           firstName: profile.name.givenName,
-          lastName: profile.name.familyName
+          lastName: profile.name.familyName,
+          authMethod: "google"
         });
         savedUser = await newUser.save();
       }
-    }
+    
 
       const payload = { id: savedUser.id, email: savedUser.email }
       const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
