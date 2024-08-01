@@ -7,7 +7,7 @@ function Book() {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('barber_proj_token');
         const form = event.currentTarget as HTMLFormElement;
         const formData = new FormData(form);
         const data = {

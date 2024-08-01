@@ -16,12 +16,11 @@ export default function LoginPage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
-      credentials: 'include'
     })
  
     if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem('barber_proj_token', data.token);
+      //const data = await response.json();
+      //localStorage.setItem('barber_proj_token', data.token);
       router.push('/')
     } else {
       // Show them response based off message

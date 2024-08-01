@@ -9,6 +9,15 @@ import jwt from "jsonwebtoken"
 const router = Router()
 const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
 
+const createJWT = (user, res) => {
+    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: "1h"})
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict"
+    })
+}
+
 // signing up
 router.post("/api/auth/signup", async (req, res) => {
     const email = req.body.email;
@@ -27,9 +36,8 @@ router.post("/api/auth/signup", async (req, res) => {
         console.log(newUser)
         const savedUser = await newUser.save()
 
-        const payload = { id: savedUser.id }
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' })
-        return res.status(200).json({ "token": token })
+        createJWT(savedUser, res)
+        return res.status(200)
     } catch (err) {
         return res.sendStatus(400)
     }
@@ -48,12 +56,11 @@ router.post("/api/auth/login", async (req, res) => {
             console.log(bcrypt(findUser.password))
             throw new Error("Bad Credentials")
         }
-        const payload = { id: findUser.id, email: findUser.email }
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' })
-        return res.status(200).json({ "token": token })
+
+        createJWT(findUser, res)
+        return res.sendStatus(200)
     }
     catch (err) {
-        console.log(err)
         res.sendStatus(401)
     }
 })
