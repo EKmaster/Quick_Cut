@@ -33,9 +33,9 @@ function index() {
         <main>
             <h1>Welcome to Cuick Cut</h1>
             <br></br>
-            <Link href='/signup/customer'> Sign Up as Customer</Link>
+            <Link href='/signup'> Sign Up as Customer</Link>
             <br></br>
-            <Link href='/login/customer'> Login as Customer</Link>
+            <Link href='/login'> Login as Customer</Link>
             <br></br>
             <button onClick={handleBookClick}>Book</button>
             <br></br>
