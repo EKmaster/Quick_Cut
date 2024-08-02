@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-const csrfProtection = csrf({ cookie: { httpOnly: true, secure: true, sameSite: 'Strict' } });
+const csrfProtection = csrf({ cookie: { httpOnly: true, secure: false, sameSite: 'Strict' } });
 app.use(csrfProtection);
 
 // CSRF token route

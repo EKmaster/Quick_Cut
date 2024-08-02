@@ -14,7 +14,7 @@ const createJWT = (user, res) => {
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" })
     res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: "strict"
     })
 }
