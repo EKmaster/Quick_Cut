@@ -1,12 +1,14 @@
 'use client'
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { getCsrfToken } from '../utils/csrfToken'
 
 function Book() {
     const router = useRouter()
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        
         const form = event.currentTarget as HTMLFormElement;
         const formData = new FormData(form);
         const data = {
@@ -15,13 +17,15 @@ function Book() {
             timing: formData.get('timing'),
             haircutDetails: formData.get('haircutDetails'),
         };
+        const csrfToken = await getCsrfToken(); 
 
         const response = await fetch('http://localhost:8080/api/book', {
             method: 'POST',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json',
+                //'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
             },
             body: JSON.stringify(data)
         });

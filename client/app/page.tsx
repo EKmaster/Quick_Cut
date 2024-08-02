@@ -13,11 +13,6 @@ function index() {
     }
     
   async function handleBookClick() {
-    
-    //const token = getCookie('token');
-    
-    //console.log(token)
-    console.log("sending request to api/auth/status")
     const response = await fetch('http://localhost:8080/api/auth/status', {
       method: 'GET',
       credentials: 'include',
@@ -27,8 +22,6 @@ function index() {
         //'Authorization': `Bearer ${token}`, // Include the JWT token in the headers
       },
     })
-    console.log("Hello")
-    //console.log(token)
     if (response.ok) {
         router.push('/book')
       

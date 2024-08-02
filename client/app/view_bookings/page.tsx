@@ -9,7 +9,6 @@ const view_bookings = () => {
         ).then(
             data => {
                 setBookings(data)
-                console.log("Bookings sucessfully retreived")
             }
         )
     })

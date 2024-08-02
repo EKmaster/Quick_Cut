@@ -5,22 +5,16 @@ import passport from "passport"
 import "../strategies/jwt-strategy.mjs"
 import "../strategies/google-strategy.mjs"
 import jwt from "jsonwebtoken"
-import csrf from 'csurf';
 
 const router = Router()
 const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
-
-
-
-//const csrfProtection = csrf({ cookie: { httpOnly: true, secure: true, sameSite: 'Strict' } });
-//router.use(csrfProtection)
 
 const createJWT = (user, res) => {
     const payload = { id: user.id}
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" })
     res.cookie("token", token, {
         httpOnly: true,
-        secure: false, //change to true later
+        secure: true,
         sameSite: "strict"
     })
 }
@@ -58,21 +52,14 @@ router.post("/api/auth/signup", async (req, res) => {
 router.post("/api/auth/login", async (req, res) => {
     // implement frontend logic to ensure neither email nor password field is empty before this route is used
 
-    //UNCOMMENT THE BELOW 2 LATER
-    //console.log('CSRF Token in Request:', req.headers['x-csrf-token']);
-    //console.log('CSRF Token in Middleware:', req.csrfToken());
-
     try {
         const email = req.body.email
         const password = req.body.password
         const findUser = await User.findOne({ email })
         if (!findUser) throw new Error("User not found")
         if (!bcrypt.compareSync(password, findUser.password)) {
-            console.log(bcrypt(findUser.password))
             throw new Error("Bad Credentials")
         }
-
-
         createJWT(findUser, res)
         return res.sendStatus(200)
     }
@@ -85,14 +72,13 @@ router.post("/api/auth/login", async (req, res) => {
 router.get("/api/auth/status", passport.authenticate('jwt', { session: false }), (req, res) => {
     if (req.user) return res.sendStatus(200);
     return res.sendStatus(401);
-
 })
 
-
+// logging out
 router.post("/api/auth/logout", passport.authenticate("jwt", {session: false}), (req, res) => {
     res.clearCookie("token",{
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "strict"
     })
     res.sendStatus(200)
