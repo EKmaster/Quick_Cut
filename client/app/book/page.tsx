@@ -4,27 +4,37 @@ import { useRouter } from 'next/navigation'
 
 function Book() {
     const router = useRouter()
-
+    const getCsrfToken = async () => {
+        const response = await fetch('http://localhost:8080/api/csrf-token', {
+            credentials: 'include',
+        });
+        const data = await response.json();
+        console.log('CSRF Token from API:', data.csrfToken);
+  
+        return data.csrfToken;
+    };
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const token = localStorage.getItem('barber_proj_token');
-        const form = event.currentTarget as HTMLFormElement;
+        
+        const form = event.currentTarget;
         const formData = new FormData(form);
+        
         const data = {
             name: formData.get('name'),
             city: formData.get('city'),
             timing: formData.get('timing'),
             haircutDetails: formData.get('haircutDetails'),
         };
-
+        const csrfToken = await getCsrfToken();
         const response = await fetch('http://localhost:8080/api/book', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'X-CSRF-Token': csrfToken,
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            credentials: 'include'
         });
 
         if (response.ok) {

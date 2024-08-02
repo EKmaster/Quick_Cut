@@ -1,6 +1,7 @@
 import {Router} from "express"
 import { Booking } from "../mongoose/schemas/booking.mjs";
 import passport from "passport"
+
 const router = Router()
 
 // booking an appointment
