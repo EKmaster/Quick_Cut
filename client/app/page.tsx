@@ -5,9 +5,17 @@ import { useRouter } from 'next/navigation'
 
 function index() {
     const router = useRouter()
-
+    function getCookie(name: string): string | undefined {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop()?.split(';').shift();
+        return undefined;
+    }
+    
   async function handleBookClick() {
-    const token = localStorage.getItem('token');
+    const token = getCookie('token');
+    
+    console.log(token)
     const response = await fetch('http://localhost:8080/api/auth/status', {
       method: 'GET',
       headers: {
@@ -18,12 +26,13 @@ function index() {
       },
       credentials: 'include' 
     })
-
+    console.log("Hello")
+    console.log(token)
     if (response.ok) {
         router.push('/book')
       
     } else {
-        router.push('/login/customer')
+        router.push('/login')
       alert('Error checking authentication status')
     }
   }

@@ -11,20 +11,20 @@ const opts = {
 
 passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
-        jwt.verify(jwt_payload, JWT_SECRET, async (err, decoded) => {
-            if (err){
-                throw new Error("Bad Credentials")
-            }
-            const user = await User.findById(decoded.id);
-            if (user) {
-                return done(null, user.id);
-            } else {
-                throw new Error("Bad Credentials")
-            }
-        })
+        
+        // jwt_payload contains the decoded token payload
+        const user = await User.findById(jwt_payload.id);
+        if (user) {
+            return done(null, user); // Pass the user object to `req.user`
+        } else {
+            
+            return done(null, false); // No user found, authentication failed
+        }
     } catch (err) {
-        return done(err, false);
+        
+        return done(err, false); // Pass error to `done`
     }
 }));
+
 
 export default passport

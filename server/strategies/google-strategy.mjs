@@ -1,7 +1,6 @@
 import passport from "passport";
 import { Strategy } from "passport-google-oauth20";
 import { User } from "../mongoose/schemas/user.mjs";
-import { GoogleUser } from "../mongoose/schemas/google-user.mjs";
 import jwt from "jsonwebtoken"
 
 const JWT_SECRET = 'CCUTM5002';

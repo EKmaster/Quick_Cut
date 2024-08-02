@@ -7,17 +7,23 @@ export default function LoginPage() {
  
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
- 
+    const getCsrfToken = async () => {
+      const response = await fetch('http://localhost:8080/api/csrf-token', {
+          credentials: 'include',
+      });
+      const data = await response.json();
+      return data.csrfToken;
+  };
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email')
     const password = formData.get('password')
     const firstName = formData.get('firstName')
     const lastName = formData.get('lastName')
-
+    const csrfToken = await getCsrfToken();
  
     const response = await fetch('http://localhost:8080/api/auth/signup', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken},
       body: JSON.stringify({ email, password, firstName, lastName }),
       credentials: 'include'
     })

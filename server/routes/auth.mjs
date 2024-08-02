@@ -3,18 +3,27 @@ import bcrypt from "bcrypt"
 import { User } from "../mongoose/schemas/user.mjs";
 import passport from "passport"
 import "../strategies/jwt-strategy.mjs"
+import "../strategies/google-strategy.mjs"
 import jwt from "jsonwebtoken"
+import csrf from 'csurf';
 
 const router = Router()
 const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
 
+
+
+const csrfProtection = csrf({ cookie: { httpOnly: true, secure: true, sameSite: 'Strict' } });
+router.use(csrfProtection)
 const createJWT = (user, res) => {
-    const token = jwt.sign({user}, JWT_SECRET, {expiresIn: "1h"})
+    const payload = { id: user.id, email: user.email }
+    const token = jwt.sign(payload, JWT_SECRET, {expiresIn: "1h"})
     res.cookie("token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "strict"
     })
+    //res.status(201).send({ token });
+
 }
 
 // signing up
@@ -50,6 +59,9 @@ router.post("/api/auth/signup", async (req, res) => {
 // logging in 
 router.post("/api/auth/login", async (req, res) => {
     // implement frontend logic to ensure neither email nor password field is empty before this route is used
+    console.log('CSRF Token in Request:', req.headers['x-csrf-token']);
+    console.log('CSRF Token in Middleware:', req.csrfToken());
+
     try {
         const email = req.body.email
         const password = req.body.password
@@ -69,14 +81,29 @@ router.post("/api/auth/login", async (req, res) => {
 })
 
 // getting authentication status (either logged in or not)
-router.get("/api/auth/status", passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get("/api/auth/status", csrfProtection, passport.authenticate('jwt',  { session: false }), (req, res) => {
+    const token = req.cookies.token;
     if (req.user) return res.sendStatus(200);
     return res.sendStatus(401);
+    
 })
-router.get('/api/auth/google/redirect', passport.authenticate('google', { session: false }), (req, res) => {
-    // Redirect or respond with the JWT token
-    res.redirect(`http://localhost:3000/?token=${req.user.token}`);
+router.get('/api/auth/google/redirect', passport.authenticate('google', { session: false }), async (req, res) => {
+    // Redirect or respond with the JWT toke
+    
 
+    try {
+        const email = req.user.savedUser.email
+        const findUser = await User.findOne({ email })
+        if (!findUser) throw new Error("User not found")
+        
+        createJWT(findUser, res)
+        res.redirect(`http://localhost:3000`);
+        // return res.sendStatus(200)
+    }
+    catch (err) {
+        res.sendStatus(401)
+    }
+    
 });
 
 router.get('/api/auth/google', passport.authenticate('google'));

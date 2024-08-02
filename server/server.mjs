@@ -8,7 +8,7 @@ import "./strategies/jwt-strategy.mjs";
 import mongoose from "mongoose"
 import authRouter from "./routes/auth.mjs"
 import bookingsRouter from "./routes/bookings.mjs"
-
+import csrf from 'csurf';
 const PORT = 8080;
 const app = express();
 
@@ -23,6 +23,14 @@ app.use(cors({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+const csrfProtection = csrf({ cookie: { httpOnly: true, secure: true, sameSite: 'Strict' } });
+app.use(csrfProtection);
+// CSRF token route
+app.get('/api/csrf-token', (req, res) => {
+    console.log('CSRF Token in Middleware1:', req.csrfToken());
+
+    res.json({ csrfToken: req.csrfToken() });
+});
 app.use(session({
     secret: "hello world",
     saveUninitialized: false,
@@ -34,6 +42,7 @@ app.use(session({
     //     client: mongoose.connection.getClient()
     // })
 }));
+
 app.use(passport.initialize());
 //app.use(passport.session());
 
