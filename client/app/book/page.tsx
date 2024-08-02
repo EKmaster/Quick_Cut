@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { getCsrfToken } from '../utils/csrfToken'
 
 function Book() {
     const router = useRouter()
@@ -29,7 +30,7 @@ function Book() {
         const response = await fetch('http://localhost:8080/api/book', {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
+                //'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'X-CSRF-Token': csrfToken,
             },
@@ -38,7 +39,6 @@ function Book() {
         });
 
         if (response.ok) {
-           
             router.push('/');
         } else {
             alert('Error booking appointment');
