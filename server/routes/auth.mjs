@@ -92,8 +92,8 @@ router.get('/api/auth/google/redirect', passport.authenticate('google', { sessio
         if (!findUser) throw new Error("User not found")
 
         createJWT(findUser, res)
+        console.log(res.cookie)
         res.redirect(`http://localhost:3000`);
-        // return res.sendStatus(200)
     }
     catch (err) {
         res.sendStatus(401)
