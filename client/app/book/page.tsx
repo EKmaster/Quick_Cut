@@ -7,7 +7,6 @@ function Book() {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const token = localStorage.getItem('barber_proj_token');
         const form = event.currentTarget as HTMLFormElement;
         const formData = new FormData(form);
         const data = {
@@ -19,16 +18,15 @@ function Book() {
 
         const response = await fetch('http://localhost:8080/api/book', {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(data)
         });
 
         if (response.ok) {
-           
             router.push('/');
         } else {
             alert('Error booking appointment');
