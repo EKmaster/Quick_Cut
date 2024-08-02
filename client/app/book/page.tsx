@@ -5,15 +5,6 @@ import { getCsrfToken } from '../utils/csrfToken'
 
 function Book() {
     const router = useRouter()
-    const getCsrfToken = async () => {
-        const response = await fetch('http://localhost:8080/api/csrf-token', {
-            credentials: 'include',
-        });
-        const data = await response.json();
-        console.log('CSRF Token from API:', data.csrfToken);
-  
-        return data.csrfToken;
-    };
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         
