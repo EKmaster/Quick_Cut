@@ -86,7 +86,7 @@
 }
   
 .buttonSubmit {
-    margin: 20px 0 10px 0;
+    margin: 10px 0 10px 0;
     background-color: #151717;
     border: none;
     color: white;
@@ -138,4 +138,9 @@
   
 .apple {
     color: #000;
+}
+
+.pWarning{
+    font-size: 14px;
+    color: rgb(220, 59, 59);
 }
