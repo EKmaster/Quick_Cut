@@ -6,8 +6,8 @@ import jwt from "jsonwebtoken"
 const JWT_SECRET = 'CCUTM5002';
 
 export default passport.use(new Strategy({
-    clientID: '884046537126-o1p4aiur1v7r0jeafj8t2ceq9dug8ah9.apps.googleusercontent.com',
-    clientSecret: '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',
+    clientID: '327353437075-t2nfjh45na7u1d0ikvo001mu5ms0k1dh.apps.googleusercontent.com',
+    clientSecret: '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',
     callbackURL: 'http://localhost:8080/api/auth/google/redirect',
     scope: ["profile", "email"]
 }, async (accessToken, refreshToken, profile, done) => {
