@@ -50,7 +50,7 @@ export default function LoginPage() {
     }
 
     function handleSignIn() {
-        router.push('/signin')
+        router.push('/login')
     }
 
 
