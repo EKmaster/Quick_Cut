@@ -2,7 +2,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
     background-color: #f0f0f0; 
 }
 .form {
@@ -93,6 +96,9 @@
     height: 50px;
     width: 100%;
     cursor: pointer;
+}
+.buttonSubmit:hover{
+    filter: brightness(2);
 }
   
 .p {

@@ -27,8 +27,6 @@ export default passport.use(new Strategy({
             savedUser = await newUser.save();
         }
 
-        //const payload = { id: savedUser.id, email: savedUser.email }
-        //const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
         return done(null, {savedUser});
     } catch (err) {
         return done(err, false);
