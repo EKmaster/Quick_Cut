@@ -18,7 +18,6 @@ export default function LoginPage() {
     }
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        console.log("test")
         event.preventDefault()
 
         const formData = new FormData(event.currentTarget)
@@ -41,8 +40,6 @@ export default function LoginPage() {
         })
 
         if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('barber_proj_token', data.token); // Store the JWT token
             router.push('/')
         } else {
             // Show them response based off message
