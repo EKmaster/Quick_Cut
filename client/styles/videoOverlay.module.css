@@ -43,4 +43,23 @@
   .button:hover {
     background-color: #ff79a2;
   }
-  
+  .bold-cursive {
+    position: absolute;
+    font-family: "Brush Script MT", "Comic Sans MS", "Segoe Script", cursive; /* List of cursive-like fonts */
+    font-style: italic; /* Italic style to enhance the cursive appearance */
+    font-weight: bold; /* Bold style */
+    display: flex;
+    color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    z-index: 3; /* Ensure it's on top of both the video and nav bar */
+  }
+  .title {
+    font-size: 4rem; /* Adjust the size as needed */
+    position: absolute;
+    
+    left: 1.5%;
+    
+    margin-bottom: 20px; /* Space between the title and button */
+    color: #ffffff;
+  }

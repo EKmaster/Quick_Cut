@@ -1,11 +1,12 @@
 // components/NavBar.js
 import styles from '../../styles/navBar.module.css';
 import Link from 'next/link'
+import Titlestyle from '../../styles/videoOverlay.module.css';
 const NavBar = () => {
   return (
     <div>
          
-    <p>LOGO</p>
+         <strong className={`${Titlestyle.boldCursive} ${Titlestyle.title}`}>Cuick Cut</strong>
     <div className={styles.container}> 
         
     <div className={styles['button-container']}>

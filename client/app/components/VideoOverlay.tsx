@@ -11,9 +11,12 @@ const VideoOverlay = () => {
       </video>
       <div className={styles.navBar}>
         <NavBar/>
+        
       </div>
+     
       <div className={styles.overlay}>
-        <Link href="/signup" passHref>
+      
+        <Link href="/book" passHref>
         <button className={bookStyle.button}>
   Book Now
 </button>
