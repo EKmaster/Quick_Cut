@@ -3,6 +3,8 @@ import Link from 'next/link'
 import React from 'react'
 import { useRouter } from 'next/navigation'
 
+import VideoOverlay from './components/VideoOverlay';
+import HowTo from './components/HowTo';
 function index() {
     const router = useRouter()
     function getCookie(name: string): string | undefined {
@@ -34,7 +36,11 @@ function index() {
     return (
         
         <main>
-            <h1>Welcome to Cuick Cut</h1>
+          
+          <VideoOverlay />
+          
+          <HowTo/>
+          <h1>How it Works</h1>
             <br></br>
             <Link href='/signup'> Sign Up as Customer</Link>
             <br></br>

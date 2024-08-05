@@ -1,0 +1,46 @@
+/* styles/videoOverlay.module.css */
+.videoContainer {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3; /* Ensure it's on top of both the video and nav bar */
+  }
+  .navBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2; /* Higher z-index to be on top of the video */
+}
+  .button {
+    background-color: #ff4081;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #ff79a2;
+  }
+  

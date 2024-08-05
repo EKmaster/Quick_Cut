@@ -1,0 +1,64 @@
+
+.button {
+    --black: #000000;
+    --ch-black: #141414;
+    --eer-black: #1b1b1b;
+    --night-rider: #2e2e2e;
+    --white: #ffffff;
+    --af-white: #f3f3f3;
+    --ch-white: #e1e1e1;
+    border-radius: 12px; /* Increased border-radius for a more rounded look */
+    width: 300px; /* Increased width */
+    height: 75px; /* Increased height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Increased gap between text and icon */
+    padding: 0px 20px; /* Increased padding */
+    border: none;
+    color: white;
+    position: relative;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.25rem; /* Increased font size */
+    transition-duration: .2s;
+    background-color: var(--ch-black);
+}
+.button:hover {
+    transform: translateY(-10px); /* Move the form up by 10px */
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2); /* Add a subtle shadow */
+}
+.button:before, .button:after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    border-radius: 12px; /* Match border-radius for consistency */
+    background: linear-gradient(45deg, 
+    var(--ch-black), var(--eer-black),
+    var(--night-rider), var(--ch-white), var(--night-rider), 
+      var(--eer-black), var(--ch-black),var(--ch-black));
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: steam 20s linear infinite;
+}
+
+@keyframes steam {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.button:after {
+    filter: blur(50px);
+}

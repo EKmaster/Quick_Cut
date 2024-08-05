@@ -1,0 +1,61 @@
+/* From Uiverse.io by akshat-patel28 */ 
+/* styles/navBar.module.css */
+
+.container {
+    display: flex;
+    justify-content: flex-end; /* Align content to the left */
+    align-items: flex-end; /* Align items to the top */
+
+    padding-top: 2px;
+    padding-bottom: 20px;
+    padding-right: 20px; /* Add padding to move the NavBar further from the left edge */
+    font-weight: 700;
+    
+}
+
+.button-container {
+    z-index: 2; /* Higher z-index to be on top of the video */
+    display: flex;
+    background-color: rgb(0, 0, 0);
+    width: 500px;
+    height: 50px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+                rgba(255, 255, 255, 0.274) 5px 10px 15px;
+}
+
+  
+  .button {
+    outline: 0 !important;
+    border: 0 !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    transform: translateY(-3px);
+  }
+  
+  .icon {
+    font-size: 20px;
+    
+  }
+
+  .p {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 13px;
+    
+
+    
+}
