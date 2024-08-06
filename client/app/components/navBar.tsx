@@ -18,10 +18,10 @@ const NavBar = () => {
       <Link href='/login'> <p className= {styles.p}>Login</p> </Link>
       </button>
       <button className={styles.button} aria-label="Profile">
-      <Link href='/'> <p className= {styles.p}>How it works</p> </Link>
+      <a href ='#how-it-works'> <p className={`${styles.p}`}>How it works</p> </a>
       </button>
-      <button className={styles.button} aria-label="Cart">
-      <Link href='/'> <p className= {styles.p}>FAQs</p> </Link>
+      <button className={styles.button} aria-label="Profile">
+      <a href ='#faqs'> <p className={`${styles.p}`}>FAQs</p> </a>
       </button>
     </div>
     </div>

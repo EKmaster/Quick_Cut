@@ -3,8 +3,8 @@
 
 .container {
     display: flex;
-    justify-content: flex-end; /* Align content to the left */
-    align-items: flex-end; /* Align items to the top */
+    justify-content: center; /* Align content to the left */
+    align-items: center; /* Align items to the top */
 
     padding-top: 2px;
     padding-bottom: 20px;
@@ -16,21 +16,20 @@
 .button-container {
     z-index: 2; /* Higher z-index to be on top of the video */
     display: flex;
-    background-color: rgb(0, 0, 0);
-    width: 500px;
-    height: 50px;
+    
+    width: 1000px;
+    height: 75px;
     align-items: center;
     justify-content: space-around;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
-                rgba(255, 255, 255, 0.274) 5px 10px 15px;
+    
 }
 
   
   .button {
     outline: 0 !important;
     border: 0 !important;
-    width: 40px;
+    width: 400px;
     height: 40px;
     border-radius: 50%;
     background-color: transparent;
@@ -44,18 +43,20 @@
   
   .button:hover {
     transform: translateY(-3px);
+    
   }
   
   .icon {
-    font-size: 20px;
+    font-size: 50px;
     
   }
 
   .p {
     text-align: center;
     color: rgb(255, 255, 255);
-    font-size: 13px;
+    font-size: 23px;
     
+    text-shadow: 2px 0px 4px rgba(0, 0, 0, 0.82);
 
     
 }

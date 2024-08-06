@@ -1,8 +1,26 @@
-
+.Bcontainer {
+    background-color: #151515; 
+    display: flex;
+    justify-content: space-around; /* Align content with equal space around */
+    align-items: center; /* Align items to the center vertically */
+}
+.container {
+    background-color: #151515; 
+    display: flex;
+    justify-content: space-evenly; /* Align content with equal space around */
+    align-items: center; /* Align items to the center vertically */
+}
+.Btitle {
+    font-size: 3.3rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
 .card {
+    padding-top: 20px;
+    padding-bottom: 20px;
     overflow: visible;
-    width: 190px;
-    height: 254px;
+    width: 300px;
+    height: 400px;
   }
   
   .content {
@@ -43,8 +61,13 @@
     background: linear-gradient(90deg, transparent, #ffffff, #bebebe, #868686, #414141, transparent);
     animation: rotation_481 5000ms infinite linear;
   }
-  
+  .pic {
+    color: #f00;
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+  }
   .back-content {
+    font-size: 25px;
     position: absolute;
     width: 99%;
     height: 99%;
@@ -105,10 +128,11 @@
   }
   
   .title {
-    font-size: 11px;
+    font-size: 17px;
     max-width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    text-align: center;
   }
   
   .title p {
@@ -170,3 +194,14 @@
       transform: translateY(0px);
     }
   }
+  .bold-cursive {
+    position: absolute;
+    font-family: "Brush Script MT", "Comic Sans MS", "Segoe Script", cursive;
+    font-style: italic;
+    font-weight: bold;
+    display: flex;
+    color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}

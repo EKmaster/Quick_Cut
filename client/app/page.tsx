@@ -5,15 +5,9 @@ import { useRouter } from 'next/navigation'
 
 import VideoOverlay from './components/VideoOverlay';
 import HowTo from './components/HowTo';
+import FAQ from './components/FAQ'
 function index() {
     const router = useRouter()
-    function getCookie(name: string): string | undefined {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop()?.split(';').shift();
-        return undefined;
-    }
-    
   async function handleBookClick() {
     const response = await fetch('http://localhost:8080/api/auth/status', {
       method: 'GET',
@@ -21,7 +15,6 @@ function index() {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        //'Authorization': `Bearer ${token}`, // Include the JWT token in the headers
       },
     })
     if (response.ok) {
@@ -40,15 +33,7 @@ function index() {
           <VideoOverlay />
           
           <HowTo/>
-          <h1>How it Works</h1>
-            <br></br>
-            <Link href='/signup'> Sign Up as Customer</Link>
-            <br></br>
-            <Link href='/login'> Login as Customer</Link>
-            <br></br>
-            <button onClick={handleBookClick}>Book</button>
-            <br></br>
-            <Link href='/view_bookings'> View Bookings</Link>
+          <FAQ/>
         </main>
     )
 }

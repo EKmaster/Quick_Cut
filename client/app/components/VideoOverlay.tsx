@@ -2,7 +2,26 @@ import Link from 'next/link';
 import styles from '../../styles/videoOverlay.module.css';
 import NavBar from './navBar';
 import bookStyle from '../../styles/bookButton.module.css'
+import { useRouter } from 'next/navigation'
 const VideoOverlay = () => {
+    const router = useRouter()
+  async function handleBookClick() {
+    const response = await fetch('http://localhost:8080/api/auth/status', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    if (response.ok) {
+        router.push('/book')
+      
+    } else {
+        router.push('/login')
+      alert('Error checking authentication status')
+    }
+  }
   return (
     <div className={styles.videoContainer}>
       <video className={styles.video} autoPlay muted loop playsInline>
@@ -17,10 +36,12 @@ const VideoOverlay = () => {
       <div className={styles.overlay}>
       
         <Link href="/book" passHref>
-        <button className={bookStyle.button}>
+        <button onClick={handleBookClick} className={bookStyle.button}>
   Book Now
 </button>
+
         </Link>
+        
       </div>
     </div>
   );
