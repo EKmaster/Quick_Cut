@@ -4,8 +4,8 @@ import { useState, FormEvent, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '../utils/csrfToken'
 import styles from '../../styles/login.module.css'
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 import WithAuthentication from '../utils/withAuthentication'
+import MapComponent from './mapComponent'
 
 function Book() {
     const router = useRouter()
@@ -98,6 +98,8 @@ function Book() {
                         <input name="timing" className={styles.input} type="datetime-local" min={getCurrentDateTime()} max={getMaxDateTime()} />
                     </div>
 
+                    {/*Google maps API integration*/}
+                    <MapComponent />
 
                     {/*Additional details for arriving at location*/}
                     <div className={styles.flexColumn}>
