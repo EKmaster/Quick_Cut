@@ -19,7 +19,7 @@ function WithAuthentication({children}: {children: ReactNode}) {
             setLoggedIn(response)
         }
         verifyAuthentication()
-    }, [])
+    }, [router])
 
     if (loggedIn === null) {
         return <div></div>; // You can customize this with a spinner or loading message

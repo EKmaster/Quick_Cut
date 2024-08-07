@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import VideoOverlay from './components/VideoOverlay';
 import HowTo from './components/HowTo';
 import FAQ from './components/FAQ'
-function index() {
+function Index() {
     const router = useRouter()
   async function handleBookClick() {
     const response = await fetch('http://localhost:8080/api/auth/status', {
@@ -38,4 +38,4 @@ function index() {
     )
 }
 
-export default index
+export default Index

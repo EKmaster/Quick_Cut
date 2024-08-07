@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react'
 
-const view_bookings = () => {
+const ViewBookings = () => {
     const [bookings, setBookings] = useState([]);
     useEffect(() => {
         fetch("http://localhost:8080/api/bookings").then(
@@ -19,7 +19,7 @@ const view_bookings = () => {
             ---------------------
             {
                 bookings.map((booking) => (
-                    <div>
+                    <div key="key">
                         Name: {booking["name"]}<br/>
                         City: {booking["city"]}<br/>
                         Timing: {booking["timing"]}<br/>
@@ -32,4 +32,4 @@ const view_bookings = () => {
     )
 }
 
-export default view_bookings
+export default ViewBookings
