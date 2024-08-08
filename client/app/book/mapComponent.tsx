@@ -113,7 +113,9 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
                         ))
                     }
                 </ul>
-            ) : (document.getElementById("location-search")! as HTMLInputElement).value !== '' ? (
+            ) : (!document.getElementById("location-search")) ? (
+                (null)
+            ) : (document.getElementById("location-search") as HTMLInputElement).value !== '' ? (
                 <ul className={styles.dropdownList}>
                 {
                     <li>No results found</li>

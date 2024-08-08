@@ -7,7 +7,6 @@ import { userAuthenticated } from './userAuthenticated'
 function WithAuthentication({children}: {children: ReactNode}) {
     const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
     const router = useRouter()
-
     useEffect(() => {
         const verifyAuthentication = async () => {
             const response = await userAuthenticated()
