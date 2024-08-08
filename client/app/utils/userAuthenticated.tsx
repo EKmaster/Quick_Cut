@@ -8,6 +8,10 @@ export const userAuthenticated = async () => {
             'Content-Type': 'application/json',
         },
     })
-    return true //this exists only temporarily for development purposes
-    //return response.status === 200
+    if (response.ok) {
+        return true
+
+    } else {
+        return false
+    }
 }

@@ -2,30 +2,63 @@
 import styles from '../../styles/navBar.module.css';
 import Link from 'next/link'
 import Titlestyle from '../../styles/videoOverlay.module.css';
+import CheckAuth from '../utils/checkAuth';
+import { getCsrfToken } from '../utils/csrfToken';
 const NavBar = () => {
+    
+    const isAuthenticated = CheckAuth()
+    
+    async function logout() {
+        
+
+        const csrfToken = await getCsrfToken();
+        const response = await fetch('http://localhost:8080/api/auth/logout', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'X-CSRF-Token': csrfToken
+            }
+        })
+        if (response.ok){
+            window.location.reload();
+        }else{
+            alert('Error checking authentication status')
+        }
+    
+}
     return (
         <div>
-
-            <strong className={`${Titlestyle.boldCursive} ${Titlestyle.title}`}>Cuick Cut</strong>
-            <div className={styles.container}>
-
-                <div className={styles['button-container']}>
-                    <button className={styles.button} aria-label="Home">
-
-                        <Link href='/signup'> <p className={styles.p}>Signup</p> </Link>
+        <strong className={`${Titlestyle.boldCursive} ${Titlestyle.title}`}>Quick Cut</strong>
+        <div className={styles.container}>
+            <div className={styles['button-container']}>
+                {isAuthenticated ? (
+                    <> 
+                    <button className={styles.button} onClick={logout} aria-label="Logout">
+                         <p className={styles.p}>Logout</p> 
                     </button>
-                    <button className={styles.button} aria-label="Search">
-                        <Link href='/login'> <p className={styles.p}>Login</p> </Link>
+                    <button className={styles.button} aria-label="Dashboard">
+                    <Link href='/'> <p className={styles.p}>Dashboard</p> </Link>
                     </button>
-                    <button className={styles.button} aria-label="Profile">
-                        <a href='#how-it-works'> <p className={`${styles.p}`}>How it works</p> </a>
-                    </button>
-                    <button className={styles.button} aria-label="Profile">
-                        <a href='#faqs'> <p className={`${styles.p}`}>FAQs</p> </a>
-                    </button>
-                </div>
+                    </>
+                ) : (
+                    <>
+                        <button className={styles.button}  aria-label="Signup">
+                            <Link href='/signup'> <p className={styles.p}>Signup</p> </Link>
+                        </button>
+                        <button className={styles.button} aria-label="Login">
+                            <Link href='/login'> <p className={styles.p}>Login</p> </Link>
+                        </button>
+                    </>
+                )}
+                <button className={styles.button} aria-label="How it works">
+                    <a href='#how-it-works'> <p className={`${styles.p}`}>How it works</p> </a>
+                </button>
+                <button className={styles.button} aria-label="FAQs">
+                    <a href='#faqs'> <p className={`${styles.p}`}>FAQs</p> </a>
+                </button>
             </div>
         </div>
+    </div>
     );
 };
 

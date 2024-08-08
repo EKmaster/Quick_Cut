@@ -25,7 +25,7 @@ const FAQ = () => {
                     <label htmlFor='faq-c' className={styles.label}>
                         <p className={styles['faq-heading']}>What is your refund policy? </p>
                         <div className={styles['faq-arrow']}></div>
-                        <p className={styles['faq-text']}>If the refund reason accepted, full refund will be given.</p>
+                        <p className={styles['faq-text']}>If the refund reason is accepted, full refund will be given.</p>
                     </label>
                     <input id='faq-d' type='checkbox' className={styles.checkbox} />
                     <label htmlFor='faq-d' className={styles.label}>
