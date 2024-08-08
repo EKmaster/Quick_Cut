@@ -97,7 +97,8 @@ export default function LoginPage() {
                         Google
                     </button>
                 </div>
-                <p className={styles.p}>Don't have an account? <span className={styles.span} onClick={handleSignUpClick}>Sign Up</span></p>
+                <p className={styles.p}>Don&apos;t have an account? <span className={styles.span} onClick={handleSignUpClick}>Sign Up</span></p>
+
             </form>
         </div>
     )
