@@ -8,32 +8,29 @@ import HowTo from './components/HowTo';
 import FAQ from './components/FAQ'
 function Index() {
     const router = useRouter()
-  async function handleBookClick() {
-    const response = await fetch('http://localhost:8080/api/auth/status', {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    if (response.ok) {
-        router.push('/book')
-      
-    } else {
-        router.push('/login')
-      alert('Error checking authentication status')
+    async function handleBookClick() {
+        const response = await fetch('http://localhost:8080/api/auth/status', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+        if (response.ok) {
+            router.push('/book')
+
+        } else {
+            router.push('/login')
+            alert('Error checking authentication status')
+        }
     }
-  }
 
     return (
-        
         <main>
-          
-          <VideoOverlay />
-          
-          <HowTo/>
-          <FAQ/>
+            <VideoOverlay />
+            <HowTo />
+            <FAQ />
         </main>
     )
 }

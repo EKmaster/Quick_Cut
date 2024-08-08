@@ -5,46 +5,45 @@ import bookStyle from '../../styles/bookButton.module.css'
 import { useRouter } from 'next/navigation'
 const VideoOverlay = () => {
     const router = useRouter()
-  async function handleBookClick() {
-    const response = await fetch('http://localhost:8080/api/auth/status', {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    if (response.ok) {
-        router.push('/book')
-      
-    } else {
-        router.push('/login')
-      alert('Error checking authentication status')
-    }
-  }
-  return (
-    <div className={styles.videoContainer}>
-      <video className={styles.video} autoPlay muted loop playsInline>
-        <source src='/bvideo.mp4' type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <div className={styles.navBar}>
-        <NavBar/>
-        
-      </div>
-     
-      <div className={styles.overlay}>
-      
-        <Link href="/book" passHref>
-        <button onClick={handleBookClick} className={bookStyle.button}>
-  Book Now
-</button>
+    async function handleBookClick() {
+        const response = await fetch('http://localhost:8080/api/auth/status', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+        if (response.ok) {
+            router.push('/book')
 
-        </Link>
-        
-      </div>
-    </div>
-  );
+        } else {
+            router.push('/login')
+        }
+    }
+    return (
+        <div className={styles.videoContainer}>
+            <video className={styles.video} autoPlay muted loop playsInline>
+                <source src='/bvideo.mp4' type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <div className={styles.navBar}>
+                <NavBar />
+
+            </div>
+
+            <div className={styles.overlay}>
+
+                <Link href="/book" passHref>
+                    <button onClick={handleBookClick} className={bookStyle.button}>
+                        Book Now
+                    </button>
+
+                </Link>
+
+            </div>
+        </div>
+    );
 };
 
 export default VideoOverlay;
