@@ -6,11 +6,13 @@ const router = Router()
 
 // booking an appointment
 router.post("/api/book", passport.authenticate('jwt', { session: false }), async (req, res) => {
+    console.log(data)
     const data = {
         "bookerID": req.user.id,
-        "city": req.body.city,
+        "haircutDetails": req.body.haircutDetails,
         "timing": new Date(req.body.timing),
-        "haircutDetails": req.body.haircutDetails
+        "locationGooglePlacesID": req.body.locationGooglePlacesID,
+        "locationDetails": req.body.locationDetails
     }
     const newBooking = new Booking(data)
     try {

@@ -7,7 +7,7 @@ const BookingSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.String,
 		required: true,
 	},
-	city: {
+    haircutDetails: {
 		type: mongoose.Schema.Types.String,
 		required: true,
 	},
@@ -15,10 +15,15 @@ const BookingSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.Date,
 		required: true,
 	},
-    haircutDetails: {
+    locationGooglePlacesID: {
 		type: mongoose.Schema.Types.String,
 		required: true,
 	},
+    locationDetails: {
+		type: mongoose.Schema.Types.String,
+		required: true,
+	},
+
 });
 
 export const Booking = mongoose.model("Booking", BookingSchema);

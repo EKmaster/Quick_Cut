@@ -13,6 +13,8 @@ function Book() {
     const [isLoggedIn, setIsLoggedIn] = useState(null)
     const [emptyHaircutDetails, setEmptyHaircutDetails] = useState(false)
 
+    const [selectedLocationID, setSelectedLocationID] = useState<null>(null)
+
     function getCurrentDateTime() {
         const now = new Date();
         const year = now.getFullYear();
@@ -48,8 +50,11 @@ function Book() {
         const data = {
             haircutDetails: formData.get('haircutDetails'),
             timing: formData.get('timing'),
+            locationGooglePlacesID: selectedLocationID,
             locationDetails: formData.get('locationDetails')
         };
+
+        console.log(data)
 
         if (invalidInput(String(data.haircutDetails))) {
             return
@@ -99,7 +104,7 @@ function Book() {
                     </div>
 
                     {/*Google maps API integration*/}
-                    <MapComponent />
+                    <MapComponent inputToForm={setSelectedLocationID}/>
 
                     {/*Additional details for arriving at location*/}
                     <div className={styles.flexColumn}>
