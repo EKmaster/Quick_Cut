@@ -3,7 +3,7 @@ import styles from '../../styles/login.module.css'
 
 const libraries = ["places"]
 
-function MapComponent({inputToForm}: {inputToForm: (value: any) => void}) {
+function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
     let mapRef = useRef<any>(null)
 
     let autocompleteTokenRef = useRef<any>(null)
@@ -14,6 +14,7 @@ function MapComponent({inputToForm}: {inputToForm: (value: any) => void}) {
     let PlaceRef = useRef<any>(null)
     let AdvancedMarkerElementRef = useRef<any>(null)
     let selectionMarkerRef = useRef<any>(null)
+
 
     useEffect(() => {
 
@@ -48,7 +49,7 @@ function MapComponent({inputToForm}: {inputToForm: (value: any) => void}) {
         if (text === '') {
             setAutocompleteList([])
         } else {
-            if (!autocompleteTokenRef.current){
+            if (!autocompleteTokenRef.current) {
                 autocompleteTokenRef.current = new CreateAutocompleteSessionTokenRef.current()
             }
             let request = {
@@ -70,11 +71,11 @@ function MapComponent({inputToForm}: {inputToForm: (value: any) => void}) {
         const element = document.getElementById('location-search') as HTMLInputElement
         element.value = description
         // set a marker for this location on the map
-        const place = new PlaceRef.current({id: place_id})
-        await place.fetchFields({fields: ["location"]})
-        if (selectionMarkerRef.current){
+        const place = new PlaceRef.current({ id: place_id })
+        await place.fetchFields({ fields: ["location"] })
+        if (selectionMarkerRef.current) {
             selectionMarkerRef.current.position = place.location
-        }else{
+        } else {
             selectionMarkerRef.current = new AdvancedMarkerElementRef.current({
                 map: mapRef.current,
                 position: place.location,
@@ -102,16 +103,25 @@ function MapComponent({inputToForm}: {inputToForm: (value: any) => void}) {
                     onChange={(e) => updateAutocomplete(e.target.value)}
                 />
             </div>
-
-            <ul>
+            {autocompleteList.length !== 0 ? (
+                <ul className={styles.dropdownList}>
+                    {
+                        autocompleteList.map(({ description, id }) => (
+                            <li key={id}>
+                                <button type="button" onClick={async () => await selectLocation(description, id)}>{description}</button>
+                            </li>
+                        ))
+                    }
+                </ul>
+            ) : (document.getElementById("location-search")! as HTMLInputElement).value !== '' ? (
+                <ul className={styles.dropdownList}>
                 {
-                    autocompleteList.map(({ description, id }) => (
-                        <li key={id}>
-                            <button type="button" onClick={async () => await selectLocation(description, id)}>{description}</button>
-                        </li>
-                    ))
+                    <li>No results found</li>
                 }
             </ul>
+            ) : (null)
+            }
+
         </>
     );
 }
