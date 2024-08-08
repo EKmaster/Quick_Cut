@@ -1,11 +1,9 @@
-'use client'
+
 import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '../utils/csrfToken';
 
-export default function LogoutPage() {
-    const router = useRouter()
-
-    async function handleClick() {
+export default async function logout() {
+        const router = useRouter()
 
         const csrfToken = await getCsrfToken();
         const response = await fetch('http://localhost:8080/api/auth/logout', {
@@ -20,8 +18,5 @@ export default function LogoutPage() {
         }else{
             alert('Error checking authentication status')
         }
-    }
-    return (
-        <button onClick={handleClick} >Logout</button>
-    )
+    
 }
