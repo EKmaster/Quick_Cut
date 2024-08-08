@@ -3,10 +3,8 @@ import styles from '../../styles/navBar.module.css';
 import Link from 'next/link'
 import Titlestyle from '../../styles/videoOverlay.module.css';
 import CheckAuth from '../utils/checkAuth';
-import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '../utils/csrfToken';
 const NavBar = () => {
-    const router = useRouter()
     
     const isAuthenticated = CheckAuth()
     
