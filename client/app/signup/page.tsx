@@ -30,7 +30,6 @@ export default function LoginPage() {
         if (!validateInput(String(email), String(password), String(confirmPassword), String(firstName), String(lastName))) {
             return
         }
-        console.log("test")
         const csrfToken = await getCsrfToken();
         const response = await fetch('http://localhost:8080/api/auth/signup', {
             method: 'POST',
@@ -40,9 +39,19 @@ export default function LoginPage() {
         })
 
         if (response.ok) {
-            router.push('/')
+            console.log("asdf")
+            // moving user into email verification process
+            
+            await fetch("http://localhost:8080/api/auth/sendverificationcode", {
+                method: 'GET',
+                credentials: 'include'
+            }).then((response) => {
+                router.push('/signup/verifyemail')
+            })
+            router.push('/signup/verifyemail')
+
         } else {
-            // Show them response based off message
+            alert("Signup Failed")
         }
     }
 
