@@ -21,8 +21,9 @@ export default passport.use(new Strategy({
             const newUser = new User({
                 email: profile.emails[0].value,
                 firstName: profile.name.givenName,
-                lastName: profile.name.familyName,
-                authMethod: "google"
+                lastName: profile.name.familyName || ' ',
+                authMethod: "google",
+                verified: true
             });
             savedUser = await newUser.save();
         }

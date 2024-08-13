@@ -48,6 +48,10 @@ export default function LoginPage() {
     function handleSignUpClick() {
         router.push('/signup')
     }
+    async function handleForgetPasswordClick() {
+        router.push('/login/verifyemail')
+
+    }
 
 
     return (
@@ -81,7 +85,9 @@ export default function LoginPage() {
                     <div>
                         <label></label>
                     </div>
+                    <p onClick={handleForgetPasswordClick}> 
                     <span className={styles.span}>Forgot password?</span>
+                    </p>
                 </div>
                 {emptyFields && <p className={styles.pWarning}>One or more fields are empty</p>}
                 <button className={styles.buttonSubmit} type="submit">Sign In</button>

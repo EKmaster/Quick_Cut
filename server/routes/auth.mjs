@@ -12,10 +12,12 @@ const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
 
 
 const emailTransporter = nodemailer.createTransport({
-    service: 'proton',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-        user: 'cuick-cut@proton.me',
-        pass: 'ducnah-mazdY8-byprox'
+        user: 'omerekwiz@gmail.com',
+        pass: 'jqut ljsi khhu mqzh'
     }
 });
 
@@ -81,26 +83,46 @@ router.post("/api/auth/login", async (req, res) => {
         res.sendStatus(401)
     }
 })
-
+// Custom middleware to conditionally apply authentication
+const conditionalAuth = (req, res, next) => {
+    const isForReset = req.query.purpose === 'reset';
+    if (isForReset) {
+        return next(); // Skip authentication
+    }
+    passport.authenticate('jwt', { session: false })(req, res, next); // Apply authentication
+};
 
 // verifying email (for non-google accounts)
-router.get("/api/auth/sendverificationcode", passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get("/api/auth/sendverificationcode", conditionalAuth, async (req, res) => {
     // check if valid verification code already exists in DB, if not, send new code to email
+    const isForReset = req.query.purpose === 'reset';
+    
+    let user;    
+    
+    
     try {
-        const user = await User.findById(req.user.id)
+        if (req.query.purpose === 'reset') {
+            user = await User.findOne({email: req.query.email})
+            
+        }
+        else {
+        user = await User.findById(req.user.id) }
+        
         const currentTime = new Date()
-
+        
         // checking if a verificaiton code already exists in the database
         const { code, expiryTime } = user.verificationCode || {}
+        
         if (code) {
             // checking if existing verification code was sent less than 2 minutes ago
             if ((expiryTime - currentTime) / (1000 * 60) > 8) {
+                console.log("SENT BEFORE")
                 const secondsUntilNewCodeSend = ((expiryTime - currentTime) / 1000) - 480
                 res.status(200)
                 return res.json({ secondsUntilNewCodeSend: Math.round(secondsUntilNewCodeSend) })
             }
         }
-
+        
         // creating new verification code
         const newCode = Math.floor(100000 + Math.random() * 900000)
 
@@ -110,19 +132,18 @@ router.get("/api/auth/sendverificationcode", passport.authenticate('jwt', { sess
 
         // sending email to user
         const mailOptions = {
-            from: 'cuick-cut@proton.me',
             to: user.email,
             subject: 'Cuick Cut Verification Code',
             text: 'Your verification code is ' + newCode + '. It will expire in 10 minutes.'
         }
         // UNCOMMENT THE FOLLOWING PART LATER WHEN WE HAVE EMAIL SERVICE GOINGS
-        /*
+        
         emailTransporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("error sending email")
                 //throw new Error("Error sending email")
             }
-        })*/
+        })
 
         // send response back to frontend with code 200 if email sucessfully sent
         res.status(200)
@@ -131,20 +152,33 @@ router.get("/api/auth/sendverificationcode", passport.authenticate('jwt', { sess
         return res.sendStatus(500) //if there is some error other than the user requesting a new code right after one has already been sent
     }
 })
-router.post("/api/auth/submitverificationcode", passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.post("/api/auth/submitverificationcode", conditionalAuth, async (req, res) => {
+    const isForReset = req.query.purpose === 'reset';
+    
+    let user;    
+    
+    
     try {
-        const user = await User.findById(req.user.id)
+        if (req.query.purpose === 'reset') {
+            user = await User.findOne({email: req.query.email})
+            
+        }
+        else {
+        user = await User.findById(req.user.id) }
         const currentTime = new Date()
-
+        
         // checking if a verificaiton code is valid
         const { code, expiryTime } = user.verificationCode || {}
         if (code) {
             if (currentTime < expiryTime) {
                 // if code is correct, verify user
                 if (req.body.submittedCode == code) {
+                    
                     user.verified = true
                     user.verificationCode = {}
                     user.save()
+                    
+                    
                     res.status(200)
                     res.json({ verified: true });
                 }
@@ -158,10 +192,46 @@ router.post("/api/auth/submitverificationcode", passport.authenticate("jwt", { s
         // no valid code currently exists
         res.status(404)
     } catch (err) {
+        console.log(err)
         res.sendStatus(500) // some error not handled in try block
     }
 })
+router.post('/api/auth/verifyemail', async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
 
+    if (user) {
+        if (user.authMethod === "google") {
+            // Redirect to Google Sign-In
+            return res.redirect('/api/auth/google');
+
+        }
+        return res.sendStatus(200)
+
+        // Continue with the standard password reset process...
+    } else {
+        return res.status(404).send("User not found.");
+    }
+});
+router.post('/api/auth/forgot-password', async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    const password = req.body.password
+    console.log(user.email)
+    if (user) {
+        
+
+        // Hash the new password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Update the user's password
+        user.password = hashedPassword;
+         // Save the updated user document
+         await user.save();
+         return res.sendStatus(200)
+    } else {
+        return res.status(404).send("User not found.");
+    }
+});
 
 // getting authentication status (either logged in or not)
 router.get("/api/auth/status", passport.authenticate('jwt', { session: false }), (req, res) => {
