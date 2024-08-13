@@ -237,7 +237,6 @@ router.get("/api/auth/status", passport.authenticate('jwt', { session: false }),
     return res.sendStatus(401);
 })
 
-
 // logging out
 router.post("/api/auth/logout", passport.authenticate("jwt", { session: false }), (req, res) => {
     res.clearCookie("token", {

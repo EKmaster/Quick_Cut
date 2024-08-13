@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styles from '../../styles/login.module.css'
 
-const libraries = ["places"]
 
 function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
+    const [inputAvailabe, setInputAvailable] = useState(false)
+
     let mapRef = useRef<any>(null)
 
     let autocompleteTokenRef = useRef<any>(null)
@@ -17,6 +18,7 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
 
 
     useEffect(() => {
+        setInputAvailable(!!document.getElementById('location-search'));
 
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCOQCgLuH--tP2bcugABVQagBhS8QE1EfY&loading=async&callback=initMap`;
@@ -113,9 +115,9 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
                         ))
                     }
                 </ul>
-            ) : (!document.getElementById("location-search")) ? (
+            ) : (inputAvailabe && !document.getElementById("location-search")) ? (
                 (null)
-            ) : (document.getElementById("location-search") as HTMLInputElement).value !== '' ? (
+            ) : inputAvailabe && (document.getElementById("location-search") as HTMLInputElement).value !== '' ? (
                 <ul className={styles.dropdownList}>
                 {
                     <li>No results found</li>

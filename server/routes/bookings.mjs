@@ -1,5 +1,6 @@
 import {Router} from "express"
 import { Booking } from "../mongoose/schemas/booking.mjs";
+import userVerified from "../utils/middlewares.mjs";
 import passport from "passport"
 
 const router = Router()

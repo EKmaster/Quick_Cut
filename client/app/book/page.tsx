@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '../utils/csrfToken'
 import styles from '../../styles/login.module.css'
 import WithAuthentication from '../utils/withAuthentication'
-import MapComponent from './mapComponent'
+import MapComponent from '../components/mapComponent'
 
 function Book() {
     const router = useRouter()

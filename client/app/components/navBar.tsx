@@ -2,11 +2,21 @@
 import styles from '../../styles/navBar.module.css';
 import Link from 'next/link'
 import Titlestyle from '../../styles/videoOverlay.module.css';
-import CheckAuth from '../utils/checkAuth';
+import { userAuthenticated } from '../utils/userAuthenticated';
 import { getCsrfToken } from '../utils/csrfToken';
-const NavBar = () => {
+import { useEffect, useState } from 'react';
+const NavBar =  () => {
 
-    const isAuthenticated = CheckAuth()
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    useEffect(() => {
+        const checkAuthentication = () => {
+            userAuthenticated().then(response => {
+                setIsAuthenticated(response)
+            })
+        }
+        checkAuthentication()
+    }, [])
 
     async function logout() {
 
