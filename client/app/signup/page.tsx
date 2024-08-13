@@ -39,9 +39,7 @@ export default function LoginPage() {
         })
 
         if (response.ok) {
-            console.log("asdf")
             // moving user into email verification process
-            
             await fetch("http://localhost:8080/api/auth/sendverificationcode", {
                 method: 'GET',
                 credentials: 'include'

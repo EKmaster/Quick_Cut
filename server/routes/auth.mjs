@@ -157,7 +157,6 @@ router.post("/api/auth/submitverificationcode", conditionalAuth, async (req, res
     
     let user;    
     
-    
     try {
         if (req.query.purpose === 'reset') {
             user = await User.findOne({email: req.query.email})
@@ -217,8 +216,7 @@ router.post('/api/auth/forgot-password', async (req, res) => {
     const password = req.body.password
     console.log(user.email)
     if (user) {
-        
-
+    
         // Hash the new password
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
