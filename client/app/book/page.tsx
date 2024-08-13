@@ -4,7 +4,7 @@ import { useState, FormEvent, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '../utils/csrfToken'
 import styles from '../../styles/login.module.css'
-import WithAuthentication from '../utils/withAuthentication'
+import WithAuthorization from '../utils/withAuthorization'
 import MapComponent from '../components/mapComponent'
 
 function Book() {
@@ -80,7 +80,7 @@ function Book() {
 
 
     return (
-        <WithAuthentication>
+        <WithAuthorization verificationRequired={true}>
             <div className={styles.container}>
                 <form className={styles.form} onSubmit={handleSubmit}>
 
@@ -119,7 +119,7 @@ function Book() {
                     <button className={styles.buttonSubmit} type="submit">Book</button>
                 </form>
             </div>
-        </WithAuthentication>
+        </WithAuthorization>
     )
 }
 
