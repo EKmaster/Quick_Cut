@@ -202,7 +202,7 @@ router.post('/api/auth/verifyemail', async (req, res) => {
     if (user) {
         if (user.authMethod === "google") {
             // Redirect to Google Sign-In
-            return res.redirect('/api/auth/google');
+            return res.status(400).send("Can not change password Google account.");
 
         }
         return res.sendStatus(200)

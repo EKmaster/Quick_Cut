@@ -18,6 +18,8 @@ mongoose.connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.m
 // adding middlewares
 app.use(cors({
     origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    optionsSuccessStatus: 204,
     credentials: true,
 }));
 app.use(bodyParser.urlencoded({ extended: false }));

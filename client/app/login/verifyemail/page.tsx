@@ -78,10 +78,14 @@ const VerifyEmail = () => {
             body: JSON.stringify({email}),
             credentials: 'include'
         }).then(async response => {
-            if (response.status !== 200){
+            if (response.status === 400) {
+                window.location.href = 'http://localhost:8080/api/auth/google';
+            }
+            else if (response.status !== 200){
                 setIncorrectEmail(true)
                 return alert("No account associated with given email.")
             }
+            
             else {
                 await fetch("http://localhost:8080/api/auth/sendverificationcode?purpose=reset&email=" + String(email), {
                     method: 'GET',
