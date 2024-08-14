@@ -4,6 +4,7 @@ import styles from '../../styles/login.module.css'
 
 function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
     const [inputAvailabe, setInputAvailable] = useState(false)
+    const timeOfLastAutcompleteCallRef = useRef(0)
 
     let mapRef = useRef<any>(null)
 
@@ -48,6 +49,13 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
     }, []);
 
     async function updateAutocomplete(text: string) {
+        // first checking to make sue this function isnt called more than once per second
+        const now = Date.now()
+        if (now - timeOfLastAutcompleteCallRef.current < 1000){
+            return
+        }
+        timeOfLastAutcompleteCallRef.current = now
+
         if (text === '') {
             setAutocompleteList([])
         } else {

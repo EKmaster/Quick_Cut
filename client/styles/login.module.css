@@ -1,5 +1,7 @@
 .container {
     display: flex;
+    flex-direction: column;
+    gap: 20px;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -8,6 +10,7 @@
     padding-bottom: 20px;
     background-color: #f0f0f0; 
 }
+
 .form {
     display: flex;
     flex-direction: column;

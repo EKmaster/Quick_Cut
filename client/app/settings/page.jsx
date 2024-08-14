@@ -1,14 +1,14 @@
 'use client'
 import React from 'react'
-import LocatonSetup from './components/locationSetup'
+import LocationSetup from './components/locationSetup'
 import styles from '../../styles/login.module.css'
 
 export const Settings = () => {
-  return (
-    <div className={styles.container}>
-        <LocatonSetup></LocatonSetup>
-    </div>
-  )
+    return (
+        <div className={styles.container}>
+            <LocationSetup></LocationSetup>
+        </div>
+    )
 }
 
 export default Settings
