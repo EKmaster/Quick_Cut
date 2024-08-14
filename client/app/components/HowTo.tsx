@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const HowTo = () => {
     const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-
+    
 
 
 

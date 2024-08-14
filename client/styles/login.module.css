@@ -35,8 +35,9 @@
 .flexColumn > label {
     color: #151717;
     font-weight: 600;
+    
 }
-  
+
 .inputForm {
     border: 1.5px solid #ecedec;
     border-radius: 10px;
@@ -77,7 +78,16 @@
     color: black;
     font-weight: 400;
 }
-  
+.checkbox {
+    width: 14px;
+    height: 14px;
+    accent-color: #007BFF; /* Changes the color of the checkbox */
+    border-radius: 4px; /* Rounds the corners of the checkbox */
+    border: 2px solid #007BFF; /* Custom border color */
+    margin-right: 5px; /* Adds space between the checkbox and the label */
+
+} 
+
 .span {
     font-size: 14px;
     margin-left: 5px;

@@ -14,6 +14,47 @@ function Book() {
     const [emptyHaircutDetails, setEmptyHaircutDetails] = useState(false)
 
     const [selectedLocationID, setSelectedLocationID] = useState<null>(null)
+    const [price, setPrice] = useState(40)
+    const [isBeardTrimSelected, setIsBeardTrimSelected] = useState(false);
+
+    type ServiceType = 'haircut' | 'buzz' | 'fade' | 'shave';
+
+    const servicePrices: Record<ServiceType, number> = {
+        haircut: 20,
+        buzz: 15,
+        fade: 25,
+        shave: 7
+    };
+
+    function handleServiceChange(event: React.ChangeEvent<HTMLSelectElement>) {
+        const selectedService: ServiceType = event.target.value as ServiceType;
+        let basePrice = servicePrices[selectedService];
+
+        if (isBeardTrimSelected) {
+            basePrice += 15; // Add beard trim price if selected
+        }
+        
+        setPrice(basePrice + 20);
+    
+
+    }
+    function handleBeardChange(event: React.ChangeEvent<HTMLInputElement>) {
+
+        const isChecked = event.target.checked;
+    setIsBeardTrimSelected(isChecked);
+
+    const selectedService = (document.getElementById('service') as HTMLSelectElement).value as keyof typeof servicePrices;
+    let basePrice = servicePrices[selectedService];
+    
+    if (isChecked) {
+        basePrice += 15; // Add beard trim price if checked
+    }
+    
+    setPrice(basePrice + 20);
+
+
+
+    }
 
     function getCurrentDateTime() {
         const now = new Date();
@@ -48,10 +89,13 @@ function Book() {
         const formData = new FormData(form);
 
         const data = {
+            service: formData.get('service'),
+            beard: isBeardTrimSelected,
             haircutDetails: formData.get('haircutDetails'),
             timing: formData.get('timing'),
             locationGooglePlacesID: selectedLocationID,
-            locationDetails: formData.get('locationDetails')
+            locationDetails: formData.get('locationDetails'),
+            
         };
 
         console.log(data)
@@ -59,7 +103,9 @@ function Book() {
         if (invalidInput(String(data.haircutDetails))) {
             return
         }
-
+        if (!emptyHaircutDetails) {
+            return
+        }
         const csrfToken = await getCsrfToken();
         const response = await fetch('http://localhost:8080/api/book', {
             method: 'POST',
@@ -83,8 +129,24 @@ function Book() {
         <WithAuthorization verificationRequired={true}>
             <div className={styles.container}>
                 <form className={styles.form} onSubmit={handleSubmit}>
-
-                    {/*Providing haircut details*/}
+                    {/*Providing service*/}
+                    <div className={styles.flexColumn}>
+                        <label>Service</label>
+                    </div>
+                    <select name="service" id="service" className={styles.input} onChange={handleServiceChange}>
+                        
+                        <option value="haircut">Haircut $20</option>
+                        <option value="buzz">Buzz Cut $15</option>
+                        <option value="fade">Fade $25</option>
+                        <option value="shave">Head Shave $7</option>
+                    </select>
+                    {/*Providing beard trim*/}
+                    <div className={styles.flexColumn} >
+                    <input type="checkbox" id="beard" name="beard" value="beard" className={styles.checkbox} onChange={handleBeardChange}></input>
+                        <label>Beard Trim $15</label>
+                    </div>
+                    
+                    {/*Providing beard cut option*/}
                     <div className={styles.flexColumn}>
                         <label>Haircut Details</label>
                     </div>
@@ -116,6 +178,9 @@ function Book() {
                     </div>
 
                     {emptyHaircutDetails && <p className={styles.pWarning}>One or more required fields are empty</p>}
+                    <div className={styles.flexColumn}>
+                        <label>Price: ${price}</label>
+                    </div>
                     <button className={styles.buttonSubmit} type="submit">Book</button>
                 </form>
             </div>

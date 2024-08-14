@@ -7,6 +7,14 @@ const BookingSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.String,
 		required: true,
 	},
+	service: {
+		type: mongoose.Schema.Types.String,
+		required: true,
+	},
+	beard: {
+		type: mongoose.Schema.Types.Boolean,
+		required: true,
+	},
     haircutDetails: {
 		type: mongoose.Schema.Types.String,
 		required: true,
@@ -21,6 +29,9 @@ const BookingSchema = new mongoose.Schema({
 	},
     locationDetails: {
 		type: mongoose.Schema.Types.String,
+	},
+	price: {
+		type: mongoose.Schema.Types.Number,
 		required: true,
 	},
 
