@@ -1,28 +1,57 @@
 'use client'
 import MapComponent from '../../components/mapComponent'
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
+import { getCsrfToken } from '@/app/utils/csrfToken'
 import styles from '../../../styles/login.module.css'
 
 export const LocationSetup = () => {
     const [selectedLocationID, setSelectedLocationID] = useState<null>(null)
+    const [emptyLocationSelection, setEmptyLocationSelection] = useState(false)
 
-    function saveChanges(){
-
+    function validateInput(){
+        if (selectedLocationID === null){
+            setEmptyLocationSelection(true)
+            return false
+        }
+        setEmptyLocationSelection(false)
+        return true
     }
 
-    function discardChanges(){
+    async function saveChanges(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+
+        const locationDetails = new FormData(event.currentTarget).get("locationDetails")
+        if (!validateInput()){
+            return
+        }
+
+        // updating default location details in database
+        const csrfToken = await getCsrfToken()
+        const response = await fetch("http://localhost:8080/api/auth/sendverificationcode", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-Token": csrfToken,
+            },
+            body: JSON.stringify({googlePlacesID: selectedLocationID, additionalDetails: locationDetails}),
+            credentials: "include"
+        })
+        if (response.ok){
+            alert("Default location sucessfully updated")
+        }else{
+            alert("There was an error setting your location details")
+        }
 
     }
 
     return (
         <div>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={saveChanges}>
                 <div className={styles.flexColumn}>
                     <label>Selection Default Location</label>
                 </div>
-                <p>Select a default location instead of having to choose one every time you book a new appointment.</p>
+                <p>You may select a default location instead of choosing one each time you book.</p>
                 {/*<MapComponent inputToForm={setSelectedLocationID} />*/}
-
 
                 {/*Additional details for arriving at location*/}
                 <div className={styles.flexColumn}>
@@ -33,10 +62,9 @@ export const LocationSetup = () => {
                     <input name="locationDetails" placeholder="Describe any additional details that may help your barber get to your location" className={styles.input} type="string" />
                 </div>
 
-                {selectedLocationID && <p className={styles.pWarning}>Select a valid location to save changes</p>}
+                {emptyLocationSelection && <p className={styles.pWarning}>Select a valid location to save changes</p>}
 
-                <button className={styles.buttonSubmit} onClick={() => console.log("test")}>Save Changes</button>
-                <button className={styles.buttonSubmit} onClick={() => console.log("test")}>Discard Changes</button>
+                <button type="submit" className={styles.buttonSubmit}>Save Changes</button>
             </form>
         </div>
     )

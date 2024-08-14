@@ -17,6 +17,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: mongoose.Schema.Types.String,
     },
+    authMethod: { type: mongoose.Schema.Types.String, enum: ['local', 'google'], required: true },
     firstName: {
         type: mongoose.Schema.Types.String,
         required: true,
@@ -25,7 +26,10 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
         required: true,
     },
-    authMethod: { type: mongoose.Schema.Types.String, enum: ['local', 'google'], required: true },
+    defaultLocation: {
+        googlePlacesID: {type: mongoose.Schema.Types.String, required: false},
+        additionalDetails: {type: mongoose.Schema.Types.String, required: false}
+    }
 
 });
 

@@ -99,16 +99,13 @@ router.get("/api/auth/sendverificationcode", conditionalAuth, async (req, res) =
 
     let user;
 
-
     try {
         if (req.query.purpose === 'reset') {
             user = await User.findOne({ email: req.query.email })
-
         }
         else {
             user = await User.findById(req.user.id)
         }
-
         const currentTime = new Date()
 
         // checking if a verificaiton code already exists in the database
@@ -242,7 +239,7 @@ router.get("/api/auth/status", passport.authenticate('jwt', { session: false }),
 router.get("/api/auth/verified", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const user = await User.findById(req.user.id)
-        if (user.verified){
+        if (user.verified) {
             return res.sendStatus(200)
         }
         return res.sendStatus(401)

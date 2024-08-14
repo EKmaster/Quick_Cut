@@ -8,6 +8,7 @@ import "./strategies/jwt-strategy.mjs";
 import mongoose from "mongoose"
 import authRouter from "./routes/auth.mjs"
 import bookingsRouter from "./routes/bookings.mjs"
+import settingsRouter from "./routes/settings.mjs"
 import csrf from 'csurf';
 const PORT = 8080;
 const app = express();
@@ -51,6 +52,7 @@ app.use(passport.initialize());
 // registering routes
 app.use(authRouter)
 app.use(bookingsRouter)
+app.use(settingsRouter)
 
 
 // listening on port
