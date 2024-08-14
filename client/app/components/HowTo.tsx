@@ -1,16 +1,64 @@
 // components/HowTo.js
+'use client'
+import { useEffect, useRef } from 'react';
 import styles from '../../styles/HowTo.module.css';
 import Link from 'next/link';
 
 const HowTo = () => {
+    const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+
+
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    
+                    if (entry.isIntersecting) {
+                        console.log(entry)
+                        entry.target.classList.add(styles.show);
+                        
+                    }
+                });
+            },
+            {
+                root: null, // Default is the viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            }
+        );
+
+        itemRefs.current.forEach((ref) => {
+            if (ref) {
+                observer.observe(ref);
+            }
+        });
+
+
+        return () => {
+            itemRefs.current.forEach((ref) => {
+                if (ref) {
+                    observer.unobserve(ref);
+                }
+            });
+        };
+    }, []);
+
+
+    
     return (
         <>
-            <div className={styles.Bcontainer} id="how-it-works">
-                <strong className={`${styles.boldCursive} ${styles.Btitle}`}>How it Works</strong>
+            <div className={`${styles.Bcontainer} `} id="how-it-works">
+            <div ref={(el) => { itemRefs.current[0] = el; }} className={styles.hidden}>
+            <strong className={`${styles.boldCursive} ${styles.Btitle}`}>How it Works</strong>
+            </div>
             </div>
             <div className={styles.container}>
-
+                
+            <div ref={(el) => { itemRefs.current[1] = el; }} className={styles.hidden}>
                 <div className={styles.card}>
+                
                     <div className={styles.content}>
                         <div className={styles.back}>
                             <div className={styles['back-content']}>
@@ -47,8 +95,10 @@ const HowTo = () => {
                         </div>
                     </div>
                 </div>
-
+                </div>
+                <div ref={(el) => { itemRefs.current[2] = el; }} className={styles.hidden}>
                 <div className={styles.card}>
+                
                     <div className={styles.content}>
                         <div className={styles.back}>
                             <div className={styles['back-content']}>
@@ -85,7 +135,11 @@ const HowTo = () => {
                         </div>
                     </div>
                 </div>
+                </div>
+                <div ref={(el) => { itemRefs.current[3] = el; }} className={styles.hidden}>
+                
                 <div className={styles.card}>
+                
                     <div className={styles.content}>
                         <div className={styles.back}>
                             <div className={styles['back-content']}>
@@ -123,6 +177,8 @@ const HowTo = () => {
                     </div>
                 </div>
             </div>
+            </div>
+            
         </>
     );
 };

@@ -15,6 +15,21 @@
     color: #ffffff;
     margin-bottom: 20px;
 }
+
+.hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-200%);
+  transition: all 2s;
+}
+.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+}
+
+
+
 .card {
     padding-top: 20px;
     padding-bottom: 20px;
