@@ -38,7 +38,7 @@ const NavBar =  () => {
     }
     return (
         <div>
-            <strong className={`${Titlestyle.boldCursive} ${Titlestyle.title}`}>Quick Cut</strong>
+            <strong className={`${Titlestyle.boldCursive} ${Titlestyle.title}`}>Cuick Cut</strong>
             <div className={styles.container}>
                 <div className={styles['button-container']}>
                     {isAuthenticated ? (

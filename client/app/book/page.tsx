@@ -11,7 +11,12 @@ function Book() {
     const router = useRouter()
 
     const [isLoggedIn, setIsLoggedIn] = useState(null)
-    const [emptyHaircutDetails, setEmptyHaircutDetails] = useState(false)
+    const [emptyFields, setEmptyFields] = useState({
+        haircutDetails: false,
+        timing: false,
+        location: false,
+    });
+
 
     const [selectedLocationID, setSelectedLocationID] = useState<null>(null)
     const [price, setPrice] = useState(40)
@@ -77,16 +82,25 @@ function Book() {
         return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
 
-    function invalidInput(haircutDetails: string) {
-        setEmptyHaircutDetails(haircutDetails === '')
-        return (emptyHaircutDetails)
+    function validateInputs(haircutDetails: string, timing: string, location: any) {
+        setEmptyFields({
+            haircutDetails: haircutDetails.trim() === '',
+            timing: timing.trim() === '',
+            location: location === null
+        });
+        return haircutDetails.trim() !== '' && timing.trim() !== '' && location !== null;
     }
+
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const form = event.currentTarget;
         const formData = new FormData(form);
+
+        const haircutDetails = String(formData.get('haircutDetails'));
+        const timing = String(formData.get('timing'));
+        const locationDetails = formData.get('locationDetails');
 
         const data = {
             service: formData.get('service'),
@@ -100,12 +114,10 @@ function Book() {
 
         console.log(data)
 
-        if (invalidInput(String(data.haircutDetails))) {
-            return
+        if (!validateInputs(haircutDetails, timing, selectedLocationID)) {
+            return;
         }
-        if (!emptyHaircutDetails) {
-            return
-        }
+
         const csrfToken = await getCsrfToken();
         const response = await fetch('http://localhost:8080/api/book', {
             method: 'POST',
@@ -177,7 +189,9 @@ function Book() {
                         <input name="locationDetails" placeholder="Describe any additional details that may help your barber get to your location" className={styles.input} type="string" />
                     </div>
 
-                    {emptyHaircutDetails && <p className={styles.pWarning}>One or more required fields are empty</p>}
+                    {emptyFields.haircutDetails && <p className={styles.pWarning}>Haircut details are required</p>}
+                    {emptyFields.timing && <p className={styles.pWarning}>Timing is required</p>}
+                    {emptyFields.location && <p className={styles.pWarning}>Location is required</p>}
                     <div className={styles.flexColumn}>
                         <label>Price: ${price}</label>
                     </div>
