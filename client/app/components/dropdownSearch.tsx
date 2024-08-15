@@ -20,9 +20,9 @@ function DropdownSearch({ onSearchChange, optionsList, selectOption }: DropdownS
     }, [])
 
     useEffect(() => {
-        if (document.getElementById("dropdown-item")){
+        if (document.getElementById("dropdown-item")) {
             setDropdownOpen(true)
-        }else{
+        } else {
             setDropdownOpen(false)
         }
     })
@@ -38,7 +38,7 @@ function DropdownSearch({ onSearchChange, optionsList, selectOption }: DropdownS
     return (
         <div style={{ position: "relative" }}>
             <div className={styles.inputForm} style={{
-                borderRadius: dropdownOpen ? "10px 10px 0 0" : "10px"
+                borderRadius: (dropdownOpen) ? "10px 10px 0 0" : "10px"
             }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width='24' height='24' viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z" /></svg>
                 <input
@@ -47,7 +47,7 @@ function DropdownSearch({ onSearchChange, optionsList, selectOption }: DropdownS
                     placeholder="Search"
                     className={styles.input} type="string"
                     onChange={(e) => {
-                        if (!nullSelection){
+                        if (!nullSelection) {
                             setNullSelection(true)
                         }
                         onSearchChange(e.target.value)
@@ -57,7 +57,7 @@ function DropdownSearch({ onSearchChange, optionsList, selectOption }: DropdownS
 
 
             {
-                nullSelection && optionsList.length  !== 0 ? (
+                nullSelection && optionsList.length !== 0 ? (
                     <ul className={styles.dropdownList}>
                         {
                             optionsList.map(({ description, id }) => (
@@ -78,7 +78,7 @@ function DropdownSearch({ onSearchChange, optionsList, selectOption }: DropdownS
                 ) : (null)
             }
 
-        </div>
+        </div >
     )
 }
 
