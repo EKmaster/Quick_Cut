@@ -27,7 +27,7 @@ export const LocationSetup = () => {
 
         // updating default location details in database
         const csrfToken = await getCsrfToken()
-        const response = await fetch("http://localhost:8080/api/auth/sendverificationcode", {
+        const response = await fetch("http://localhost:8080/api/settings/setdefaultlocation", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export const LocationSetup = () => {
                     <label>Selection Default Location</label>
                 </div>
                 <p>You may select a default location instead of choosing one each time you book.</p>
-                {/*<MapComponent inputToForm={setSelectedLocationID} />*/}
+                <MapComponent inputToForm={setSelectedLocationID} />
 
                 {/*Additional details for arriving at location*/}
                 <div className={styles.flexColumn}>

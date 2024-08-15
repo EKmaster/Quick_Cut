@@ -16,8 +16,8 @@ const emailTransporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: 'omerekwiz@gmail.com',
-        pass: 'jqut ljsi khhu mqzh'
+        user: '',
+        pass: ''
     }
 });
 
@@ -135,12 +135,13 @@ router.get("/api/auth/sendverificationcode", conditionalAuth, async (req, res) =
         }
         // UNCOMMENT THE FOLLOWING PART LATER WHEN WE HAVE EMAIL SERVICE GOINGS
 
+        /*
         emailTransporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("error sending email")
                 //throw new Error("Error sending email")
             }
-        })
+        })*/
 
         // send response back to frontend with code 200 if email sucessfully sent
         res.status(200)

@@ -8,6 +8,14 @@ export const userAuthenticated = async () => {
             'Content-Type': 'application/json',
         },
     })
+
+
+
+    //return true // this is only for testing purposes
+
+
+
+
     if (response.ok) {
         return true
     } else {

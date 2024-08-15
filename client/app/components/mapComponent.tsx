@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styles from '../../styles/login.module.css'
-
+import DropdownSearch from './dropdownSearch';
 
 function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
-    const [inputAvailabe, setInputAvailable] = useState(false)
     const timeOfLastAutcompleteCallRef = useRef(0)
+    const autocompleteTimeoutRef = useRef<any>(null)
 
     let mapRef = useRef<any>(null)
 
@@ -19,8 +19,6 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
 
 
     useEffect(() => {
-        setInputAvailable(!!document.getElementById('location-search'));
-
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCOQCgLuH--tP2bcugABVQagBhS8QE1EfY&loading=async&callback=initMap`;
         script.async = true;
@@ -48,38 +46,57 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
         (window as any).initMap = initMap;
     }, []);
 
-    async function updateAutocomplete(text: string) {
-        // first checking to make sue this function isnt called more than once per second
-        const now = Date.now()
-        if (now - timeOfLastAutcompleteCallRef.current < 1000){
-            return
-        }
-        timeOfLastAutcompleteCallRef.current = now
-
-        if (text === '') {
-            setAutocompleteList([])
-        } else {
-            if (!autocompleteTokenRef.current) {
-                autocompleteTokenRef.current = new CreateAutocompleteSessionTokenRef.current()
+    /*
+    async function updateAutocompleteDebouncer(func: (text: string) => any, delay: number){
+        let timeoutID: any;
+        return function (text: string){
+            if (timeoutID){
+                clearTimeout(timeoutID)
             }
-            let request = {
-                input: text,
-                language: "en-US",
-                sessionToken: autocompleteTokenRef.current
-            };
-            const { suggestions } = await AutocompleteSuggestionsRef.current.fetchAutocompleteSuggestions(request);
-            setAutocompleteList(
-                suggestions.map((suggestion: any) => (
-                    { description: suggestion.placePrediction.text.toString(), id: suggestion.placePrediction.placeId.toString() }
-                )))
+            timeoutID = setTimeout(async () => {
+                await func(text)
+            }, delay);
         }
+    }*/
+
+    async function updateAutocomplete(text: string) {
+
+        if (autocompleteTimeoutRef.current !== null){
+            clearTimeout(autocompleteTimeoutRef.current)
+        }
+
+        autocompleteTimeoutRef.current = setTimeout(async () => {
+            if (text === '') {
+                setAutocompleteList([])
+            } else {
+                if (!autocompleteTokenRef.current) {
+                    autocompleteTokenRef.current = new CreateAutocompleteSessionTokenRef.current()
+                }
+                let request = {
+                    input: text,
+                    language: "en-US",
+                    sessionToken: autocompleteTokenRef.current
+                };
+                const { suggestions } = await AutocompleteSuggestionsRef.current.fetchAutocompleteSuggestions(request);
+                setAutocompleteList(
+                    suggestions.map((suggestion: any) => (
+                        { description: suggestion.placePrediction.text.toString(), id: suggestion.placePrediction.placeId.toString() }
+                    )))
+            }
+            autocompleteTimeoutRef.current = null
+        }, 1000)
     }
 
-    async function selectLocation(description: string, place_id: string) {
-        autocompleteTokenRef.current = null //discard token
+    async function selectLocation(description: string, place_id: string | number
+    ) {
+        autocompleteTokenRef.current = null //discard auto complete session token
+
         // auto complete to this on the search input
-        const element = document.getElementById('location-search') as HTMLInputElement
-        element.value = description
+        //const element = document.getElementById('location-search') as HTMLInputElement
+        //element.value = description
+
+
+        setAutocompleteList([]) //emptying the auto complete list, effectively closing the drop down
         // set a marker for this location on the map
         const place = new PlaceRef.current({ id: place_id })
         await place.fetchFields({ fields: ["location"] })
@@ -101,38 +118,44 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
 
             <div id="map" style={{ width: '100%', height: '500px' }} />
 
-            <div className={styles.inputForm}>
-                <svg xmlns="http://www.w3.org/2000/svg" width='24' height='24' viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z" /></svg>
+            {/*
+            <div style={{ position: "relative" }}>
+                <div className={styles.inputForm}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width='24' height='24' viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z" /></svg>
+                    <input
+                        id="location-search"
+                        name="location"
+                        placeholder="Search"
+                        className={styles.input} type="string"
+                        onChange={async (e) => {
+                            await updateAutocomplete(e.target.value)
+                        }}>
+                    </input>
+                </div>
 
-
-                <input
-                    id="location-search"
-                    name="location"
-                    placeholder="Search"
-                    className={styles.input} type="string"
-                    onChange={(e) => updateAutocomplete(e.target.value)}
-                />
-            </div>
-            {autocompleteList.length !== 0 ? (
-                <ul className={styles.dropdownList}>
-                    {
-                        autocompleteList.map(({ description, id }) => (
-                            <li key={id}>
-                                <button type="button" onClick={async () => await selectLocation(description, id)}>{description}</button>
-                            </li>
-                        ))
-                    }
-                </ul>
-            ) : (inputAvailabe && !document.getElementById("location-search")) ? (
-                (null)
-            ) : inputAvailabe && (document.getElementById("location-search") as HTMLInputElement).value !== '' ? (
-                <ul className={styles.dropdownList}>
-                {
-                    <li>No results found</li>
+                {autocompleteList.length !== 0 ? (
+                    <ul className={styles.dropdownList}>
+                        {
+                            autocompleteList.map(({ description, id }) => (
+                                <li key={id}>
+                                    <button type="button" onClick={async () => await selectLocation(description, id)}>{description}</button>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                ) : (inputAvailabe && !document.getElementById("location-search")) ? (
+                    (null)
+                ) : inputAvailabe && (document.getElementById("location-search") as HTMLInputElement).value !== '' ? (
+                    <ul className={styles.dropdownList}>
+                        {
+                            <li>No results found</li>
+                        }
+                    </ul>
+                ) : (null)
                 }
-            </ul>
-            ) : (null)
-            }
+            </div>*/}
+
+            <DropdownSearch onSearchChange={updateAutocomplete} optionsList={autocompleteList} selectOption={selectLocation}/>
 
         </>
     );
