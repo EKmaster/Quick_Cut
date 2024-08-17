@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import styles from '../../../styles/login.module.css'
+import styles from '../../../styles/form.module.css'
 import LocationSetup from '@/app/settings/components/locationSetup'
 import { useRouter } from 'next/navigation'
 import WithAuthorization from '@/app/utils/withAuthorization'

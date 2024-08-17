@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import styles from '../../styles/login.module.css'
-import DropdownSearch from './dropdownSearch';
+import styles from '../../styles/form.module.css'
+import DropdownSearch from './form/dropdownSearch';
 
 function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
     const timeOfLastAutcompleteCallRef = useRef(0)
@@ -46,22 +46,9 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
         (window as any).initMap = initMap;
     }, []);
 
-    /*
-    async function updateAutocompleteDebouncer(func: (text: string) => any, delay: number){
-        let timeoutID: any;
-        return function (text: string){
-            if (timeoutID){
-                clearTimeout(timeoutID)
-            }
-            timeoutID = setTimeout(async () => {
-                await func(text)
-            }, delay);
-        }
-    }*/
-
     async function updateAutocomplete(text: string) {
 
-        if (autocompleteTimeoutRef.current !== null){
+        if (autocompleteTimeoutRef.current !== null) {
             clearTimeout(autocompleteTimeoutRef.current)
         }
 
@@ -90,12 +77,6 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
     async function selectLocation(description: string, place_id: string | number
     ) {
         autocompleteTokenRef.current = null //discard auto complete session token
-
-        // auto complete to this on the search input
-        //const element = document.getElementById('location-search') as HTMLInputElement
-        //element.value = description
-
-
         setAutocompleteList([]) //emptying the auto complete list, effectively closing the drop down
         // set a marker for this location on the map
         const place = new PlaceRef.current({ id: place_id })
@@ -115,47 +96,13 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
 
     return (
         <>
+            <div className={styles.flexColumn}>
+                <label>Location</label>
+            </div>
 
-            <div id="map" style={{ width: '100%', height: '500px' }} />
+            <div id="map" style={{ width: '100%', height: '500px', borderRadius: "10px" }} />
 
-            {/*
-            <div style={{ position: "relative" }}>
-                <div className={styles.inputForm}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width='24' height='24' viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z" /></svg>
-                    <input
-                        id="location-search"
-                        name="location"
-                        placeholder="Search"
-                        className={styles.input} type="string"
-                        onChange={async (e) => {
-                            await updateAutocomplete(e.target.value)
-                        }}>
-                    </input>
-                </div>
-
-                {autocompleteList.length !== 0 ? (
-                    <ul className={styles.dropdownList}>
-                        {
-                            autocompleteList.map(({ description, id }) => (
-                                <li key={id}>
-                                    <button type="button" onClick={async () => await selectLocation(description, id)}>{description}</button>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                ) : (inputAvailabe && !document.getElementById("location-search")) ? (
-                    (null)
-                ) : inputAvailabe && (document.getElementById("location-search") as HTMLInputElement).value !== '' ? (
-                    <ul className={styles.dropdownList}>
-                        {
-                            <li>No results found</li>
-                        }
-                    </ul>
-                ) : (null)
-                }
-            </div>*/}
-
-            <DropdownSearch onSearchChange={updateAutocomplete} optionsList={autocompleteList} selectOption={selectLocation}/>
+            <DropdownSearch onSearchChange={updateAutocomplete} optionsList={autocompleteList} selectOption={selectLocation} />
 
         </>
     );

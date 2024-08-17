@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import LocationSetup from './components/locationSetup'
-import styles from '../../styles/login.module.css'
+import styles from '../../styles/form.module.css'
 
 export const Settings = () => {
     return (

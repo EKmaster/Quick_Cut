@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '../../utils/csrfToken'
-import styles from '../../../styles/login.module.css'
+import styles from '../../../styles/form.module.css'
 
 const VerifyEmail = () => {
     // TODO: check if user is logged in AND unverified before allowing on this page

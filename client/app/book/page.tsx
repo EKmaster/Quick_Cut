@@ -3,62 +3,56 @@ import React from 'react'
 import { useState, FormEvent, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '../utils/csrfToken'
-import styles from '../../styles/login.module.css'
+import styles from '../../styles/form.module.css'
 import WithAuthorization from '../utils/withAuthorization'
 import MapComponent from '../components/mapComponent'
+import DropdownMenu from '../components/form/dropdownMenu'
 
 function Book() {
     const router = useRouter()
 
-    const [isLoggedIn, setIsLoggedIn] = useState(null)
     const [emptyFields, setEmptyFields] = useState({
         haircutDetails: false,
         timing: false,
         location: false,
     });
 
-
-    const [selectedLocationID, setSelectedLocationID] = useState<null>(null)
-    const [price, setPrice] = useState(40)
+    const [selectedLocationID, setSelectedLocationID] = useState<any>(null)
+    const [selectedServiceID, setSelectedServiceID] = useState<any>(null)
     const [isBeardTrimSelected, setIsBeardTrimSelected] = useState(false);
+    const [price, setPrice] = useState(40)
 
-    type ServiceType = 'haircut' | 'buzz' | 'fade' | 'shave';
-
-    const servicePrices: Record<ServiceType, number> = {
+    const servicesList = [
+        { description: "Haircut - $20", id: "haircut" },
+        { description: "Buzz - $15", id: "buzz" },
+        { description: "Fade - $25", id: "fade" },
+        { description: "Shave - $7", id: "shave" }
+    ]
+    const servicePrices = {
         haircut: 20,
         buzz: 15,
         fade: 25,
         shave: 7
-    };
+    }
+    const beardTrimPrice = 15
 
-    function handleServiceChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        const selectedService: ServiceType = event.target.value as ServiceType;
-        let basePrice = servicePrices[selectedService];
-
-        if (isBeardTrimSelected) {
-            basePrice += 15; // Add beard trim price if selected
+    useEffect(() => {
+        let newPrice = 0
+        if (selectedServiceID !== null){
+            newPrice += servicePrices[selectedServiceID as keyof typeof servicePrices]
         }
-        
-        setPrice(basePrice + 20);
-    
+        if (isBeardTrimSelected){
+            newPrice += beardTrimPrice
+        }
+        setPrice(newPrice)
+    }, [selectedServiceID, isBeardTrimSelected])
 
+    function handleServiceChange(description: string, id: string | number) {
+        setSelectedServiceID(id)
     }
+
     function handleBeardChange(event: React.ChangeEvent<HTMLInputElement>) {
-
-        const isChecked = event.target.checked;
-    setIsBeardTrimSelected(isChecked);
-
-    const selectedService = (document.getElementById('service') as HTMLSelectElement).value as keyof typeof servicePrices;
-    let basePrice = servicePrices[selectedService];
-    
-    if (isChecked) {
-        basePrice += 15; // Add beard trim price if checked
-    }
-    
-    setPrice(basePrice + 20);
-
-
-
+        setIsBeardTrimSelected(event.target.checked)
     }
 
     function getCurrentDateTime() {
@@ -91,30 +85,22 @@ function Book() {
         return haircutDetails.trim() !== '' && timing.trim() !== '' && location !== null;
     }
 
-
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const form = event.currentTarget;
         const formData = new FormData(form);
 
-        const haircutDetails = String(formData.get('haircutDetails'));
-        const timing = String(formData.get('timing'));
-        const locationDetails = formData.get('locationDetails');
-
         const data = {
-            service: formData.get('service'),
+            service: selectedServiceID,
             beard: isBeardTrimSelected,
             haircutDetails: formData.get('haircutDetails'),
             timing: formData.get('timing'),
             locationGooglePlacesID: selectedLocationID,
-            locationDetails: formData.get('locationDetails'),
-            
+            locationDetails: formData.get('locationDetails')
         };
 
-        console.log(data)
-
-        if (!validateInputs(haircutDetails, timing, selectedLocationID)) {
+        if (!validateInputs(String(data.haircutDetails), String(data.timing), selectedLocationID)) {
             return;
         }
 
@@ -141,23 +127,24 @@ function Book() {
         <WithAuthorization verificationRequired={true}>
             <div className={styles.container}>
                 <form className={styles.form} onSubmit={handleSubmit}>
+
                     {/*Providing service*/}
                     <div className={styles.flexColumn}>
                         <label>Service</label>
                     </div>
-                    <select name="service" id="service" className={styles.input} onChange={handleServiceChange}>
-                        
-                        <option value="haircut">Haircut $20</option>
-                        <option value="buzz">Buzz Cut $15</option>
-                        <option value="fade">Fade $25</option>
-                        <option value="shave">Head Shave $7</option>
-                    </select>
-                    {/*Providing beard trim*/}
-                    <div className={styles.flexColumn} >
-                    <input type="checkbox" id="beard" name="beard" value="beard" className={styles.checkbox} onChange={handleBeardChange}></input>
-                        <label>Beard Trim $15</label>
+
+                    <DropdownMenu optionsList={servicesList} onSelect={(description, id) => {
+                        handleServiceChange(description, id)
+                    }}/>
+
+                    <div className={styles.flexColumn}>
+                        <label>Additional Requests</label>
                     </div>
-                    
+                    <div className={styles.box}>
+                        <input type="checkbox" id="beard" name="beard" value="beard" className={styles.checkbox} onChange={handleBeardChange}></input>
+                        Beard Trim - $15
+                    </div>
+
                     {/*Providing beard cut option*/}
                     <div className={styles.flexColumn}>
                         <label>Haircut Details</label>
@@ -178,7 +165,7 @@ function Book() {
                     </div>
 
                     {/*Google maps API integration*/}
-                    <MapComponent inputToForm={setSelectedLocationID}/>
+                    <MapComponent inputToForm={setSelectedLocationID} />
 
                     {/*Additional details for arriving at location*/}
                     <div className={styles.flexColumn}>

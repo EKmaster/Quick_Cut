@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '../../utils/csrfToken'
-import styles from '../../../styles/login.module.css'
+import styles from '../../../styles/form.module.css'
 import WithAuthorization from '@/app/utils/withAuthorization'
 
 const VerifyEmail = () => {

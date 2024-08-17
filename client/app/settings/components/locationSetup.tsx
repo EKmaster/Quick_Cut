@@ -2,7 +2,7 @@
 import MapComponent from '../../components/mapComponent'
 import React, { FormEvent, useState } from 'react'
 import { getCsrfToken } from '@/app/utils/csrfToken'
-import styles from '../../../styles/login.module.css'
+import styles from '../../../styles/form.module.css'
 
 export const LocationSetup = () => {
     const [selectedLocationID, setSelectedLocationID] = useState<null>(null)

@@ -37,7 +37,6 @@ router.post("/api/book", passport.authenticate('jwt', { session: false }), async
         return res.sendStatus(400)
     }
     data['price'] = price
-     console.log(data)
     const newBooking = new Booking(data)
     try {
         await newBooking.save()

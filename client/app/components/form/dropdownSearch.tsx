@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import styles from '../../styles/login.module.css'
+import styles from '../../../styles/form.module.css'
 
 interface DropdownSearchProps {
     onSearchChange: (value: string) => any;
