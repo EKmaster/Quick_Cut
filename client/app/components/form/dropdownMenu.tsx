@@ -39,7 +39,7 @@ function DropdownMenu({ optionsList, onSelect }: DropdownMenuProps) {
                     width: "100%",
                     textAlign: "left"
                 }}>
-                    Add selected option here
+                    No selection
                 </div>
                 {
                     dropdownOpen ? (
