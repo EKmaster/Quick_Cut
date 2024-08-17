@@ -209,14 +209,4 @@
       transform: translateY(0px);
     }
   }
-  .bold-cursive {
-    position: absolute;
-    font-family: "Brush Script MT", "Comic Sans MS", "Segoe Script", cursive;
-    font-style: italic;
-    font-weight: bold;
-    display: flex;
-    color: #ffffff;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
-}
+ 

@@ -66,6 +66,9 @@ const NavBar =  () => {
                     <button className={styles.button} aria-label="FAQs">
                         <a href='#faqs'> <p className={`${styles.p}`}>FAQs</p> </a>
                     </button>
+                    <button className={styles.button} aria-label="Join as a Barber">
+                                <Link href='/join'> <p className={styles.p}>Join as a Barber</p> </Link>
+                            </button>
                 </div>
             </div>
         </div>

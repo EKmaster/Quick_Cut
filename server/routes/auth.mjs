@@ -122,7 +122,7 @@ router.get("/api/auth/sendverificationcode", conditionalAuth, async (req, res) =
 
         // creating new verification code
         const newCode = Math.floor(100000 + Math.random() * 900000)
-
+        
         // setting new verification code in database
         user.verificationCode = { code: newCode, expiryTime: new Date(currentTime.getTime() + (10 * 60 * 1000)) }
         user.save()
