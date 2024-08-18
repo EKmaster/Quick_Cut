@@ -2,7 +2,7 @@
 .bannerContainer {
   position: relative;
   width: 100%;
-  height: 50vh; /* Adjust this as needed for the height you want, e.g., 50% of the viewport height */
+  height: 30vh; /* Adjust this as needed for the height you want, e.g., 50% of the viewport height */
   margin: 0 auto;
   overflow: hidden; /* Hide any overflow */
 }
@@ -34,7 +34,8 @@
 .Btitle {
   font-size: 5.5rem;
   color: #ffffff;
-  margin-bottom: 20px;
+  margin-top: 50px;
+  
 }
 
   .button {
@@ -49,17 +50,6 @@
   }
   
 
-  .bold-cursive {
-    position: absolute;
-    font-family: "Brush Script MT", "Comic Sans MS", "Segoe Script", cursive; /* List of cursive-like fonts */
-    font-style: italic; /* Italic style to enhance the cursive appearance */
-    font-weight: bold; /* Bold style */
-    display: flex;
-    color: #ffffff;
-    justify-content: center;
-    align-items: center;
-    z-index: 3; /* Ensure it's on top of both the video and nav bar */
-  }
   .title {
     font-size: 4rem; /* Adjust the size as needed */
     position: absolute;
@@ -69,3 +59,42 @@
     margin-bottom: 20px; /* Space between the title and button */
     color: #ffffff;
   }
+.titleText {
+  display: flex;
+  background-color: #151515;
+  font-size: 4.5rem;
+  justify-content: center;
+  align-items: center; /* Center items horizontally */
+  color: #ffffff;
+}
+.container {
+  background-color: #151515;
+  display: flex;
+  flex-direction: row; /* Align items horizontally */
+  justify-content: space-around; /* Distribute items evenly */
+  align-items: center; /* Center items horizontally */
+
+  color: #ffffff;
+  padding: 10px; /* Add padding to the container */
+  
+}
+.container > div {
+  display: flex;
+  flex-direction: column; /* Stack image and text vertically */
+  align-items: center; /* Center items horizontally */
+  margin-bottom: 30px; /* Add space between items */
+  margin-top: 30px;
+}
+.points {
+  font-size: 1.5rem;
+  margin: 0 20px; /* Add margin to space out items */
+  align-items: center;
+}
+
+.iconPic {
+  
+    color: #f00;
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+  
+}

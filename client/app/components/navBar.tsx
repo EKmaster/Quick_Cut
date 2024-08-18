@@ -38,7 +38,9 @@ const NavBar =  () => {
     }
     return (
         <div>
-            <strong className={`${Titlestyle.boldCursive} ${Titlestyle.title}`}>Cuick Cut</strong>
+            <strong className={`${Titlestyle.boldCursive} ${Titlestyle.title}`}>
+            <Link href='/'> Cuick Cut </Link>
+            </strong>
             <div className={styles.container}>
                 <div className={styles['button-container']}>
                     {isAuthenticated ? (
