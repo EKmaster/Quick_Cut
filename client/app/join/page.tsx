@@ -16,7 +16,7 @@ const apply = () => {
             },
         })
         if (response.ok) {
-            router.push('/book')
+            router.push('/join/apply')
 
         } else {
             router.push('/login')
@@ -24,27 +24,32 @@ const apply = () => {
     }
     return (
         <div> 
-        <div className={styles.bannerContainer}>
-            <img src ="/join.jpg" className={styles.picture}/>
-                
-            
             <div className={styles.navBar}>
                 <NavBar />
 
             </div>
+        <div className={styles.bannerContainer1}>
+            
+                
+            
+            
 
             <div className={styles.overlay}>
 
-                
+                <div className={styles.mainContent}> 
                 <strong className={` ${styles.Btitle}`}>Cut when you want, where you want </strong>
-                <strong className={` ${styles.Btitle}`}> </strong>
-
                 
-
+                <strong className={styles.points}>Earn like a boss.</strong> 
+                <button onClick= {handleBookClick} className={styles.button}>Join</button>
+                </div>
+                <img src ="/barberPic.jpg" className={styles.picture1}/>
+                
+                </div>
             </div>
-        </div>
-        <div className={styles.titleText}> <strong >Why Join</strong>  </div>
-        <div className={styles.container}>
+           
+        
+        <div className={styles.titleText1}> <strong >Why Join</strong>  </div>
+        <div className={styles.container1}>
             <div> 
                 <img  width='100px' className={styles.iconPic} src ="/timer.png" />
                 <strong className={styles.points}>Set your own schedule</strong> 
@@ -90,7 +95,7 @@ const apply = () => {
             </div>
                 
             </div>
-            <div className={styles.bannerContainer}>
+            <div className={styles.bannerContainer2}>
             <img src ="/join.jpg" className={styles.picture}/>
                 
             
@@ -99,20 +104,20 @@ const apply = () => {
             <div className={styles.overlay}>
 
                 
-            <div className={styles.titleText}> <strong >What you need</strong>  </div>
+            <div className={styles.titleText2}> <strong >What you need</strong>  </div>
 
                 
 
             </div>
         </div>
-            <div className={styles.container}>
+            <div className={styles.container2}>
             <div> 
                 <img  width='90px' className={styles.iconPic} src ="/req.png" />
                 <strong className={styles.points}>Requirements</strong> 
                 <p>
                 At least 18 years old.
                 </p>
-                <p> Atleast 2 years of past experience </p>
+                <p> At least 2 years of past cutting experience </p>
                 <p>
                 Pass a Bacground Check.
                 </p>

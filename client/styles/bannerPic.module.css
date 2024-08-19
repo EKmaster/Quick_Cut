@@ -1,17 +1,44 @@
 /* styles/videoOverlay.module.css */
-.bannerContainer {
+.bannerContainer1 {
+  position: relative;
+  width: 100%;
+  height: 70vh; /* Adjust this as needed for the height you want, e.g., 50% of the viewport height */
+  margin: 0 auto;
+  overflow: hidden; /* Hide any overflow */
+  background-color: #151515;
+}
+.bannerContainer2 {
   position: relative;
   width: 100%;
   height: 30vh; /* Adjust this as needed for the height you want, e.g., 50% of the viewport height */
   margin: 0 auto;
   overflow: hidden; /* Hide any overflow */
+  background-color: #151515;
 }
-
 .picture {
   width: 100%;
   height: 100%; /* Fill the height of the container */
   object-fit: cover; /* Cover the container while maintaining aspect ratio */
   z-index: 1;
+}
+
+.picture1 {
+  width: 200%;
+  height: 100%; 
+  object-fit: contain;
+  border-radius: 10px;
+  overflow: hidden;
+  float: right;
+  margin-top: 20px; /* Adjust this value to control the space */
+  margin-left: 30px; /* Adjust this value to control the space */
+}
+.mainContent {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  position: relative; /* Ensures the mainContent stays in place */
+  z-index: 2; /* Ensures it's above the image */
+  text-align: left; /* Center-align the text */
+  
 }
 
   .overlay {
@@ -21,33 +48,31 @@
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
+    
     align-items: center;
     z-index: 3; /* Ensure it's on top of both the video and nav bar */
   }
   .navBar {
-  position: absolute;
+    background-color: #151515;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 2; /* Higher z-index to be on top of the video */
 }
+.navBar:hover{
+  background-color: #151515;
+}
 .Btitle {
-  font-size: 5.5rem;
+  font-size: 4.7rem;
   color: #ffffff;
-  margin-top: 50px;
+  margin-top: 10px; /* Add margin to push it below the navbar */
+
+  
+  
   
 }
 
-  .button {
-    background-color: #ff4081;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
   
 
   .title {
@@ -59,15 +84,34 @@
     margin-bottom: 20px; /* Space between the title and button */
     color: #ffffff;
   }
-.titleText {
+.titleText1 {
   display: flex;
-  background-color: #151515;
+  background-color: #000000;
   font-size: 4.5rem;
   justify-content: center;
   align-items: center; /* Center items horizontally */
   color: #ffffff;
 }
-.container {
+.titleText2 {
+  display: flex;
+  
+  font-size: 4.5rem;
+  justify-content: center;
+  align-items: center; /* Center items horizontally */
+  color: #ffffff;
+}
+.container1 {
+  background-color: #000000;
+  display: flex;
+  flex-direction: row; /* Align items horizontally */
+  justify-content: space-around; /* Distribute items evenly */
+  align-items: center; /* Center items horizontally */
+
+  color: #ffffff;
+  padding: 10px; /* Add padding to the container */
+  
+}
+.container2 {
   background-color: #151515;
   display: flex;
   flex-direction: row; /* Align items horizontally */
@@ -78,7 +122,14 @@
   padding: 10px; /* Add padding to the container */
   
 }
-.container > div {
+.container1 > div {
+  display: flex;
+  flex-direction: column; /* Stack image and text vertically */
+  align-items: center; /* Center items horizontally */
+  margin-bottom: 30px; /* Add space between items */
+  margin-top: 30px;
+}
+.container2 > div {
   display: flex;
   flex-direction: column; /* Stack image and text vertically */
   align-items: center; /* Center items horizontally */
@@ -87,14 +138,36 @@
 }
 .points {
   font-size: 1.5rem;
-  margin: 0 20px; /* Add margin to space out items */
+  
   align-items: center;
+  color: #ffffff;
+  
 }
 
 .iconPic {
-  
+
     color: #f00;
     -webkit-filter: invert(100%);
     filter: invert(100%);
   
+}
+
+.button {
+  font-size: 1.5rem;
+  border: none;
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  width: 180px; /* Set to desired width */
+  
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+
+  margin: 20px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.button:hover{
+  background-color: #c5c5c5;
 }
