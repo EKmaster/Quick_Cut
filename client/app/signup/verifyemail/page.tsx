@@ -6,7 +6,6 @@ import styles from '../../../styles/form.module.css'
 import WithAuthorization from '@/app/utils/withAuthorization'
 
 const VerifyEmail = () => {
-    // TODO: check if user is logged in AND unverified before allowing on this page
 
     const [incorrectCode, setIncorrectCode] = useState(false)
 

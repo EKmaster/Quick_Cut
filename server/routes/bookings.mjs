@@ -15,7 +15,8 @@ router.post("/api/book", passport.authenticate('jwt', { session: false }), async
         "haircutDetails": req.body.haircutDetails,
         "timing": new Date(req.body.timing),
         "locationGooglePlacesID": req.body.locationGooglePlacesID,
-        "locationDetails": req.body.locationDetails
+        "locationDetails": req.body.locationDetails,
+        status: "pending"
     }
     let price = 20
     if (data["beard"]) {
