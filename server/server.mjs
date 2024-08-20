@@ -9,6 +9,7 @@ import mongoose from "mongoose"
 import authRouter from "./routes/auth.mjs"
 import bookingsRouter from "./routes/bookings.mjs"
 import settingsRouter from "./routes/settings.mjs"
+import joinRouter from "./routes/join.mjs"
 import csrf from 'csurf';
 const PORT = 8080;
 const app = express();
@@ -53,7 +54,7 @@ app.use(passport.initialize());
 app.use(authRouter)
 app.use(bookingsRouter)
 app.use(settingsRouter)
-
+app.use(joinRouter)
 
 // listening on port
 app.listen(PORT, () => {
