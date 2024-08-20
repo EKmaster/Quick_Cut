@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styles from '../../../styles/form.module.css'
 
 
@@ -7,16 +7,30 @@ interface DropdownMenuProps {
         description: string
         id: number | string
     }[];
-    onSelect: (description: string, id: string | number) => any
+    onSelect: (description: string, id: string | number) => any;
+    defaultSelection?: {
+        description: string,
+        id: number | string
+    } | null
 }
 
-function DropdownMenu({ optionsList, onSelect }: DropdownMenuProps) {
-    const [inputAvailabe, setInputAvailable] = useState(false)
+function DropdownMenu({ optionsList, onSelect, defaultSelection = null}: DropdownMenuProps) {
+    const currentSelectionRef = useRef<HTMLDivElement>(null)
     const [dropdownOpen, setDropdownOpen] = useState(false)
+
+    // selecting default option if one is set
+    useEffect(() => {
+        const selectDefault = async () => {
+            if (defaultSelection !== null){
+                selectionOptionHandler(defaultSelection.description, defaultSelection.id)
+            }
+        }
+        selectDefault()
+    }, [])
 
     async function selectionOptionHandler(description: string, id: string | number) {
         setDropdownOpen(false)
-        const element = document.getElementById("selected-option")
+        const element = currentSelectionRef.current
         element!.innerHTML = description
         await onSelect(description, id)
     }
@@ -34,12 +48,12 @@ function DropdownMenu({ optionsList, onSelect }: DropdownMenuProps) {
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke={"#000000"} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
 
-                <div id="selected-option" style={{
+                <div id="selected-option" ref={currentSelectionRef} style={{
                     marginLeft: "10px",
                     width: "100%",
                     textAlign: "left"
                 }}>
-                    No selection
+                    {defaultSelection === null ? <div>No selection</div> : (null)}
                 </div>
                 {
                     dropdownOpen ? (

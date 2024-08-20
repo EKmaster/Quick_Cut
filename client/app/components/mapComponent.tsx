@@ -2,8 +2,11 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styles from '../../styles/form.module.css'
 import DropdownSearch from './form/dropdownSearch';
 
-function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
-    const timeOfLastAutcompleteCallRef = useRef(0)
+function MapComponent({ defaultLocationPlaceID = null, disableInput = false, inputToForm }: {
+    defaultLocationPlaceID?: string | null,
+    disableInput?: boolean,
+    inputToForm: (value: any) => void
+}) {
     const autocompleteTimeoutRef = useRef<any>(null)
 
     let mapRef = useRef<any>(null)
@@ -17,6 +20,7 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
     let AdvancedMarkerElementRef = useRef<any>(null)
     let selectionMarkerRef = useRef<any>(null)
 
+    const [errorLoadingLocation, setErrorLoadingLocation] = useState(false)
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -24,6 +28,7 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
         script.async = true;
         document.head.appendChild(script);
 
+        // initializing the map
         async function initMap(): Promise<void> {
             const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
             const { Place, AutocompleteSessionToken, AutocompleteSuggestion } = await google.maps.importLibrary("places") as google.maps.PlacesLibrary
@@ -42,9 +47,17 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
                 zoom: 8,
                 mapId: 'DEMO_MAP_ID'
             });
+
         };
         (window as any).initMap = initMap;
     }, []);
+
+    useEffect(() => {
+        // loading in default location to map if applicable
+        if (defaultLocationPlaceID !== null) {
+            selectLocation("", defaultLocationPlaceID)
+        }
+    }, [defaultLocationPlaceID])
 
     async function updateAutocomplete(text: string) {
 
@@ -79,30 +92,34 @@ function MapComponent({ inputToForm }: { inputToForm: (value: any) => void }) {
         autocompleteTokenRef.current = null //discard auto complete session token
         setAutocompleteList([]) //emptying the auto complete list, effectively closing the drop down
         // set a marker for this location on the map
-        const place = new PlaceRef.current({ id: place_id })
-        await place.fetchFields({ fields: ["location"] })
-        if (selectionMarkerRef.current) {
-            selectionMarkerRef.current.position = place.location
-        } else {
-            selectionMarkerRef.current = new AdvancedMarkerElementRef.current({
-                map: mapRef.current,
-                position: place.location,
-                title: "Selected Location"
-            })
+        try{
+            const place = new PlaceRef.current({ id: place_id })
+            await place.fetchFields({ fields: ["location"] })
+            if (selectionMarkerRef.current) {
+                selectionMarkerRef.current.position = place.location
+            } else {
+                selectionMarkerRef.current = new AdvancedMarkerElementRef.current({
+                    map: mapRef.current,
+                    position: place.location,
+                    title: "Selected Location"
+                })
+            }
+            mapRef.current.setCenter(place.location)// move map to view this new location
+            inputToForm(place_id) // update form input info
+            setErrorLoadingLocation(false)
+        }catch(err){
+            setErrorLoadingLocation(true)
         }
-        mapRef.current.setCenter(place.location)// move map to view this new location
-        inputToForm(place_id) // update form input info
     }
 
     return (
         <>
-            <div className={styles.flexColumn}>
-                <label>Location</label>
-            </div>
-
             <div id="map" style={{ width: '100%', height: '500px', borderRadius: "10px" }} />
-
-            <DropdownSearch onSearchChange={updateAutocomplete} optionsList={autocompleteList} selectOption={selectLocation} />
+            {errorLoadingLocation ? <p className={styles.pWarning}>Error loading selected location</p> : null}
+            {
+                disableInput ? (null) :
+                    <DropdownSearch onSearchChange={updateAutocomplete} optionsList={autocompleteList} selectOption={selectLocation} />
+            }
 
         </>
     );

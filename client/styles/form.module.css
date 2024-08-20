@@ -60,7 +60,7 @@
     margin-left: 10px;
     
     border: none;
-    width: auto; /* Adjust width to fit the custom button */
+    width: 100%; /* Adjust width to fit the custom button */
 
     height: 100%;
     background-color: transparent; /* Keep background transparent */

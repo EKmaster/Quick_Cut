@@ -17,10 +17,15 @@ function Book() {
         location: false,
     });
 
-    const [selectedLocationID, setSelectedLocationID] = useState<any>(null)
-    const [selectedServiceID, setSelectedServiceID] = useState<any>(null)
     const [isBeardTrimSelected, setIsBeardTrimSelected] = useState(false);
     const [price, setPrice] = useState(40)
+
+    // this variable can be either new or default, new means the user chooses a location, default means a default location is set for the uesr
+    const [locationSelectionType, setLocationSelectionType] = useState("new")
+    const [defaultLocation, setDefaultLocation] = useState({ googlePlacesID: null, additionalDetails: null })
+    const [warnNoDefaultLocationSet, SetWarnNoDefaultLocationSet] = useState(false)
+    const [selectedLocationID, setSelectedLocationID] = useState<any>(null)
+    const [selectedServiceID, setSelectedServiceID] = useState<any>(null)
 
     const servicesList = [
         { description: "Haircut - $20", id: "haircut" },
@@ -36,12 +41,41 @@ function Book() {
     }
     const beardTrimPrice = 15
 
+    // loading up default location if the user has it
+    useEffect(() => {
+        const loadDefaultLocation = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/settings/defaultlocation", {
+                    method: "GET",
+                    credentials: "include"
+
+                })
+                if (response.ok) {
+                    const data = await response.json()
+                    if (data.locationID === null){
+                        SetWarnNoDefaultLocationSet(true)
+                    }
+                    const loadedDefaultLocation = {
+                        googlePlacesID: data.locationID,
+                        additionalDetails: data.additionalDetails
+                    }
+                    setDefaultLocation(loadedDefaultLocation)
+                } else {
+                    throw new Error("Failed to fetch default location")
+                }
+            } catch (err) {
+                // TODO: display something here if there is error getting default location
+            }
+        }
+        loadDefaultLocation()
+    }, [])
+
     useEffect(() => {
         let newPrice = 0
-        if (selectedServiceID !== null){
+        if (selectedServiceID !== null) {
             newPrice += servicePrices[selectedServiceID as keyof typeof servicePrices]
         }
-        if (isBeardTrimSelected){
+        if (isBeardTrimSelected) {
             newPrice += beardTrimPrice
         }
         setPrice(newPrice)
@@ -53,6 +87,10 @@ function Book() {
 
     function handleBeardChange(event: React.ChangeEvent<HTMLInputElement>) {
         setIsBeardTrimSelected(event.target.checked)
+    }
+
+    function handleSelectionTypeChange(id: string) {
+        setLocationSelectionType(id)
     }
 
     function getCurrentDateTime() {
@@ -135,7 +173,7 @@ function Book() {
 
                     <DropdownMenu optionsList={servicesList} onSelect={(description, id) => {
                         handleServiceChange(description, id)
-                    }}/>
+                    }} />
 
                     <div className={styles.flexColumn}>
                         <label>Additional Requests</label>
@@ -164,8 +202,27 @@ function Book() {
                         <input name="timing" className={styles.input} type="datetime-local" min={getCurrentDateTime()} max={getMaxDateTime()} />
                     </div>
 
+                    {/* Location Selection */}
+                    <div className={styles.flexColumn}>
+                        <label>Location</label>
+                    </div>
+
+                    <DropdownMenu
+                        optionsList={[{ description: "Use Default", id: "default" }, { description: "Select New", id: "new" }]}
+                        onSelect={(description, id) => {
+                            handleSelectionTypeChange(id as string)
+                        }
+                        }
+                        defaultSelection={{ description: "Select New", id: "new" }}
+                    />
+                    {(warnNoDefaultLocationSet && locationSelectionType === "default") ? (
+                        <p>You do not have a default location set. You can set one up in settings.</p>
+                    ) : null}
                     {/*Google maps API integration*/}
-                    <MapComponent inputToForm={setSelectedLocationID} />
+                    <MapComponent
+                        disableInput={locationSelectionType === "new" ? false : true}
+                        defaultLocationPlaceID={locationSelectionType === "new" ? null : defaultLocation.googlePlacesID}
+                        inputToForm={setSelectedLocationID} />
 
                     {/*Additional details for arriving at location*/}
                     <div className={styles.flexColumn}>
@@ -173,7 +230,14 @@ function Book() {
                     </div>
                     <div className={styles.inputForm}>
                         <svg xmlns="http://www.w3.org/2000/svg" width='24' height='24' viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z" /></svg>
-                        <input name="locationDetails" placeholder="Describe any additional details that may help your barber get to your location" className={styles.input} type="string" />
+
+                        <input
+                            name="locationDetails"
+                            placeholder="Describe any additional details that may help your barber get to your location"
+                            defaultValue={locationSelectionType === "new" ? "" :
+                                defaultLocation.additionalDetails !== null ? defaultLocation.additionalDetails : ""}
+                            readOnly={locationSelectionType === "new" ? false : true}
+                            className={styles.input} type="string" />
                     </div>
 
                     {emptyFields.haircutDetails && <p className={styles.pWarning}>Haircut details are required</p>}
@@ -182,6 +246,7 @@ function Book() {
                     <div className={styles.flexColumn}>
                         <label>Price: ${price}</label>
                     </div>
+
                     <button className={styles.buttonSubmit} type="submit">Book</button>
                 </form>
             </div>

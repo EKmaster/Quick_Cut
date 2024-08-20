@@ -25,7 +25,7 @@ router.post("/api/settings/setdefaultlocation", passport.authenticate('jwt', { s
 })
 
 // allow user to clear any set default location for booking appointments
-router.post("/api/settings/setdefaultlocation", passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.post("/api/settings/cleardefaultlocation", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const user = await User.findById(req.user.id)
         user.defaultLocation = {}
@@ -36,6 +36,23 @@ router.post("/api/settings/setdefaultlocation", passport.authenticate('jwt', { s
     }
 })
 
+router.get("/api/settings/defaultlocation", passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+        if ("defaultLocation" in user) {
+            const locationID = user.defaultLocation.googlePlacesID
+            const additionalDetails = user.defaultLocation.additionalDetails
+            res.status(200)
+            res.json({ locationID: locationID, additionalDetails: additionalDetails })
+        }else{
+            res.status(200)
+            res.json({ locationID: null, additionalDetails: null })
+        }
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+})
 
 // returning an overview of the user's profile info
 router.get("/api/settings/overviewprofileinfo", passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -51,7 +68,7 @@ router.get("/api/settings/overviewprofileinfo", passport.authenticate('jwt', { s
         const user = await User.findById(req.user.id)
         data.username = user.userName
         data.fullName = user.firstName + " " + user.lastName
-    } catch (err) {}
+    } catch (err) { }
 
     // getting active and past bookings
     try {
@@ -71,7 +88,7 @@ router.get("/api/settings/overviewprofileinfo", passport.authenticate('jwt', { s
             status: booking.status,
             description: booking.service
         }))
-    } catch (err) {}
+    } catch (err) { }
 
     // sending data back to client as json
     res.status(200)
