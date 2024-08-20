@@ -6,6 +6,7 @@ const AppSchema = new mongoose.Schema({
 	userID: {
 		type: mongoose.Schema.Types.String,
 		required: true,
+		unique: true,
 	},
     fullName: {
         type: mongoose.Schema.Types.String,

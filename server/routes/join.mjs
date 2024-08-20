@@ -38,45 +38,55 @@ const upload = multer({
     })
   });
 
-router.post('/api/join', passport.authenticate("jwt", { session: false }), upload.fields([
-    { name: 'resume', maxCount: 1 },
-    { name: 'id', maxCount: 1 },
-    { name: 'equipment', maxCount: 1 }
-  ]), async (req, res) => {
-    const user = await App.findOne({ userID: req.user.id });
-    if (!user) {
-        return res.sendStatus(403)
-    }
+  const checkExistingApplication = async (req, res, next) => {
     try {
-      // req.files contains information about the uploaded files
-      console.log(process.env.AWS_ACCESS_KEY_ID); // Check if this outputs the correct key
-console.log(process.env.AWS_SECRET_ACCESS_KEY); // Check if this outputs the correct secret
-console.log(process.env.AWS_REGION); // Check if this outputs the correct region
-
-      console.log(req.body)
-      
-      const resumeUrl = req.files['resume'][0].location;
-      const idUrl = req.files['id'][0].location;
-      const equipmentUrl = req.files['equipment'][0].location;
-      console.log(resumeUrl)
-      // Save URLs to MongoDB
-      const newApp = new App({
-        userID: req.user.id,
-        fullName: req.body.fullName,
-        address: req.body.address,
-        number: req.body.mobileNumber,
-        cardNumber: req.body.cardNumber,
-        expiry: req.body.expirationDate,
-        id: idUrl,
-        resume: resumeUrl,
-        equipment: equipmentUrl,
-      });
-      
-      await newApp.save();
-      res.status(200).json({ message: 'Files uploaded and data saved', resumeUrl, idUrl, equipmentUrl });
+      const existingApp = await App.findOne({ userID: req.user.id });
+  
+      if (existingApp) {
+        return res.status(400).json({ error: 'You have already submitted an application.' });
+      }
+  
+      // No existing application found, proceed to the next middleware
+      next();
     } catch (error) {
-      res.status(400).json({ error: 'Error uploading files', details: error });
+      res.status(500).json({ error: 'Error checking existing applications', details: error });
     }
-  });
+  };
+  
+  router.post('/api/join', 
+    passport.authenticate('jwt', { session: false }), checkExistingApplication, 
+    upload.fields([
+      { name: 'resume', maxCount: 1 },
+      { name: 'id', maxCount: 1 },
+      { name: 'equipment', maxCount: 1 }
+    ]), 
+    async (req, res) => {
+      try {
+        // Now handle the file URLs and save to the database
+        const newApp = new App({
+          userID: req.user.id,  // Assuming req.user.id is the authenticated user's ID
+          fullName: req.body.fullName,
+          address: req.body.address,
+          number: req.body.mobileNumber,
+          cardNumber: req.body.cardNumber,
+          expiry: req.body.expirationDate,
+          id: req.files['id'][0].location,
+          resume: req.files['resume'][0].location,
+          equipment: req.files['equipment'][0].location,
+        });
+        
+        await newApp.save();
+        res.status(200).json({ 
+            message: 'Files uploaded and data saved', 
+            resumeUrl: req.files['resume'][0].location, 
+            idUrl: req.files['id'][0].location, 
+            equipmentUrl: req.files['equipment'][0].location 
+        });
+      } catch (error) {
+        res.status(500).json({ error: 'Error uploading files or saving data', details: error });
+      }
+    }
+  );
+  
 
   export default router

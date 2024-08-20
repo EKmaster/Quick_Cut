@@ -264,13 +264,7 @@ router.post("/api/auth/logout", passport.authenticate("jwt", { session: false })
     res.sendStatus(200)
 })
 
-router.post("/api/joins", passport.authenticate("jwt", { session: false }), (req, res) => {
-    console.log(process.env.AWS_ACCESS_KEY_ID); // Check if this outputs the correct key
-console.log(process.env.AWS_SECRET_ACCESS_KEY); // Check if this outputs the correct secret
-console.log(process.env.AWS_REGION); // Check if this outputs the correct region
 
-    res.sendStatus(200)
-})
 // authentication with google
 router.get('/api/auth/google', passport.authenticate('google'));
 router.get('/api/auth/google/redirect', passport.authenticate('google', { session: false }), async (req, res) => {

@@ -4,6 +4,7 @@ import styles from '../../styles/bannerPic.module.css';
 import NavBar from '../components/navBar'
 import bookStyle from '../../styles/bookButton.module.css'
 import { useRouter } from 'next/navigation'
+
 const apply = () => {
     const router = useRouter()
     async function handleBookClick() {
