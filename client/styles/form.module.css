@@ -58,10 +58,13 @@
 }
 .input {
     margin-left: 10px;
-    border-radius: 10px;
+    
     border: none;
-    width: 100%;
+    width: auto; /* Adjust width to fit the custom button */
+
     height: 100%;
+    background-color: transparent; /* Keep background transparent */
+
 }
 .input:focus {
     outline: none;

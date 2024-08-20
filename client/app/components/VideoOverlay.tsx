@@ -24,7 +24,7 @@ const VideoOverlay = () => {
     return (
         <div className={styles.videoContainer}>
             <video className={styles.video} autoPlay muted loop playsInline>
-                <source src='/bvideo.mp4' type="video/mp4" />
+                <source src='https://cuickcutstatic2005.s3.amazonaws.com/bvideo.mp4' type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
             <div className={styles.navBar}>

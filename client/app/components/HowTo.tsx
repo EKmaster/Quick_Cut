@@ -62,7 +62,7 @@ const HowTo = () => {
                     <div className={styles.content}>
                         <div className={styles.back}>
                             <div className={styles['back-content']}>
-                                <img className={styles.pic} src='https://cdn-icons-png.flaticon.com/512/0/138.png' width='175px' alt="New Image" />
+                                <img className={styles.pic} src='https://cuickcutstatic2005.s3.amazonaws.com/browse.png' width='175px' alt="New Image" />
                                 <strong>Browse Barbers</strong>
                             </div>
                         </div>
@@ -102,7 +102,7 @@ const HowTo = () => {
                     <div className={styles.content}>
                         <div className={styles.back}>
                             <div className={styles['back-content']}>
-                                <img className={styles.pic} src='https://cdn-icons-png.freepik.com/512/32/32069.png' width='175px' alt="New Image" />
+                                <img className={styles.pic} src='https://cuickcutstatic2005.s3.amazonaws.com/style.png' width='175px' alt="New Image" />
                                 <strong>Choose Style</strong>
                             </div>
                         </div>
@@ -143,7 +143,7 @@ const HowTo = () => {
                     <div className={styles.content}>
                         <div className={styles.back}>
                             <div className={styles['back-content']}>
-                                <img className={styles.pic} src='https://png.pngtree.com/png-vector/20230407/ourmid/pngtree-appointment-line-icon-vector-png-image_6677639.png' width='200px' alt="New Image" />
+                                <img className={styles.pic} src='https://cuickcutstatic2005.s3.amazonaws.com/calender.png' width='200px' alt="New Image" />
                                 <strong>Book</strong>
                             </div>
                         </div>

@@ -42,7 +42,7 @@ const apply = () => {
                 <strong className={styles.points}>Earn like a boss.</strong> 
                 <button onClick= {handleBookClick} className={styles.button}>Join</button>
                 </div>
-                <img src ="/barberPic.jpg" className={styles.picture1}/>
+                <img src ="https://cuickcutstatic2005.s3.amazonaws.com/barberPic.jpg" className={styles.picture1}/>
                 
                 </div>
             </div>
@@ -51,7 +51,7 @@ const apply = () => {
         <div className={styles.titleText1}> <strong >Why Join</strong>  </div>
         <div className={styles.container1}>
             <div> 
-                <img  width='100px' className={styles.iconPic} src ="/timer.png" />
+                <img  width='100px' className={styles.iconPic} src ="https://cuickcutstatic2005.s3.amazonaws.com/timer.png" />
                 <strong className={styles.points}>Set your own schedule</strong> 
                 <p>
                 Enjoy the freedom to choose your work hours.
@@ -62,7 +62,7 @@ const apply = () => {
                 </p>
             </div>
             <div> 
-                <img  width='90px' className={styles.iconPic} src ="/money.png" />
+                <img  width='90px' className={styles.iconPic} src ="https://cuickcutstatic2005.s3.amazonaws.com/money.png" />
                 <strong className={styles.points}>Earn more faster</strong> 
                 <p>
                     Register and be approved within days.
@@ -78,7 +78,7 @@ const apply = () => {
                 </p>
             </div>
             <div> 
-                <img  width='90px' className={styles.iconPic} src ="/customer.png" />
+                <img  width='90px' className={styles.iconPic} src ="https://cuickcutstatic2005.s3.amazonaws.com/customer.png" />
                 <strong className={styles.points}>Expand your customer base</strong> 
                 <p>
                 Tap into a larger pool of potential clients.
@@ -96,7 +96,7 @@ const apply = () => {
                 
             </div>
             <div className={styles.bannerContainer2}>
-            <img src ="/join.jpg" className={styles.picture}/>
+            <img src ="https://cuickcutstatic2005.s3.amazonaws.com/join.jpg" className={styles.picture}/>
                 
             
            
@@ -112,7 +112,7 @@ const apply = () => {
         </div>
             <div className={styles.container2}>
             <div> 
-                <img  width='90px' className={styles.iconPic} src ="/req.png" />
+                <img  width='90px' className={styles.iconPic} src ="https://cuickcutstatic2005.s3.amazonaws.com/req.png" />
                 <strong className={styles.points}>Requirements</strong> 
                 <p>
                 At least 18 years old.
@@ -123,7 +123,7 @@ const apply = () => {
                 </p>
             </div>
             <div> 
-                <img  width='85px' className={styles.iconPic} src ="/doc.png" />
+                <img  width='85px' className={styles.iconPic} src ="https://cuickcutstatic2005.s3.amazonaws.com/doc.png" />
                 <strong className={styles.points}>Documentation</strong> 
                 <p>
                 Valid barber licencse
@@ -134,7 +134,7 @@ const apply = () => {
                     
                 </p>
                 <p>
-                Bank account details for weekly payments.
+                Debit/Credit card for weekly payments.
                     
                 </p>
                 <p>
@@ -143,7 +143,7 @@ const apply = () => {
                 </p>
             </div>
             <div> 
-                <img  width='100px' className={styles.iconPic} src ="/equip.png" />
+                <img  width='100px' className={styles.iconPic} src ="https://cuickcutstatic2005.s3.amazonaws.com/equip.png" />
                 <strong className={styles.points}>Equipment</strong> 
                 <p>
                 Professional-grade and portable
