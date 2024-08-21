@@ -4,7 +4,6 @@ import { createJWT } from "../utils/createJWT.mjs"
 import nodemailer from 'nodemailer'
 
 export const signup = async (req, res) => {
-    console.log("ASdf")
     const email = req.body.email;
 
     try {
