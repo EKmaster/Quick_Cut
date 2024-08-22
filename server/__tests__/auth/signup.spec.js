@@ -1,8 +1,8 @@
-jest.mock("../mongoose/schemas/user.mjs",)
-jest.mock("../utils/createJWT.mjs")
-import { User } from "../mongoose/schemas/user.mjs";
-import { signup, sendVerificationCode, verifyEmail, status } from "../handlers/auth.mjs"
-import { createJWT } from "../utils/createJWT.mjs";
+jest.mock("../../mongoose/schemas/user.mjs",)
+jest.mock("../../utils/createJWT.mjs")
+import { User } from "../../mongoose/schemas/user.mjs";
+import { signup } from "../../handlers/auth.mjs"
+import { createJWT } from "../../utils/createJWT.mjs";
 
 describe("signup endpoint", () => {
 
