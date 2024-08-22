@@ -38,11 +38,9 @@ export const signup = async (req, res) => {
 
 export const sendVerificationCode = async (req, res) => {
     // check if valid verification code already exists in DB, if not, send new code to email
-    const isForReset = req.query.purpose === 'reset';
-
-    let user;
-
     try {
+        const isForReset = req.query.purpose === 'reset';
+        let user;
         if (req.query.purpose === 'reset') {
             user = await User.findOne({ email: req.query.email })
         }

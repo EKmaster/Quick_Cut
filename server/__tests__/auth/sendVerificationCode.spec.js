@@ -88,4 +88,11 @@ describe("send verification code", () => {
             expect(mockResponse.json).toHaveBeenCalledWith({ secondsUntilNewCodeSend: 0 })
         })
     })
+
+    it("returns status 500 if some other error not already handled is thrown", () => {
+        const mockResponse = {sendStatus: jest.fn()}
+        sendVerificationCode({}, mockResponse).then(() => {
+            expect(mockResponse.sendStatus).toHaveBeenCalledWith(500)
+        })
+    })
 })
