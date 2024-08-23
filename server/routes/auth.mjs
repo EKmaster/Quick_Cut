@@ -8,7 +8,7 @@ import "../strategies/google-strategy.mjs"
 import jwt from "jsonwebtoken"
 import nodemailer from 'nodemailer'
 
-import {sendVerificationCode, signup, status, verifyEmail} from "../handlers/auth.mjs"
+import {login, sendVerificationCode, signup, status, verifyEmail} from "../handlers/auth.mjs"
 
 const router = Router()
 const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
@@ -38,24 +38,7 @@ const createJWT = (user, res) => {
 router.post("/api/auth/signup", signup)
 
 // logging in 
-router.post("/api/auth/login", async (req, res) => {
-    // implement frontend logic to ensure neither email nor password field is empty before this route is used
-
-    try {
-        const email = req.body.email
-        const password = req.body.password
-        const findUser = await User.findOne({ email })
-        if (!findUser) throw new Error("User not found")
-        if (!bcrypt.compareSync(password, findUser.password)) {
-            throw new Error("Bad Credentials")
-        }
-        createJWT(findUser, res)
-        return res.sendStatus(200)
-    }
-    catch (err) {
-        res.sendStatus(401)
-    }
-})
+router.post("/api/auth/login", login)
 // Custom middleware to conditionally apply authentication
 const conditionalAuth = (req, res, next) => {
     const isForReset = req.query.purpose === 'reset';
@@ -69,7 +52,7 @@ const conditionalAuth = (req, res, next) => {
 router.get("/api/auth/sendverificationcode", conditionalAuth, sendVerificationCode)
 
 router.post("/api/auth/submitverificationcode", conditionalAuth, async (req, res) => {
-    const isForReset = req.query.purpose === 'reset';
+    
 
     let user;
 
@@ -137,7 +120,7 @@ router.post('/api/auth/forgot-password', async (req, res) => {
 });
 
 // getting authorization statuses (logged in, verified)
-router.get("/api/auth/status", passport.authenticate('jwt', status))
+router.get("/api/auth/status", passport.authenticate('jwt', { session: false }), status)
 
 router.get("/api/auth/verified", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {

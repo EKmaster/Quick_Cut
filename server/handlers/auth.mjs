@@ -113,3 +113,22 @@ export const status = (req, res) => {
     if (req.user) return res.sendStatus(200);
     return res.sendStatus(401);
 }
+
+export const login = async (req, res) => {
+    // implement frontend logic to ensure neither email nor password field is empty before this route is used
+
+    try {
+        const email = req.body.email
+        const password = req.body.password
+        const findUser = await User.findOne({ email })
+        if (!findUser) throw new Error("User not found")
+        if (!bcrypt.compareSync(password, findUser.password)) {
+            throw new Error("Bad Credentials")
+        }
+        createJWT(findUser, res)
+        return res.sendStatus(200)
+    }
+    catch (err) {
+        res.sendStatus(401)
+    }
+}
