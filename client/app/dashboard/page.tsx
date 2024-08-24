@@ -58,6 +58,8 @@ function AccountDashboard() {
                     setUserInformation(loadedData)
                     setUserInfoLoaded(true)
                 })
+            }else{
+                // TODO: do something here if there was an error loading profile data
             }
         }
         fetchData()

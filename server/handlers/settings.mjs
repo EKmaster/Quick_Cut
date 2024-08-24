@@ -34,9 +34,11 @@ export const overviewProfileInfo = async (req, res) => {
             status: booking.status,
             description: booking.service
         }))
-    } catch (err) { }
+    } catch (err) {}
 
-    // sending data back to client as json
-    res.status(200)
-    return res.json(data)
+    if (data.username && data.fullName && data.activeBookings && data.pastBookings) {
+        res.status(200)
+        return res.json(data)
+    }
+    return res.status(500)
 }
