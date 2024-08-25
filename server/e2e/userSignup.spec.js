@@ -16,7 +16,7 @@ describe("user sign up", () => {
             lastName: "Steven"
         }
         response = await request(app).post("/api/auth/signup")
-            .set('X-CSRF-Token', csrfToken)
+            .set('X-CSRF-Token', csrfToken).set('Cookie', `_csrf=${csrfToken}`)
             .set('Content-Type', 'application/json').send(reqBody)
 
         expect(response.statusCode).toBe(200)
