@@ -8,7 +8,6 @@ import ActiveBookings from './components/activeBookings'
 import PastBookings from './components/pastBookings'
 
 interface UserInformationType {
-    username: string | null,
     fullName: string | null,
     activeBookings: {
         id: string,
@@ -28,7 +27,6 @@ function AccountDashboard() {
     const router = useRouter()
 
     const [userInformation, setUserInformation] = useState<UserInformationType>({
-        username: "user829",
         fullName: "Joe West",
         activeBookings: [],
         pastBookings: []
@@ -45,7 +43,6 @@ function AccountDashboard() {
             if (response.ok) {
                 response.json().then(data => {
                     const loadedData: UserInformationType = {
-                        username: data.username,
                         fullName: data.fullName,
                         activeBookings: data.activeBookings.map((booking: any) => ({
                             id: booking.id,

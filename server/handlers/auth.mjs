@@ -2,6 +2,7 @@ import bcrypt from "bcrypt"
 import { User } from "../mongoose/schemas/user.mjs";
 import { createJWT } from "../utils/createJWT.mjs"
 import nodemailer from 'nodemailer'
+import passport from "passport"
 
 export const signup = async (req, res) => {
 

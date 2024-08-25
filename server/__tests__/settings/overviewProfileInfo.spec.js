@@ -41,7 +41,6 @@ describe("overview profile information", () => {
             json: jest.fn()
         }
         const mockUser = {
-            userName: "billy99",
             firstName: "Billy",
             lastName: "Joe"
         }
@@ -75,7 +74,6 @@ describe("overview profile information", () => {
         overviewProfileInfo(mockRequest, mockResponse).then(() => {
             expect(mockResponse.status).toHaveBeenCalledWith(200)
             expect(mockResponse.json).toHaveBeenCalledWith({
-                username: "billy99",
                 fullName: "Billy Joe",
                 activeBookings: expectedActiveBookings,
                 pastBookings: expectedPastBookings

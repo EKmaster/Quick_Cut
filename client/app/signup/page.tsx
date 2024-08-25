@@ -33,7 +33,7 @@ export default function LoginPage() {
         const csrfToken = await getCsrfToken();
         const response = await fetch('http://localhost:8080/api/auth/signup', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken},
             body: JSON.stringify({ email, password, firstName, lastName }),
             credentials: 'include'
         })

@@ -33,6 +33,7 @@ app.use(csrfProtection);
 
 // CSRF token route
 app.get('/api/csrf-token', (req, res) => {
+    res.status(200)
     res.json({ csrfToken: req.csrfToken() });
 });
 
@@ -56,7 +57,10 @@ app.use(bookingsRouter)
 app.use(settingsRouter)
 app.use(joinRouter)
 
+
 // listening on port
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
 });
+
+export default app

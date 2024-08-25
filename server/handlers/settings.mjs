@@ -3,7 +3,6 @@ import { Booking } from "../mongoose/schemas/booking.mjs";
 
 export const overviewProfileInfo = async (req, res) => {
     const data = {
-        username: null,
         fullName: null,
         activeBookings: null,
         pastBookings: null
@@ -12,7 +11,6 @@ export const overviewProfileInfo = async (req, res) => {
 
     try {
         const user = await User.findById(req.user.id)
-        data.username = user.userName
         data.fullName = user.firstName + " " + user.lastName
     } catch (err) { }
 
@@ -36,7 +34,7 @@ export const overviewProfileInfo = async (req, res) => {
         }))
     } catch (err) {}
 
-    if (data.username && data.fullName && data.activeBookings && data.pastBookings) {
+    if (data.fullName && data.activeBookings && data.pastBookings) {
         res.status(200)
         return res.json(data)
     }

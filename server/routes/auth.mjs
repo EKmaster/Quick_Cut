@@ -41,7 +41,6 @@ router.post("/api/auth/signup", signup)
 router.post("/api/auth/login", login)
 // Custom middleware to conditionally apply authentication
 
-
 // verifying email (for non-google accounts)
 router.get("/api/auth/sendverificationcode", conditionalAuth, sendVerificationCode)
 
