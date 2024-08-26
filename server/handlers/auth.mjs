@@ -208,3 +208,24 @@ export const forgotPassword = async (req, res) => {
     return res.sendStatus(500)
 }
 }
+
+export const verfied = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+        if (user.verified) {
+            return res.sendStatus(200)
+        }
+        return res.sendStatus(401)
+    } catch (err) {
+        return res.sendStatus(500)
+    }
+}
+
+export const logout = (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict"
+    })
+    res.sendStatus(200)
+}

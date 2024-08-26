@@ -8,7 +8,7 @@ import "../strategies/google-strategy.mjs"
 import jwt from "jsonwebtoken"
 import nodemailer from 'nodemailer'
 
-import {login, sendVerificationCode, submitverificationcode, signup, status, verifyEmail, conditionalAuth, forgotPassword} from "../handlers/auth.mjs"
+import {login, sendVerificationCode, submitverificationcode, signup, status, verifyEmail, conditionalAuth, forgotPassword, verfied, logout} from "../handlers/auth.mjs"
 
 const router = Router()
 const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
@@ -54,27 +54,10 @@ router.post('/api/auth/forgot-password', forgotPassword );
 // getting authorization statuses (logged in, verified)
 router.get("/api/auth/status", passport.authenticate('jwt', { session: false }), status)
 
-router.get("/api/auth/verified", passport.authenticate('jwt', { session: false }), async (req, res) => {
-    try {
-        const user = await User.findById(req.user.id)
-        if (user.verified) {
-            return res.sendStatus(200)
-        }
-        return res.sendStatus(401)
-    } catch (err) {
-        return res.sendStatus(500)
-    }
-})
+router.get("/api/auth/verified", passport.authenticate('jwt', { session: false }), verfied)
 
 // logging out
-router.post("/api/auth/logout", passport.authenticate("jwt", { session: false }), (req, res) => {
-    res.clearCookie("token", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict"
-    })
-    res.sendStatus(200)
-})
+router.post("/api/auth/logout", passport.authenticate("jwt", { session: false }), logout)
 
 
 // authentication with google

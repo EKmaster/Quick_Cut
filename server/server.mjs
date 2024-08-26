@@ -11,51 +11,15 @@ import bookingsRouter from "./routes/bookings.mjs"
 import settingsRouter from "./routes/settings.mjs"
 import joinRouter from "./routes/join.mjs"
 import csrf from 'csurf';
+
+import { createApp } from "./utils/createApp.mjs";
+mongoose.connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.mongodb.net/production").then(() => console.log("Connected to Database")).catch((err) => console.log(`Error: ${err}`));
+const app = createApp()
 const PORT = 8080;
-const app = express();
 
-// connecting to mongo db databse
-mongoose.connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.mongodb.net").then(() => console.log("Connected to Database")).catch((err) => console.log(`Error: ${err}`));
 
-// adding middlewares
-app.use(cors({
-    origin: 'http://localhost:3000',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    optionsSuccessStatus: 204,
-    credentials: true,
-}));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cookieParser());
 
-const csrfProtection = csrf({ cookie: { httpOnly: true, secure: false, sameSite: 'Strict' } });
-app.use(csrfProtection);
 
-// CSRF token route
-app.get('/api/csrf-token', (req, res) => {
-    res.status(200)
-    res.json({ csrfToken: req.csrfToken() });
-});
-
-app.use(session({
-    secret: "hello world",
-    saveUninitialized: false,
-    resave: false,
-    cookie: {
-        maxAge: 60000 * 60,
-    },
-    // store: MongoStore.create({
-    //     client: mongoose.connection.getClient()
-    // })
-}));
-
-app.use(passport.initialize());
-
-// registering routes
-app.use(authRouter)
-app.use(bookingsRouter)
-app.use(settingsRouter)
-app.use(joinRouter)
 
 
 // listening on port

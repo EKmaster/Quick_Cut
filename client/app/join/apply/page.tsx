@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { getCsrfToken } from '@/app/utils/csrfToken'
 import styles from '../../../styles/form.module.css'
 import WithAuthorization from '@/app/utils/withAuthorization'
-import LocationSetup from '@/app/settings/components/locationSetup'
+import LocationSetup from '@/app/components/locationSetup'
 function Book() {
     const router = useRouter()
     const [confirm, setConfirm] = useState<any>(null)
