@@ -18,7 +18,7 @@ router.post("/api/settings/setdefaultlocation", passport.authenticate('jwt', { s
             googlePlacesID: googlePlacesID,
             additionalDetails: additionalDetails
         }
-        user.save()
+        await user.save()
         res.sendStatus(200)
     } catch (err) {
         res.sendStatus(500)

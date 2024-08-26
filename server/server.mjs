@@ -17,11 +17,6 @@ mongoose.connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.m
 const app = createApp()
 const PORT = 8080;
 
-
-
-
-
-
 // listening on port
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)

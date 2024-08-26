@@ -67,7 +67,7 @@ export const sendVerificationCode = async (req, res) => {
 
         // setting new verification code in database
         user.verificationCode = { code: newCode, expiryTime: new Date(currentTime.getTime() + (10 * 60 * 1000)) }
-        user.save()
+        await user.save()
 
         // sending email to user
         const mailOptions = {
@@ -156,7 +156,7 @@ export const submitverificationcode = async (req, res) => {
 
                     user.verified = true
                     user.verificationCode = {}
-                    user.save()
+                    await user.save()
 
 
                     res.status(200)
