@@ -3,9 +3,10 @@ import { createApp } from "../utils/createApp.mjs"
 import mongoose from "mongoose"
 import { response } from "express";
 import { User } from "../mongoose/schemas/user.mjs";
+import { Booking } from "../mongoose/schemas/booking.mjs";
 
 
-describe("user sign up process", () => {
+describe("user sign up book and logout", () => {
     let app;
     let jwt;
     beforeAll(() => {
@@ -16,7 +17,8 @@ describe("user sign up process", () => {
         app = createApp();
 
     })
-    it("successfully registers and verifies a user", async () => {
+
+    it("should register, verify a user, logout, then log back in", async () => {
         // getting csrf token
         let response = await request(app)
             .get("/api/csrf-token")
@@ -79,7 +81,39 @@ describe("user sign up process", () => {
         user = await User.findOne({ email: "d3m213in3i@d32.com" })
         expect(user.defaultLocation.googlePlacesID).toBe("ChIJKQDzOA41K4gRajQDdyzD990")
         expect(user.defaultLocation.additionalDetails).toBe("main entrance")
-    })
+
+        // creating a booking
+        const date = new Date()
+        reqBody = {
+            service: "haircut",
+            beard: true,
+            haircutDetails: "short all around",
+            timing: date,
+            locationGooglePlacesID: "ChIJKQDzOA41K4gRajQDdyzD990",
+            locationDetails: "main entrance"
+        }
+        response = await request(app).post("/api/book")
+            .set("Cookie", `${jwt}; ${csrfTokenCookie}`)
+            .set("X-CSRF-Token", csrfToken)
+            .set('Content-Type', 'application/json').send(reqBody)
+        expect(response.statusCode).toBe(200)
+        const booking = await Booking.findOne({ bookerID: user._id })
+        expect(booking.service).toBe("haircut")
+        expect(booking.beard).toBe(true)
+        expect(booking.haircutDetails).toBe("short all around")
+        expect(booking.timing).toEqual(date)
+        expect(booking.locationGooglePlacesID).toBe("ChIJKQDzOA41K4gRajQDdyzD990")
+        expect(booking.locationDetails).toBe("main entrance")
+        expect(booking.price).toBe(55)
+
+        // logging out
+        response = await request(app).post("/api/auth/logout")
+            .set("Cookie", `${jwt}; ${csrfTokenCookie}`)
+            .set("X-CSRF-Token", csrfToken)
+        jwt = response.headers['set-cookie']
+        response = await request(app).get("/api/auth/status").set("Cookie", jwt)
+        expect(response.statusCode).toBe(401)
+    }, 10 * 1000)
 
     afterAll(async () => {
         // Disconnect from the database
