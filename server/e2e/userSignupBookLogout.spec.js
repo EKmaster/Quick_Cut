@@ -6,7 +6,7 @@ import { User } from "../mongoose/schemas/user.mjs";
 import { Booking } from "../mongoose/schemas/booking.mjs";
 
 
-describe("user sign up book and logout", () => {
+describe("user register, book and logout", () => {
     let app;
     let jwt;
     beforeAll(() => {
@@ -18,7 +18,7 @@ describe("user sign up book and logout", () => {
 
     })
 
-    it("should register, verify a user, logout, then log back in", async () => {
+    it("should sign up, verify a user, then book and lastly logout", async () => {
         // getting csrf token
         let response = await request(app)
             .get("/api/csrf-token")
@@ -107,6 +107,7 @@ describe("user sign up book and logout", () => {
         expect(booking.price).toBe(55)
 
         // logging out
+        
         response = await request(app).post("/api/auth/logout")
             .set("Cookie", `${jwt}; ${csrfTokenCookie}`)
             .set("X-CSRF-Token", csrfToken)
