@@ -55,7 +55,6 @@ export const defaultlocation = async (req, res) => {
             res.json({ locationID: null, additionalDetails: null })
         }
     } catch (err) {
-        console.log(err)
         res.sendStatus(500)
     }
 }

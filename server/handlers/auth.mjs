@@ -93,6 +93,7 @@ export const sendVerificationCode = async (req, res) => {
     }
 }
 
+//  checks if the email entered by a user in the forgot password page is associated with a locally authenticated account
 export const verifyEmail = async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
 
@@ -186,27 +187,27 @@ export const conditionalAuth = (req, res, next) => {
 };
 
 export const forgotPassword = async (req, res) => {
-    try { 
-    const user = await User.findOne({ email: req.body.email });
-    const password = req.body.password
-    
-    if (user) {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        const password = req.body.password
 
-        // Hash the new password
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        if (user) {
 
-        // Update the user's password
-        user.password = hashedPassword;
-        // Save the updated user document
-        await user.save();
-        return res.sendStatus(200)
-    } else {
-        return res.status(404).send("User not found.");
+            // Hash the new password
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+            // Update the user's password
+            user.password = hashedPassword;
+            // Save the updated user document
+            await user.save();
+            return res.sendStatus(200)
+        } else {
+            return res.status(404).send("User not found.");
+        }
+    } catch (err) {
+        return res.sendStatus(500)
     }
-} catch (err) {
-    return res.sendStatus(500)
-}
 }
 
 export const verfied = async (req, res) => {
