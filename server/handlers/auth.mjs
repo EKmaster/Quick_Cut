@@ -229,3 +229,19 @@ export const logout = (req, res) => {
     })
     res.sendStatus(200)
 }
+
+export const redirect = async (req, res) => {
+    // Redirect or respond with the JWT toke
+    try {
+        const email = req.user.savedUser.email
+        const findUser = await User.findOne({ email })
+        if (!findUser) throw new Error("User not found")
+
+        createJWT(findUser, res)
+        res.redirect(`http://localhost:3000`);
+    }
+    catch (err) {
+        res.sendStatus(401)
+    }
+
+}

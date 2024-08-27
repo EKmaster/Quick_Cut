@@ -40,3 +40,51 @@ export const overviewProfileInfo = async (req, res) => {
     }
     return res.status(500)
 }
+
+
+export const defaultlocation = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+        if ("defaultLocation" in user) {
+            const locationID = user.defaultLocation.googlePlacesID
+            const additionalDetails = user.defaultLocation.additionalDetails
+            res.status(200)
+            res.json({ locationID: locationID, additionalDetails: additionalDetails })
+        }else{
+            res.status(200)
+            res.json({ locationID: null, additionalDetails: null })
+        }
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+}
+
+
+export const cleardefaultlocation = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+        user.defaultLocation = {}
+        user.save()
+        res.sendStatus(200)
+    } catch (err) {
+        res.sendStatus(500)
+    }
+} 
+
+export const setdefaultlocation = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+        const googlePlacesID = req.body.googlePlacesID
+        const additionalDetails = req.body.additionalDetails
+
+        user.defaultLocation = {
+            googlePlacesID: googlePlacesID,
+            additionalDetails: additionalDetails
+        }
+        await user.save()
+        res.sendStatus(200)
+    } catch (err) {
+        res.sendStatus(500)
+    }
+}

@@ -8,7 +8,7 @@ import "../strategies/google-strategy.mjs"
 import jwt from "jsonwebtoken"
 import nodemailer from 'nodemailer'
 
-import {login, sendVerificationCode, submitverificationcode, signup, status, verifyEmail, conditionalAuth, forgotPassword, verfied, logout} from "../handlers/auth.mjs"
+import {login, sendVerificationCode, submitverificationcode, signup, status, verifyEmail, conditionalAuth, forgotPassword, verfied, logout, redirect} from "../handlers/auth.mjs"
 
 const router = Router()
 const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
@@ -62,21 +62,7 @@ router.post("/api/auth/logout", passport.authenticate("jwt", { session: false })
 
 // authentication with google
 router.get('/api/auth/google', passport.authenticate('google'));
-router.get('/api/auth/google/redirect', passport.authenticate('google', { session: false }), async (req, res) => {
-    // Redirect or respond with the JWT toke
-    try {
-        const email = req.user.savedUser.email
-        const findUser = await User.findOne({ email })
-        if (!findUser) throw new Error("User not found")
-
-        createJWT(findUser, res)
-        res.redirect(`http://localhost:3000`);
-    }
-    catch (err) {
-        res.sendStatus(401)
-    }
-
-});
+router.get('/api/auth/google/redirect', passport.authenticate('google', { session: false }), redirect);
 
 
   

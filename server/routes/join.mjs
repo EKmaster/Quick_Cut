@@ -7,7 +7,7 @@ import 'dotenv/config';
 import dotenv from 'dotenv';
 import { S3Client } from '@aws-sdk/client-s3';
 import passport from "passport";
-
+import { join } from "../handlers/join.mjs"; 
 
 const router = Router()
 dotenv.config({ path: '../.env' });
@@ -23,8 +23,7 @@ AWS.config.update({
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     }
   });
-  
-const upload = multer({
+  const upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: "cuickcutapply2005",
@@ -37,6 +36,7 @@ const upload = multer({
       }
     })
   });
+
 
   const checkExistingApplication = async (req, res, next) => {
     try {
@@ -60,32 +60,7 @@ const upload = multer({
       { name: 'id', maxCount: 1 },
       { name: 'equipment', maxCount: 1 }
     ]), 
-    async (req, res) => {
-      try {
-        // Now handle the file URLs and save to the database
-        const newApp = new App({
-          userID: req.user.id,  // Assuming req.user.id is the authenticated user's ID
-          fullName: req.body.fullName,
-          address: req.body.address,
-          number: req.body.mobileNumber,
-          cardNumber: req.body.cardNumber,
-          expiry: req.body.expirationDate,
-          id: req.files['id'][0].location,
-          resume: req.files['resume'][0].location,
-          equipment: req.files['equipment'][0].location,
-        });
-        
-        await newApp.save();
-        res.status(200).json({ 
-            message: 'Files uploaded and data saved', 
-            resumeUrl: req.files['resume'][0].location, 
-            idUrl: req.files['id'][0].location, 
-            equipmentUrl: req.files['equipment'][0].location 
-        });
-      } catch (error) {
-        res.status(500).json({ error: 'Error uploading files or saving data', details: error });
-      }
-    }
+    join
   );
   
 
