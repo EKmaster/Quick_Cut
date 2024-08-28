@@ -2,8 +2,8 @@ import passport from "passport"
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { User } from "../mongoose/schemas/user.mjs"
 import jwt from "jsonwebtoken";
-
-const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
+import 'dotenv/config';
+const JWT_SECRET = process.env.JWT_SECRET;
 const opts = {
     jwtFromRequest: ExtractJwt.fromExtractors([(req) => req.cookies.token]),
     secretOrKey: JWT_SECRET,

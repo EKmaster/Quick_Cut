@@ -11,9 +11,10 @@ import bookingsRouter from "./routes/bookings.mjs"
 import settingsRouter from "./routes/settings.mjs"
 import joinRouter from "./routes/join.mjs"
 import csrf from 'csurf';
+import 'dotenv/config';
 
 import { createApp } from "./utils/createApp.mjs";
-mongoose.connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.mongodb.net/production").then(() => console.log("Connected to Database")).catch((err) => console.log(`Error: ${err}`));
+mongoose.connect(process.env.MONGODB_PRODUCTION).then(() => console.log("Connected to Database")).catch((err) => console.log(`Error: ${err}`));
 const app = createApp()
 const PORT = 8080;
 

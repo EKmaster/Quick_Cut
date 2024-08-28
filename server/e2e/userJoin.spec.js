@@ -7,7 +7,7 @@ import path from "path";
 import 'dotenv/config';
 import dotenv from 'dotenv';
 import { S3Client, DeleteObjectsCommand } from '@aws-sdk/client-s3';
-
+import 'dotenv/config';
 import AWS from "aws-sdk"
 dotenv.config({ path: '../.env' });
 
@@ -17,7 +17,7 @@ describe("user join", () => {
     let jwt;
     beforeAll(() => {
         mongoose
-            .connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.mongodb.net/test")
+            .connect(process.env.MONGODB_TEST)
             .then(() => console.log("Connected to Test Database"))
             .catch((err) => console.log(`Error: ${err}`));
         app = createApp();

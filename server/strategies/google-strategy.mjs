@@ -1,13 +1,14 @@
 import passport from "passport";
 import { Strategy } from "passport-google-oauth20";
 import { User } from "../mongoose/schemas/user.mjs";
+import 'dotenv/config';
 import jwt from "jsonwebtoken"
 
-const JWT_SECRET = 'CCUTM5002';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export default passport.use(new Strategy({
-    clientID: '327353437075-t2nfjh45na7u1d0ikvo001mu5ms0k1dh.apps.googleusercontent.com',
-    clientSecret: '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',
+    clientID: process.env.GOOGLE_OAUTH_CLIENTID,
+    clientSecret: process.env.GOOGLE_OAUTH_CLIENTSECRET,
     callbackURL: 'http://localhost:8080/api/auth/google/redirect',
     scope: ["profile", "email"]
 }, async (accessToken, refreshToken, profile, done) => {

@@ -4,14 +4,14 @@ import mongoose from "mongoose"
 import { response } from "express";
 import { User } from "../mongoose/schemas/user.mjs";
 import { Booking } from "../mongoose/schemas/booking.mjs";
-
+import 'dotenv/config';
 
 describe("user register, book and logout", () => {
     let app;
     let jwt;
     beforeAll(() => {
         mongoose
-            .connect("mongodb+srv://omerkhan5002:3Nz0bihPwrbkcgps@cluster0.sd9uxwv.mongodb.net/test")
+            .connect(process.env.MONGODB_TEST)
             .then(() => console.log("Connected to Test Database"))
             .catch((err) => console.log(`Error: ${err}`));
         app = createApp();

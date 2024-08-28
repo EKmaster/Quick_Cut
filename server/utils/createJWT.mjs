@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 
-const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
+import 'dotenv/config';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const createJWT = (user, res) => {
     const payload = { id: user.id }
