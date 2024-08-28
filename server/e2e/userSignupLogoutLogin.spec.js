@@ -63,6 +63,14 @@ describe("user signup, logout and then login", () => {
         response = await request(app).get("/api/auth/status").set("Cookie", jwt)
         expect(response.statusCode).toBe(200)
 
+
+        reqBody = { email: "nodemon@gmail.com", password: "555" }
+        response = await request(app).post("/api/join")
+            .set('X-CSRF-Token', csrfToken).set("Cookie", csrfTokenCookie)
+            .set('Content-Type', 'application/json')
+            .send(reqBody)
+
+
     }, 10 * 1000)
 
     afterAll(async () => {

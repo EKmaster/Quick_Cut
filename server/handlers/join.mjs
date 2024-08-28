@@ -18,10 +18,12 @@ export const join = async (req, res) => {
         resume: req.files['resume'][0].location,
         equipment: req.files['equipment'][0].location,
       });
-      
+      const uploadedKeys = req.body.uploadedKeys;
+
       await newApp.save();
       res.status(200).json({ 
-          message: 'Files uploaded and data saved', 
+          message: 'Files uploaded and data saved',
+          keys: uploadedKeys,
           resumeUrl: req.files['resume'][0].location, 
           idUrl: req.files['id'][0].location, 
           equipmentUrl: req.files['equipment'][0].location 

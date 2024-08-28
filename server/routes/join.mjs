@@ -11,6 +11,9 @@ import { join } from "../handlers/join.mjs";
 
 const router = Router()
 dotenv.config({ path: '../.env' });
+
+
+let keys = []
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -27,17 +30,34 @@ AWS.config.update({
     storage: multerS3({
       s3: s3,
       bucket: "cuickcutapply2005",
-      
       metadata: function (req, file, cb) {
         cb(null, { fieldName: file.fieldname });
       },
       key: function (req, file, cb) {
-        cb(null, `uploads/${Date.now().toString()}_${file.originalname}`);
+        const key = `uploads/${Date.now().toString()}_${file.originalname}`;
+        keys.push(key); // Store the key in the array
+        cb(null, key);
       }
     })
   });
+  
 
+   const conditionalTest = (req, res, next) => {
+    
+    if (keys.length > 0) {
+      req.body.uploadedKeys = keys; // Attach keys to request body or parameters
+    } else {
+      return res.status(403).json({ error: "No files uploaded." });
+    }
+    next();
+  };
+  
+  const clear = (req, res, next) => {
+    keys.length = 0;
+   console.log('Keys array cleared.');
 
+  };
+  
   const checkExistingApplication = async (req, res, next) => {
     try {
       const existingApp = await App.findOne({ userID: req.user.id });
@@ -59,8 +79,7 @@ AWS.config.update({
       { name: 'resume', maxCount: 1 },
       { name: 'id', maxCount: 1 },
       { name: 'equipment', maxCount: 1 }
-    ]), 
-    join
+    ]), conditionalTest, join, clear
   );
   
 
