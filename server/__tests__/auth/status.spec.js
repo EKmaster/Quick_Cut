@@ -2,7 +2,7 @@ jest.mock("../../mongoose/schemas/user.mjs",)
 import { User } from "../../mongoose/schemas/user.mjs";
 import { status } from "../../handlers/auth.mjs"
 
-describe("verify email", () => {
+describe("authentication status", () => {
 
     beforeEach(() => {
         jest.resetAllMocks()
@@ -12,6 +12,7 @@ describe("verify email", () => {
         const mockRequest = {user: "test user"}
         const mockResponse = {sendStatus: jest.fn()}
         status(mockRequest, mockResponse)
+        //expect(mockResponse.sendStatus).toHaveBeenCalledWith(200)
         expect(mockResponse.sendStatus).toHaveBeenCalledWith(200)
     })
 

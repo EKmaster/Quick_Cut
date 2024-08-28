@@ -8,7 +8,7 @@ import "../strategies/google-strategy.mjs"
 import jwt from "jsonwebtoken"
 import nodemailer from 'nodemailer'
 
-import {login, sendVerificationCode, submitverificationcode, signup, status, verifyEmail, conditionalAuth, forgotPassword, verfied, logout, redirect} from "../handlers/auth.mjs"
+import { login, sendVerificationCode, submitverificationcode, signup, status, verifyEmail, conditionalAuth, forgotPassword, verfied, logout, redirect } from "../handlers/auth.mjs"
 
 const router = Router()
 const JWT_SECRET = 'CCUTM5002'; // Use a strong secret key
@@ -49,7 +49,7 @@ router.post("/api/auth/submitverificationcode", conditionalAuth, submitverificat
 // handling forgotten passwords
 router.post('/api/auth/verifyemail', verifyEmail);
 
-router.post('/api/auth/forgot-password', forgotPassword );
+router.post('/api/auth/forgot-password', forgotPassword);
 
 // getting authorization statuses (logged in, verified)
 router.get("/api/auth/status", passport.authenticate('jwt', { session: false }), status)
@@ -65,7 +65,4 @@ router.get('/api/auth/google', passport.authenticate('google'));
 router.get('/api/auth/google/redirect', passport.authenticate('google', { session: false }), redirect);
 
 
-  
-
-  
 export default router;
