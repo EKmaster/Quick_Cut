@@ -9,7 +9,7 @@ import FAQ from './components/FAQ'
 function Index() {
     const router = useRouter()
     async function handleBookClick() {
-        const response = await fetch('http://localhost:8080/api/auth/status', {
+        const response = await fetch('/api/auth/status', {
             method: 'GET',
             credentials: 'include',
             headers: {

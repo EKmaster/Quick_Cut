@@ -20,7 +20,7 @@ const VerifyEmail = () => {
 
         const csrfToken = await getCsrfToken()
         const submittedCode = (document.getElementById("submit-code") as HTMLInputElement).value
-        fetch("http://localhost:8080/api/auth/submitverificationcode?purpose=reset&email=" + String(userEmail), {
+        fetch("/api/auth/submitverificationcode?purpose=reset&email=" + String(userEmail), {
             method: "POST",
             headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
             body: JSON.stringify({ submittedCode }),
@@ -50,7 +50,7 @@ const VerifyEmail = () => {
 
     async function sendVerificationCode() {
 
-        fetch("http://localhost:8080/api/auth/sendverificationcode?purpose=reset&email=" + String(userEmail), {
+        fetch("/api/auth/sendverificationcode?purpose=reset&email=" + String(userEmail), {
             method: "GET",
             credentials: 'include',
         }).then(response => {
@@ -71,14 +71,14 @@ const VerifyEmail = () => {
         const email = (document.getElementById("email") as HTMLInputElement).value
         setEmail(email) // Update email state
 
-        fetch("http://localhost:8080/api/auth/verifyemail", {
+        fetch("/api/auth/verifyemail", {
             method: "POST",
             headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
             body: JSON.stringify({ email }),
             credentials: 'include'
         }).then(async response => {
             if (response.status === 400) {
-                window.location.href = 'http://localhost:8080/api/auth/google';
+                window.location.href = '/api/auth/google';
             }
             else if (response.status !== 200) {
                 setIncorrectEmail(true)
@@ -86,7 +86,7 @@ const VerifyEmail = () => {
             }
 
             else {
-                await fetch("http://localhost:8080/api/auth/sendverificationcode?purpose=reset&email=" + String(email), {
+                await fetch("/api/auth/sendverificationcode?purpose=reset&email=" + String(email), {
                     method: 'GET',
                     credentials: 'include',
                 })
@@ -102,7 +102,7 @@ const VerifyEmail = () => {
         const csrfToken = await getCsrfToken()
         const email = userEmail
         const password = (document.getElementById("new-password") as HTMLInputElement).value
-        const response = await fetch("http://localhost:8080/api/auth/forgot-password", {
+        const response = await fetch("/api/auth/forgot-password", {
             method: "POST",
             headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
             body: JSON.stringify({ email, password }),

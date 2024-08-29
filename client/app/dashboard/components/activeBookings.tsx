@@ -21,7 +21,8 @@ function ActiveBookings({ bookingsList }: {
                 typeof bookingsList === null ? (
                     <p>Error loading bookings</p>
                 ) : (bookingsList!.length === 0) ? (
-                    <div>No active bookings to show.<br/>Feeling a lil' shabby? Book one now!</div>
+                    <div>No active bookings to show.<br/>Feeling a lil&apos; shabby? Book one now!</div>
+
                 ) : (
                     <ul className={dashboardStyles.inBoxList}>
                         {

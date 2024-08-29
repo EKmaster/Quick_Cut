@@ -17,7 +17,7 @@ const VerifyEmail = () => {
 
         const csrfToken = await getCsrfToken()
         const submittedCode = (document.getElementById("submit-code") as HTMLInputElement).value
-        fetch("http://localhost:8080/api/auth/submitverificationcode", {
+        fetch("/api/auth/submitverificationcode", {
             method: "POST",
             headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
             body: JSON.stringify({ submittedCode }),
@@ -45,7 +45,7 @@ const VerifyEmail = () => {
     }
 
     async function sendVerificationCode() {
-        fetch("http://localhost:8080/api/auth/sendverificationcode", {
+        fetch("/api/auth/sendverificationcode", {
             method: "GET",
             credentials: 'include'
         }).then(response => {

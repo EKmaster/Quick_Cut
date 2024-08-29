@@ -36,7 +36,7 @@ function AccountDashboard() {
     useEffect(() => {
         // TODO: request user information from backend
         const fetchData = async () => {
-            const response = await fetch("http://localhost:8080/api/settings/overviewprofileinfo", {
+            const response = await fetch("/api/settings/overviewprofileinfo", {
                 method: "GET",
                 credentials: "include"
             })

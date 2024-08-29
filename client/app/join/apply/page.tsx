@@ -39,7 +39,7 @@ function Book() {
         if (!confirm){
             return
         }
-        const response = await fetch('http://localhost:8080/api/join', {
+        const response = await fetch('/api/join', {
             method: 'POST',
             headers: {
                

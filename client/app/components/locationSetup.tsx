@@ -27,7 +27,7 @@ export const LocationSetup = () => {
 
         // updating default location details in database
         const csrfToken = await getCsrfToken()
-        const response = await fetch("http://localhost:8080/api/settings/setdefaultlocation", {
+        const response = await fetch("/api/settings/setdefaultlocation", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

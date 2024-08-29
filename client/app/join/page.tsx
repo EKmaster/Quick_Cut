@@ -5,10 +5,10 @@ import NavBar from '../components/navBar'
 import bookStyle from '../../styles/bookButton.module.css'
 import { useRouter } from 'next/navigation'
 
-const apply = () => {
+const Apply = () => {
     const router = useRouter()
     async function handleBookClick() {
-        const response = await fetch('http://localhost:8080/api/auth/status', {
+        const response = await fetch('/api/auth/status', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -167,4 +167,4 @@ const apply = () => {
     );
 };
 
-export default apply;
+export default Apply;

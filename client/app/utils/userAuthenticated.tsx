@@ -1,6 +1,6 @@
 export const userAuthenticated = async () => {
     
-    const response = await fetch('http://localhost:8080/api/auth/status', {
+    const response = await fetch('/api/auth/status', {
         method: 'GET',
         credentials: 'include',
         headers: {

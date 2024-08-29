@@ -31,7 +31,7 @@ export default function LoginPage() {
             return
         }
         const csrfToken = await getCsrfToken();
-        const response = await fetch('http://localhost:8080/api/auth/signup', {
+        const response = await fetch('/api/auth/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken},
             body: JSON.stringify({ email, password, firstName, lastName }),
@@ -40,7 +40,7 @@ export default function LoginPage() {
 
         if (response.ok) {
             // moving user into email verification process
-            await fetch("http://localhost:8080/api/auth/sendverificationcode", {
+            await fetch("/api/auth/sendverificationcode", {
                 method: 'GET',
                 credentials: 'include'
             }).then((response) => {
@@ -59,7 +59,7 @@ export default function LoginPage() {
 
 
     function handleGoogleClick() {
-        window.location.href = 'http://localhost:8080/api/auth/google';
+        window.location.href = '/api/auth/google';
     }
 
     return (

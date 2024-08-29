@@ -16,7 +16,7 @@ function WithAuthorization({children, verificationRequired = false}: {children: 
                     if (v){
                         setAuthorized(true)
                     }else{
-                        await fetch("http://localhost:8080/api/auth/sendverificationcode", {
+                        await fetch("/api/auth/sendverificationcode", {
                             method: 'GET',
                             credentials: 'include'
                         })

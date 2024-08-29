@@ -45,7 +45,7 @@ function Book() {
     useEffect(() => {
         const loadDefaultLocation = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/settings/defaultlocation", {
+                const response = await fetch("/api/settings/defaultlocation", {
                     method: "GET",
                     credentials: "include"
 
@@ -143,7 +143,7 @@ function Book() {
         }
 
         const csrfToken = await getCsrfToken();
-        const response = await fetch('http://localhost:8080/api/book', {
+        const response = await fetch('/api/book', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

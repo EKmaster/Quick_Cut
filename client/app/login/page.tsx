@@ -25,7 +25,7 @@ export default function LoginPage() {
         
         const csrfToken = await getCsrfToken()
 
-        const response = await fetch('http://localhost:8080/api/auth/login', {
+        const response = await fetch('/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export default function LoginPage() {
         }
     }
     function handleGoogleClick() {
-        window.location.href = 'http://localhost:8080/api/auth/google';
+        window.location.href = '/api/auth/google';
     }
     function handleSignUpClick() {
         router.push('/signup')
