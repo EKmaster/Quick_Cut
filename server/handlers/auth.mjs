@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import { User } from "../mongoose/schemas/user.mjs";
 import { createJWT } from "../utils/createJWT.mjs"
 import nodemailer from 'nodemailer'

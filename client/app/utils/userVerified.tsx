@@ -1,6 +1,6 @@
 export const userVerified = async () => {
 
-    const response = await fetch('api/auth/verified', {
+    const response = await fetch('/api/auth/verified', {
         method: 'GET',
         credentials: 'include',
         headers: {

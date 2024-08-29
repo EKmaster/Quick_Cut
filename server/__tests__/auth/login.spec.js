@@ -1,7 +1,7 @@
 import { login } from "../../handlers/auth.mjs";
 import { createJWT } from "../../utils/createJWT.mjs";
 import { User } from "../../mongoose/schemas/user.mjs";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 jest.mock("../../utils/createJWT.mjs")
 jest.mock("../../mongoose/schemas/user.mjs")
 jest.mock('bcrypt', () => ({
