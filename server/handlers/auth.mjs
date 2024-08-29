@@ -225,7 +225,7 @@ export const verfied = async (req, res) => {
 export const logout = (req, res) => {
     res.clearCookie("token", {
         httpOnly: true,
-        secure: true,
+        secure: process.env.ENVIRONMENT === "production",
         sameSite: "strict"
     })
     res.sendStatus(200)
