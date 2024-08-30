@@ -49,7 +49,7 @@ const NavBar =  () => {
                                 <p className={styles.p}>Logout</p>
                             </button>
                             <button className={styles.button} aria-label="Dashboard">
-                                <Link href='/'> <p className={styles.p}>Dashboard</p> </Link>
+                                <Link href='/dashboard'> <p className={styles.p}>Dashboard</p> </Link>
                             </button>
                         </>
                     ) : (

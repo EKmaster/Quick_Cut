@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 export default passport.use(new Strategy({
     clientID: process.env.GOOGLE_OAUTH_CLIENTID,
     clientSecret: process.env.GOOGLE_OAUTH_CLIENTSECRET,
-    callbackURL: 'http://localhost:8080/api/auth/google/redirect',
+    callbackURL: 'http://localhost/api/auth/google/redirect',
     scope: ["profile", "email"]
 }, async (accessToken, refreshToken, profile, done) => {
     try {

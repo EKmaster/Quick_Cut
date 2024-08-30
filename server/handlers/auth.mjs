@@ -239,7 +239,7 @@ export const redirect = async (req, res) => {
         if (!findUser) throw new Error("User not found")
 
         createJWT(findUser, res)
-        res.redirect(`http://localhost:3000`);
+        res.redirect(`http://localhost`);
     }
     catch (err) {
         res.sendStatus(401)
