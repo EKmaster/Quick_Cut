@@ -26,7 +26,7 @@ describe('redirect', () => {
 
         expect(User.findOne).toHaveBeenCalledWith({ email: 'test@example.com' });
         expect(createJWT).toHaveBeenCalledWith(mockUser, mockResponse);
-        expect(mockResponse.redirect).toHaveBeenCalledWith('http://localhost:3000');
+        expect(mockResponse.redirect).toHaveBeenCalledWith('http://localhost');
     });
 
     it('should return status 401 if the user is not found', async () => {

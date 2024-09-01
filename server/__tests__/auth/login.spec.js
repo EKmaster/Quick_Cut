@@ -4,7 +4,7 @@ import { User } from "../../mongoose/schemas/user.mjs";
 import bcrypt from "bcryptjs";
 jest.mock("../../utils/createJWT.mjs")
 jest.mock("../../mongoose/schemas/user.mjs")
-jest.mock('bcrypt', () => ({
+jest.mock('bcryptjs', () => ({
     compareSync: jest.fn()
 }));
 
