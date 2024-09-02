@@ -2,7 +2,7 @@ import { User } from "../../mongoose/schemas/user.mjs";
 import { forgotPassword } from "../../handlers/auth.mjs";
 import bcrypt from "bcryptjs";
 jest.mock("../../mongoose/schemas/user.mjs")
-jest.mock('bcrypt', () => ({
+jest.mock('bcryptjs', () => ({
     hash: jest.fn()
 }));
 
