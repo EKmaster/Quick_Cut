@@ -120,7 +120,7 @@ const Apply = () => {
                 </p>
                 <p> At least 2 years of past cutting experience </p>
                 <p>
-                Pass a Bacground Check.
+                Pass a Background Check.
                 </p>
             </div>
             <div> 
