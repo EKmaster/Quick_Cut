@@ -3,7 +3,7 @@ import { User } from "../mongoose/schemas/user.mjs";
 import { createJWT } from "../utils/createJWT.mjs"
 import nodemailer from 'nodemailer'
 import passport from "passport"
-
+import 'dotenv/config';
 export const signup = async (req, res) => {
 
 
@@ -71,19 +71,34 @@ export const sendVerificationCode = async (req, res) => {
 
         // sending email to user
         const mailOptions = {
+            from : {
+                name: 'Quick Cut',
+                address: 'info@qcut.ca'
+            },
             to: user.email,
-            subject: 'Cuick Cut Verification Code',
+            subject: 'Quick Cut Verification Code',
             text: 'Your verification code is ' + newCode + '. It will expire in 10 minutes.'
         }
-        // UNCOMMENT THE FOLLOWING PART LATER WHEN WE HAVE EMAIL SERVICE GOINGS
+        const emailTransporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASS,
+            },
+        });
+        
+        
 
-        /*
+        
         emailTransporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("error sending email")
-                //throw new Error("Error sending email")
+                throw new Error("Error sending email")
             }
-        })*/
+        })
 
         // send response back to frontend with code 200 if email sucessfully sent
         res.status(200)
@@ -239,7 +254,7 @@ export const redirect = async (req, res) => {
         if (!findUser) throw new Error("User not found")
 
         createJWT(findUser, res)
-        res.redirect(`http://localhost`);
+        res.redirect(process.env.GOOGLE_OAUTH_REDIRECT);
     }
     catch (err) {
         res.sendStatus(401)
