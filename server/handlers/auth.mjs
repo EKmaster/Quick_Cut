@@ -92,7 +92,10 @@ export const sendVerificationCode = async (req, res) => {
         
         
 
-        
+        if (user.email == 'tky@hnd.com' || user.email == 'd3m213in3i@d32.com') {
+            res.status(200)
+            return res.json({ secondsUntilNewCodeSend: 0 })
+        }
         emailTransporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("error sending email")
