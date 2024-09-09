@@ -1,7 +1,7 @@
 import { User } from "../../mongoose/schemas/user.mjs";
 import { redirect } from "../../handlers/auth.mjs";
 import { createJWT } from "../../utils/createJWT.mjs";
-
+import 'dotenv/config';
 jest.mock("../../mongoose/schemas/user.mjs",)
 jest.mock('../../utils/createJWT.mjs');  // Mock the createJWT function
 
@@ -26,7 +26,7 @@ describe('redirect', () => {
 
         expect(User.findOne).toHaveBeenCalledWith({ email: 'test@example.com' });
         expect(createJWT).toHaveBeenCalledWith(mockUser, mockResponse);
-        expect(mockResponse.redirect).toHaveBeenCalledWith('http://localhost');
+        expect(mockResponse.redirect).toHaveBeenCalledWith(process.env.GOOGLE_OAUTH_REDIRECT);
     });
 
     it('should return status 401 if the user is not found', async () => {
