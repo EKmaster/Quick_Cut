@@ -28,6 +28,7 @@ describe('redirect', () => {
         expect(createJWT).toHaveBeenCalledWith(mockUser, mockResponse);
         expect(mockResponse.redirect).toHaveBeenCalledWith(process.env.GOOGLE_OAUTH_REDIRECT);
     });
+    
 
     it('should return status 401 if the user is not found', async () => {
         User.findOne.mockResolvedValue(null);  // Simulate user not found
