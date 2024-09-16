@@ -154,7 +154,7 @@ const Apply = () => {
                 barber tools and supplies.
                 </p>
                 <p>
-                Reliable transportation for traveling.
+                Reliable transportation for travelling.
                     
                 </p>
                 

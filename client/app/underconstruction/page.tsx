@@ -8,7 +8,7 @@ const PageUnderConstruction = () => {
                 <div className={styles.flexColumn}>
                     <label>Under Construction</label>
                 </div>
-                <p>Sorry, CuickCut is still in development so this page is not yet available :(
+                <p>Sorry, Quick Cut is still in development so this page is not yet available :(
                 </p>
             </div>
         </div>

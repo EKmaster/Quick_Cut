@@ -25,7 +25,7 @@ const FAQ = () => {
                     <label htmlFor='faq-c' className={styles.label}>
                         <p className={styles['faq-heading']}>What is your refund policy? </p>
                         <div className={styles['faq-arrow']}></div>
-                        <p className={styles['faq-text']}>If the refund reason is accepted, full refund will be given.</p>
+                        <p className={styles['faq-text']}>If the refund reason is accepted, a full refund will be given.</p>
                     </label>
                     <input id='faq-d' type='checkbox' className={styles.checkbox} />
                     <label htmlFor='faq-d' className={styles.label}>
@@ -35,7 +35,7 @@ const FAQ = () => {
                     </label>
                     <input id='faq-e' type='checkbox' className={styles.checkbox} />
                     <label htmlFor='faq-e' className={styles.label}>
-                        <p className={styles['faq-heading']}>How do I become a barber with Cuick Cut</p>
+                        <p className={styles['faq-heading']}>How do I become a barber with Quick Cut</p>
                         <div className={styles['faq-arrow']}></div>
                         <p className={styles['faq-text']}>Send an application through our website!</p>
                     </label>
