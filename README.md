@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# hello
-=======
 # Quick Cut
 
 Quick Cut is a cloud-native platform that enables barbers to connect with clients for on-demand haircut appointments. 
@@ -72,6 +69,3 @@ npm run dev
 Open your browser and navigate to http://localhost:3000 for the client
 <br />
 The server is running on port 5000
-
-
->>>>>>> 49a5a4c3ac2f5f3a9bd6a3cced3069c0cafec2ab
